@@ -1,17 +1,22 @@
+import { useState } from "react";
 import Main from "./components/main/Main";
 import Player from "./components/player/Player";
 import Sidebar from "./components/sidebar/Sidebar";
-import "./style/app.css";
+import Search from "./components/main/Search";
+
+import "./style/app.scss";
 
 function App() {
+  const [videoid, setvideoid] = useState("mdkWFPrrZVQ");
   return (
     <div className="App">
       <div className="upper-section">
         <Sidebar />
-        <Main />
+        <Search />
+        <Main setvideoid={setvideoid} />
       </div>
 
-      <Player />
+      <Player videoid={videoid} />
     </div>
   );
 }

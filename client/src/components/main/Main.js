@@ -1,8 +1,9 @@
 import { useState } from "react";
-import "../../style/main.css";
 import Track from "./Track";
 import Search from "./Search";
-function Main() {
+import thumbnail from "../../assets/thumbnail.jpg";
+
+function Main({ setvideoid }) {
   const [tracks, setTracks] = useState([
     {
       artist: "Eminem",
@@ -41,20 +42,113 @@ function Main() {
       search_query: "Eminem The Real Slim Shady",
     },
   ]);
+
   return (
-    <div className="main">
-      <Search setTracks={setTracks} />
-      <div className="tracks-list">
-        {tracks.map((track) => (
-          <Track
-            key={track.title}
-            title={track.title}
-            image={track.image}
-            artist={track.artist}
-          />
-        ))}
-      </div>
-    </div>
+    // <div className="main">
+    //   <Search setTracks={setTracks} />
+    //   <div className="tracks-list">
+    //     {tracks.map((track) => (
+    //       <Track
+    //         key={track.title}
+    //         title={track.title}
+    //         image={track.image}
+    //         artist={track.artist}
+    //         search_query={track.search_query}
+    //         setvideoid={setvideoid}
+    //       />
+    //     ))}
+    //   </div>
+    // </div>
+    <main className="main">
+      <section className="new-releases">
+        <h1>New Releases</h1>
+        <div className="song-list card-list">
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+        </div>
+      </section>
+      <section className="most-popular">
+        <h1>Most Popular</h1>
+        <div className="song-list card-list">
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Shape of You</p>
+            <p className="song-artist">Ed Sheeran</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+
+          <div className="song-info card">
+            <div className="thumbnail-container">
+              <img src={thumbnail} alt="" />
+            </div>
+            <p className="song-name">Hey Boy</p>
+            <p className="song-artist">SiA (feat. Burna Boy)</p>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
