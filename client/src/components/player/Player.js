@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
 import thumbnail from "../../assets/thumbnail.jpg";
-import backward from "../../assets/backward.svg";
-import play from "../../assets/play.svg";
-import forward from "../../assets/forward.svg";
-import volume from "../../assets/volume.svg";
-import outlineheart from "../../assets/outline-heart.svg";
-import loop from "../../assets/loop.svg";
-import arrowup from "../../assets/arrow-up.svg";
+
+import {
+  Previous,
+  Play,
+  Next,
+  Volume,
+  OutlineHeart,
+  Loop,
+  ArrowUp,
+  Pause,
+} from "../../helper/svg";
 
 const opts = {
   height: "0",
@@ -164,9 +168,14 @@ function Player({ videoid }) {
 
       <div className="music-controller">
         <div className="play-fo-back-controller">
-          <img src={backward} alt="" />
-          <img src={play} onClick={() => isplayinghandler()} alt="" />
-          <img src={forward} alt="" />
+          <Previous />
+          {isPlaying ? (
+            <Pause clickFunction={() => isplayinghandler()} />
+          ) : (
+            <Play clickFunction={() => isplayinghandler()} />
+          )}
+
+          <Next />
         </div>
 
         <div className="main-controller">
@@ -186,14 +195,14 @@ function Player({ videoid }) {
         </div>
 
         <div className="interactivity">
-          <img src={volume} alt="" />
-          <img src={outlineheart} alt="" />
-          <img src={loop} alt="" />
+          <Volume />
+          <OutlineHeart />
+          <Loop />
           <div className="other-options">...</div>
         </div>
       </div>
 
-      <img className="full-min-player-toggle" src={arrowup} alt="" />
+      <ArrowUp />
     </section>
   );
 }

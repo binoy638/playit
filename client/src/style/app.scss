@@ -94,9 +94,11 @@
       }
 
       svg {
+        cursor: pointer;
         width: 1rem;
         height: 1rem;
         margin-right: 1rem;
+        fill: #898989;
       }
 
       svg > path {

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import search from "../../assets/search.svg";
-import notifications from "../../assets/notifications.svg";
-import settings from "../../assets/settings.svg";
+// import search from "../../assets/search.svg";
+// import notifications from "../../assets/notifications.svg";
+// import settings from "../../assets/settings.svg";
 import person from "../../assets/person.jpg";
+
+import { SearchIcon, Notifications, Settings } from "../../helper/svg";
 
 function Search({ setTracks }) {
   const [query, setQuery] = useState("");
@@ -55,7 +57,8 @@ function Search({ setTracks }) {
     <header>
       <div className="search-container">
         <div className="search-btn">
-          <img src={search} alt="" />
+          {/* <img src={search} alt="" /> */}
+          <SearchIcon />
         </div>
         <input
           type="text"
@@ -64,8 +67,10 @@ function Search({ setTracks }) {
         />
       </div>
       <div className="header-account-settings">
-        <img src={notifications} alt="" />
-        <img src={settings} alt="" />
+        <Notifications />
+        <Settings />
+        {/* <img src={notifications} alt="" />
+        <img src={settings} alt="" /> */}
         <div className="profile-pic-container">
           <img className="profile-pic" src={person} alt="" />
         </div>

@@ -5,6 +5,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Search from "./components/main/Search";
 
 import "./style/app.scss";
+import "./style/utilities.css";
 
 function App() {
   const [videoid, setvideoid] = useState("mdkWFPrrZVQ");
