@@ -1,7 +1,7 @@
 const express = require("express");
 const { MongoClient, ObjectID } = require("mongodb");
 const cors = require("cors");
-const { searchTracks } = require("./src/utils/spotify");
+const { searchTracks, newRelease, topTracks } = require("./src/utils/spotify");
 const { infoFromQuery } = require("./src/utils/youtube");
 const app = express();
 require("dotenv").config();
@@ -43,6 +43,17 @@ app.get("/test", async (req, res) => {
 app.get("/search", async (req, res) => {
   const query = req.query.q;
   const result = await searchTracks(query);
+  res.send(result);
+});
+
+app.get("/new-release", async (req, res) => {
+  const result = await newRelease();
+  res.send(result);
+});
+
+app.get("/top-tracks", async (req, res) => {
+  const result = await topTracks();
+
   res.send(result);
 });
 

@@ -1,7 +1,15 @@
 import React from "react";
 import axios from "axios";
-function Track({ artist, title, image, search_query, setvideoid }) {
+function Track({
+  artist,
+  title,
+  image,
+  search_query,
+  setvideoid,
+  setCurrentTrack,
+}) {
   const setTrack = async () => {
+    setCurrentTrack({ artist, title, image, search_query });
     axios
       .get(`http://localhost:5000/videoid?query=${search_query}`)
       .then((response) => {
@@ -20,7 +28,7 @@ function Track({ artist, title, image, search_query, setvideoid }) {
       <div className="thumbnail-container">
         <img src={image} alt={title} onClick={() => setTrack()} />
       </div>
-      <p className="song-name">{title}</p>
+      <p className="song-name">{title.substring(0, 30)}</p>
       <p className="song-artist">{artist}</p>
     </div>
   );

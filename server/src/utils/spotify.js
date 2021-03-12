@@ -86,4 +86,67 @@ const searchTracks = async (query) => {
   return undefined;
 };
 
-module.exports = { searchTracks };
+const newRelease = async () => {
+  await setToken();
+  try {
+    const response = await spotifyApi.getNewReleases({
+      limit: 7,
+      offset: 0,
+    });
+
+    const tracks = response.body.albums.items;
+
+    let tracklist = [];
+
+    tracks.map((track) => {
+      const artist = track.artists[0].name;
+      const title = track.name;
+      const image = track.images[1].url;
+      const search_query = `${artist} ${title}`;
+      tracklist.push({
+        artist,
+        title,
+        image,
+        search_query,
+      });
+    });
+
+    return tracklist;
+  } catch (e) {
+    console.log("Something went wrong with new release fetch.");
+    console.log(e);
+  }
+};
+
+const topTracks = async () => {
+  await setToken();
+  try {
+    const response = await spotifyApi.getPlaylist("37i9dQZEVXbMDoHDwVN2tF");
+
+    const items = response.body.tracks.items.slice(3, 10);
+
+    let tracks = [];
+
+    items.map((item) => {
+      const artist = item.track.artists[0].name;
+      const artists = item.track.artists.map((artist) => artist.name).join();
+      const image = item.track.album.images[1].url;
+      const title = item.track.name;
+
+      const obj = {
+        artist,
+        title,
+        image,
+        artists,
+        search_query: `${artist} ${title}`,
+      };
+      tracks.push(obj);
+    });
+    return tracks;
+  } catch (e) {
+    console.log("Something went wrong with topTracks fetch.");
+    console.log(e);
+  }
+};
+
+module.exports = { searchTracks, newRelease, topTracks };

@@ -8,16 +8,31 @@ import "./style/app.scss";
 import "./style/utilities.css";
 
 function App() {
-  const [videoid, setvideoid] = useState("mdkWFPrrZVQ");
+  const [currentTrack, setCurrentTrack] = useState({
+    artist: "na",
+    title: "NA",
+    image: "https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg",
+    search_query: "na",
+  });
+  const [videoid, setvideoid] = useState();
   return (
     <div className="App">
       <div className="upper-section">
         <Sidebar />
         <Search />
-        <Main setvideoid={setvideoid} />
+        <Main
+          setvideoid={setvideoid}
+          setCurrentTrack={setCurrentTrack}
+          currentTrack={currentTrack}
+        />
       </div>
 
-      <Player videoid={videoid} />
+      <Player
+        setvideoid={setvideoid}
+        videoid={videoid}
+        setCurrentTrack={setCurrentTrack}
+        currentTrack={currentTrack}
+      />
     </div>
   );
 }

@@ -12,9 +12,10 @@ const opts = {
 
 const youtubeScrape = async (query) => {
   const result = await youtube.search(query);
+
   if (result) {
     const { id } = result.videos[0];
-
+    const { title } = result.videos[0];
     return {
       id,
       title,
@@ -32,6 +33,7 @@ const infoFromQuery = async (query) => {
   try {
     const response = await search(query, opts);
     if (response.results) {
+      // console.log(response.results[0]);
       const track = response.results[0];
 
       //destructure required values from the response
@@ -39,6 +41,7 @@ const infoFromQuery = async (query) => {
     }
   } catch (e) {
     console.log("API rate limited");
+
     try {
       videoID = await youtubeScrape(query);
     } catch (error) {

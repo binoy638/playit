@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
-import thumbnail from "../../assets/thumbnail.jpg";
-
+import axios from "axios";
 import {
   Previous,
   Play,
@@ -23,11 +22,21 @@ const opts = {
   },
 };
 
-function Player({ videoid }) {
+function Player({ videoid, setCurrentTrack, currentTrack, setvideoid }) {
   const [isPlaying, setisPlaying] = useState(false);
   const [currentTime, setcurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const playerRef = useRef(null);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/videoid?query=${currentTrack.search_query}`)
+      .then((response) => {
+        setvideoid(response.data.id);
+      });
+    // return () => {
+    //   cleanup
+    // }
+  }, []);
   //   -1 (unstarted)
   // 0 (ended)
   // 1 (playing)
@@ -148,7 +157,7 @@ function Player({ videoid }) {
         // onPlayerReady={() => {
         //   console.log("ready");
         // }}
-        onReady={_onReady}
+        onReady={(e) => _onReady(e)}
         // onTimeUpdate={() => console.log("hi")}
         onStateChange={(e) => playerStateHandler(e)}
         // onPlay={() => {
@@ -159,10 +168,10 @@ function Player({ videoid }) {
         ref={playerRef}
       />
       <div className="current-song-info">
-        <img src={thumbnail} alt="" />
+        <img src={currentTrack.image} alt="" />
         <div>
-          <p className="song-name">Hey Boy</p>
-          <p className="song-artist">SiA (feat. Burna Boy)</p>
+          <p className="song-name">{currentTrack.title}</p>
+          <p className="song-artist">{currentTrack.artist}</p>
         </div>
       </div>
 
@@ -170,9 +179,9 @@ function Player({ videoid }) {
         <div className="play-fo-back-controller">
           <Previous />
           {isPlaying ? (
-            <Pause clickFunction={() => isplayinghandler()} />
+            <Pause clickFunction={isplayinghandler} />
           ) : (
-            <Play clickFunction={() => isplayinghandler()} />
+            <Play clickFunction={isplayinghandler} />
           )}
 
           <Next />
