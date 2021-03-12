@@ -7,6 +7,7 @@ import forward from "../../assets/forward.svg";
 import volume from "../../assets/volume.svg";
 import outlineheart from "../../assets/outline-heart.svg";
 import loop from "../../assets/loop.svg";
+import arrowup from "../../assets/arrow-up.svg";
 
 const opts = {
   height: "0",
@@ -47,7 +48,7 @@ function Player({ videoid }) {
     if (isPlaying === true) {
       id = setInterval(async () => {
         const t = await playerRef.current.internalPlayer.getCurrentTime();
-        setcurrentTime(Math.floor(t));
+        setcurrentTime(Math.ceil(t));
       }, 1000);
     }
 
@@ -72,7 +73,7 @@ function Player({ videoid }) {
     // console.log(d / 60);
     const c = event.target.getDuration();
     console.log(c);
-    setDuration(c);
+    setDuration(Math.ceil(c));
 
     // console.log(c);
     // console.log(d);
@@ -104,23 +105,19 @@ function Player({ videoid }) {
     playerRef.current.internalPlayer.seekTo(time);
     setcurrentTime(time);
   };
+  const changeDuration = (e) => {
+    const c = e.target.getDuration();
+    // console.log(c);
+    setDuration(Math.ceil(c));
+  };
+  const getTime = (time) => {
+    return (
+      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
+    );
+  };
   return (
     // <div className="player">
-    //   <YouTube
-    //     videoId={videoid}
-    //     opts={opts}
-    //     // onPlayerReady={() => {
-    //     //   console.log("ready");
-    //     // }}
-    //     onReady={_onReady}
-    //     // onTimeUpdate={() => console.log("hi")}
-    //     onStateChange={(e) => playerStateHandler(e)}
-    //     // onPlay={() => {
-    //     //   console.log(duration);
-    //     // }}
-    //     // onPlaybackRateChange={(e) => console.log(e.target.value)}
-    //     ref={playerRef}
-    //   />
+
     //   <div className="play-control">
     //     {currentTime}
     //     <input
@@ -141,6 +138,22 @@ function Player({ videoid }) {
     //   </div>
     // </div>
     <section className="player">
+      <YouTube
+        videoId={videoid}
+        opts={opts}
+        // onPlayerReady={() => {
+        //   console.log("ready");
+        // }}
+        onReady={_onReady}
+        // onTimeUpdate={() => console.log("hi")}
+        onStateChange={(e) => playerStateHandler(e)}
+        // onPlay={() => {
+        //   console.log(duration);
+        // }}
+        onPlay={(e) => changeDuration(e)}
+        // onPlaybackRateChange={(e) => console.log(e.target.value)}
+        ref={playerRef}
+      />
       <div className="current-song-info">
         <img src={thumbnail} alt="" />
         <div>
@@ -152,23 +165,24 @@ function Player({ videoid }) {
       <div className="music-controller">
         <div className="play-fo-back-controller">
           <img src={backward} alt="" />
-          <img src={play} alt="" />
+          <img src={play} onClick={() => isplayinghandler()} alt="" />
           <img src={forward} alt="" />
         </div>
 
         <div className="main-controller">
-          <p className="time-elapsed">1:10</p>
+          <p className="time-elapsed">{getTime(currentTime)}</p>
           <div className="slider-container">
             <input
               type="range"
-              min="1"
-              max="100"
-              value="50"
+              min={0}
+              max={duration}
+              onChange={seekHandler}
+              value={currentTime}
               className="slider"
               id="myRange"
             />
           </div>
-          <p className="total-duration">2:29</p>
+          <p className="total-duration">{getTime(duration)}</p>
         </div>
 
         <div className="interactivity">
@@ -179,7 +193,7 @@ function Player({ videoid }) {
         </div>
       </div>
 
-      <img className="full-min-player-toggle" src="icons/arrow-up.svg" alt="" />
+      <img className="full-min-player-toggle" src={arrowup} alt="" />
     </section>
   );
 }

@@ -63,45 +63,16 @@ function Main({ setvideoid }) {
       <section className="new-releases">
         <h1>New Releases</h1>
         <div className="song-list card-list">
-          <div className="song-info card">
-            <div className="thumbnail-container">
-              <img src={thumbnail} alt="" />
-            </div>
-            <p className="song-name">Hey Boy</p>
-            <p className="song-artist">SiA (feat. Burna Boy)</p>
-          </div>
-
-          <div className="song-info card">
-            <div className="thumbnail-container">
-              <img src={thumbnail} alt="" />
-            </div>
-            <p className="song-name">Hey Boy</p>
-            <p className="song-artist">SiA (feat. Burna Boy)</p>
-          </div>
-
-          <div className="song-info card">
-            <div className="thumbnail-container">
-              <img src={thumbnail} alt="" />
-            </div>
-            <p className="song-name">Hey Boy</p>
-            <p className="song-artist">SiA (feat. Burna Boy)</p>
-          </div>
-
-          <div className="song-info card">
-            <div className="thumbnail-container">
-              <img src={thumbnail} alt="" />
-            </div>
-            <p className="song-name">Hey Boy</p>
-            <p className="song-artist">SiA (feat. Burna Boy)</p>
-          </div>
-
-          <div className="song-info card">
-            <div className="thumbnail-container">
-              <img src={thumbnail} alt="" />
-            </div>
-            <p className="song-name">Hey Boy</p>
-            <p className="song-artist">SiA (feat. Burna Boy)</p>
-          </div>
+          {tracks.map((track) => (
+            <Track
+              key={track.title}
+              title={track.title}
+              image={track.image}
+              artist={track.artist}
+              search_query={track.search_query}
+              setvideoid={setvideoid}
+            />
+          ))}
         </div>
       </section>
       <section className="most-popular">
