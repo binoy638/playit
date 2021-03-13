@@ -10,12 +10,6 @@ function Track({
 }) {
   const setTrack = async () => {
     setCurrentTrack({ artist, title, image, search_query });
-    axios
-      .get(`http://localhost:5000/videoid?query=${search_query}`)
-      .then((response) => {
-        // console.log(response);
-        setvideoid(response.data.id);
-      });
   };
   return (
     // <div className="track-item">

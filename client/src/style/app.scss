@@ -197,7 +197,6 @@ header {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
-    overflow: hidden;
 
     img {
       width: 13rem;
@@ -236,6 +235,7 @@ header {
     // width: 15rem;
     display: flex;
     gap: 2rem;
+    flex: 1;
 
     img {
       width: 4rem;
@@ -262,6 +262,7 @@ header {
   }
 
   .music-controller {
+    flex: 2;
     display: flex;
     gap: 3rem;
 
@@ -281,6 +282,7 @@ header {
       gap: 1rem;
 
       p {
+        width: 1.5rem;
         font-size: 0.8rem;
         color: var(--secondary-text-color);
       }

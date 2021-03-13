@@ -44,6 +44,7 @@ export const ArrowUp = () => {
       width="20.069"
       height="11.474"
       viewBox="0 0 20.069 11.474"
+      className="full-min-player-toggle"
     >
       <path
         id="Icon_ionic-ios-arrow-up"

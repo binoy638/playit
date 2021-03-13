@@ -56,7 +56,8 @@ async function setToken() {
 
 const searchTracks = async (query) => {
   await setToken();
-  const response = await spotifyApi.searchTracks(query, {
+  let response = cache.get(`Spotify-Search-Query-${query}`);
+  response = await spotifyApi.searchTracks(query, {
     limit: 6,
     offset: 0,
   });

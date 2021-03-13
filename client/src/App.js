@@ -9,10 +9,10 @@ import "./style/utilities.css";
 
 function App() {
   const [currentTrack, setCurrentTrack] = useState({
-    artist: "na",
-    title: "NA",
-    image: "https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg",
-    search_query: "na",
+    artist: "Blue Wednesday",
+    title: "Runaway",
+    image: "https://i.scdn.co/image/ab67616d00001e027402154d67c35a0140ebdc82",
+    search_query: "Blue Wednesday Runaway",
   });
   const [videoid, setvideoid] = useState();
   return (

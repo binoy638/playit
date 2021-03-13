@@ -36,7 +36,7 @@ function Player({ videoid, setCurrentTrack, currentTrack, setvideoid }) {
     // return () => {
     //   cleanup
     // }
-  }, []);
+  }, [currentTrack]);
   //   -1 (unstarted)
   // 0 (ended)
   // 1 (playing)

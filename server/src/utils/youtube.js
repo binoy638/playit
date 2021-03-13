@@ -1,5 +1,6 @@
 const search = require("youtube-search");
 const youtube = require("scrape-youtube").default;
+const cache = require("./cache");
 require("dotenv").config();
 const API_KEY = process.env.YOUTUBE_KEY;
 
@@ -11,6 +12,7 @@ const opts = {
 };
 
 const youtubeScrape = async (query) => {
+  console.log("Using yt scrape");
   const result = await youtube.search(query);
 
   if (result) {
