@@ -28,9 +28,12 @@ function Player({ videoid, setCurrentTrack, currentTrack, setvideoid }) {
   const [duration, setDuration] = useState(0);
   const playerRef = useRef(null);
   useEffect(() => {
+    console.log("Fetching video ID");
+    console.log(currentTrack.search_query);
     axios
       .get(`http://localhost:5000/videoid?query=${currentTrack.search_query}`)
       .then((response) => {
+        console.log(response);
         setvideoid(response.data.id);
       });
     // return () => {

@@ -43,6 +43,7 @@ const infoFromQuery = async (query) => {
     }
   } catch (e) {
     console.log("API rate limited");
+    console.log(e);
 
     try {
       videoID = await youtubeScrape(query);

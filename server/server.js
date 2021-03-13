@@ -1,5 +1,6 @@
 const express = require("express");
 const { MongoClient, ObjectID } = require("mongodb");
+const redis = require("redis");
 const cors = require("cors");
 const { searchTracks, newRelease, topTracks } = require("./src/utils/spotify");
 const { infoFromQuery } = require("./src/utils/youtube");
@@ -7,6 +8,9 @@ const app = express();
 require("dotenv").config();
 const client = new MongoClient(process.env.ATLAS_URI);
 const port = process.env.PORT || 5000;
+const REDIS_PORT = process.env.PORT || 6379;
+
+const redisCache = redis.createClient(REDIS_PORT);
 
 app.use(cors());
 let collection;
@@ -41,20 +45,57 @@ app.get("/test", async (req, res) => {
 });
 
 app.get("/search", async (req, res) => {
-  const query = req.query.q;
+  const query = req.query.query;
   const result = await searchTracks(query);
   res.send(result);
 });
 
-app.get("/new-release", async (req, res) => {
-  const result = await newRelease();
-  res.send(result);
+//Cache middleware
+function cache(req, res, next) {
+  let key = req.query.query;
+  if (!key) {
+    key = req.path.slice(1);
+  }
+  redisCache.get(key, (err, data) => {
+    if (err) throw err;
+
+    if (data !== null) {
+      console.log(`fetching ${key} from cache`);
+      res.send(JSON.parse(data));
+    } else {
+      next();
+    }
+  });
+}
+
+app.get("/new-release", cache, async (req, res) => {
+  try {
+    const result = await newRelease();
+
+    const redisValue = JSON.stringify(result);
+
+    const key = req.path.slice(1);
+
+    redisCache.set(key, redisValue);
+    res.send(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500);
+  }
 });
 
-app.get("/top-tracks", async (req, res) => {
-  const result = await topTracks();
+app.get("/top-tracks", cache, async (req, res) => {
+  try {
+    const result = await topTracks();
+    const redisValue = JSON.stringify(result);
+    const key = req.path.slice(1);
 
-  res.send(result);
+    redisCache.set(key, redisValue);
+    res.send(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500);
+  }
 });
 
 // app.get("/test", (req, res) => {
@@ -64,10 +105,20 @@ app.get("/top-tracks", async (req, res) => {
 //   test(key, data);
 // });
 
-app.get("/videoid", async (req, res) => {
-  const query = req.query.query;
-  const trackInfo = await infoFromQuery(query);
-  res.send(trackInfo);
+app.get("/videoid", cache, async (req, res) => {
+  try {
+    const query = req.query.query;
+
+    const result = await infoFromQuery(query);
+    const redisValue = JSON.stringify(result);
+    const key = query;
+
+    redisCache.set(key, redisValue);
+    res.send(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500);
+  }
 });
 
 app.listen(port, async () => {
