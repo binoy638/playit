@@ -1,28 +1,6 @@
-import { useState, useEffect } from "react";
 import Track from "./Track";
-import axios from "axios";
 
-// const BASE_URL =  "http://localhost:5000/"
-const BASE_URL = "https://playit-server.herokuapp.com/";
-
-function Main({ setCurrentTrack }) {
-  const [newtracks, setnewTracks] = useState([]);
-  const [toptracks, settopTracks] = useState([]);
-  useEffect(() => {
-    const fetchMainScreenTracks = () => {
-      axios.get(`${BASE_URL}new-release`).then((response) => {
-        const newTracks = response.data;
-        setnewTracks(newTracks);
-        setCurrentTrack(newTracks[0]);
-      });
-      axios.get(`${BASE_URL}top-tracks`).then((response) => {
-        settopTracks(response.data);
-      });
-    };
-    fetchMainScreenTracks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+function Main({ setCurrentTrack, newtracks, toptracks }) {
   return (
     <main className="main">
       <section className="new-releases">

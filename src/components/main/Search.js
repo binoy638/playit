@@ -10,16 +10,9 @@ function Search({ setTracks }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState("");
   const searchHandler = () => {
-    // console.log(query);
     axios.get(`${BASE_URL}search?q=${query}`).then((response) => {
-      //   console.log(response);
       setTracks(response.data);
     });
-    // axios
-    //   .get(`http://localhost:5000/test?key=${query}&data=testdata`)
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
   };
   const suggestHandler = () => {
     if (query.length > 2) {

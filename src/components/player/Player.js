@@ -29,6 +29,7 @@ function Player({ videoid, currentTrack, setvideoid }) {
   const [currentTime, setcurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const playerRef = useRef(null);
+
   useEffect(() => {
     axios
       .get(`${BASE_URL}videoid?query=${currentTrack.search_query}`)
@@ -47,10 +48,13 @@ function Player({ videoid, currentTrack, setvideoid }) {
   useEffect(() => {
     let id;
     if (isPlaying === true) {
+      playerRef.current.internalPlayer.playVideo();
       id = setInterval(async () => {
         const t = await playerRef.current.internalPlayer.getCurrentTime();
         setcurrentTime(t);
       }, 1000);
+    } else {
+      playerRef.current.internalPlayer.pauseVideo();
     }
 
     return () => {
@@ -59,13 +63,11 @@ function Player({ videoid, currentTrack, setvideoid }) {
       }
     };
   }, [isPlaying]);
+
   const isplayinghandler = () => {
-    if (isPlaying) {
-      playerRef.current.internalPlayer.pauseVideo();
-    } else {
-      playerRef.current.internalPlayer.playVideo();
-    }
+    setisPlaying(!isPlaying);
   };
+
   const _onReady = (event) => {
     const c = event.target.getDuration();
     setDuration(c);
@@ -75,6 +77,7 @@ function Player({ videoid, currentTrack, setvideoid }) {
       playerRef.current.internalPlayer.pauseVideo();
     }
   };
+
   const playerStateHandler = (e) => {
     // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    (video cued)
     if (e.data === 0 || e.data === 2) {
@@ -89,11 +92,13 @@ function Player({ videoid, currentTrack, setvideoid }) {
     playerRef.current.internalPlayer.seekTo(time);
     setcurrentTime(time);
   };
+
   const getTime = (time) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
     );
   };
+
   return (
     <section className="player">
       <YouTube
