@@ -21,6 +21,9 @@ const opts = {
   },
 };
 
+// const BASE_URL =  "http://localhost:5000/"
+const BASE_URL = "https://playit-server.herokuapp.com/";
+
 function Player({ videoid, currentTrack, setvideoid }) {
   const [isPlaying, setisPlaying] = useState(false);
   const [currentTime, setcurrentTime] = useState(0);
@@ -28,7 +31,7 @@ function Player({ videoid, currentTrack, setvideoid }) {
   const playerRef = useRef(null);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/videoid?query=${currentTrack.search_query}`)
+      .get(`${BASE_URL}videoid?query=${currentTrack.search_query}`)
       .then((response) => {
         resetPlayer();
         setvideoid(response.data.id);

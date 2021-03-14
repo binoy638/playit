@@ -1,15 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
 import person from "../../assets/person.jpg";
-
 import { SearchIcon, Notifications, Settings } from "../../helper/svg";
+
+// const BASE_URL =  "http://localhost:5000/"
+const BASE_URL = "https://playit-server.herokuapp.com/";
 
 function Search({ setTracks }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState("");
   const searchHandler = () => {
     // console.log(query);
-    axios.get(`http://localhost:5000/search?q=${query}`).then((response) => {
+    axios.get(`${BASE_URL}search?q=${query}`).then((response) => {
       //   console.log(response);
       setTracks(response.data);
     });
@@ -21,23 +23,21 @@ function Search({ setTracks }) {
   };
   const suggestHandler = () => {
     if (query.length > 2) {
-      axios
-        .get(`http://localhost:5000/test?query=${query}`)
-        .then((response) => {
-          try {
-            const artist = response.data[0].artist;
-            if (artist) {
-              setSuggestions(artist);
-            }
-          } catch (e) {
-            console.log(e);
+      axios.get(`${BASE_URL}autosearch?query=${query}`).then((response) => {
+        try {
+          const artist = response.data[0].artist;
+          if (artist) {
+            setSuggestions(artist);
           }
+        } catch (e) {
+          console.log(e);
+        }
 
-          // tracks.map((tracks) => {
-          //   // setSuggestions(suggestions(tracks.artist));
-          //   console.log(tracks.artist);
-          // });
-        });
+        // tracks.map((tracks) => {
+        //   // setSuggestions(suggestions(tracks.artist));
+        //   console.log(tracks.artist);
+        // });
+      });
       // console.log(suggestions);
     }
   };

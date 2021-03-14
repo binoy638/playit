@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import Track from "./Track";
 import axios from "axios";
 
+// const BASE_URL =  "http://localhost:5000/"
+const BASE_URL = "https://playit-server.herokuapp.com/";
+
 function Main({ setCurrentTrack }) {
   const [newtracks, setnewTracks] = useState([]);
   const [toptracks, settopTracks] = useState([]);
   useEffect(() => {
     const fetchMainScreenTracks = () => {
-      axios.get(`http://localhost:5000/new-release`).then((response) => {
+      axios.get(`${BASE_URL}new-release`).then((response) => {
         const newTracks = response.data;
         setnewTracks(newTracks);
         setCurrentTrack(newTracks[0]);
       });
-      axios.get(`http://localhost:5000/top-tracks`).then((response) => {
+      axios.get(`${BASE_URL}top-tracks`).then((response) => {
         settopTracks(response.data);
       });
     };
