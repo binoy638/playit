@@ -30,12 +30,11 @@ function Player({ videoid, currentTrack, setvideoid }) {
     axios
       .get(`http://localhost:5000/videoid?query=${currentTrack.search_query}`)
       .then((response) => {
+        resetPlayer();
         setvideoid(response.data.id);
       });
-    return () => {
-      resetPlayer();
-    };
-  }, [currentTrack, setvideoid]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTrack]);
 
   const resetPlayer = () => {
     playerRef.current.resetPlayer();

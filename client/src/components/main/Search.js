@@ -1,8 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-// import search from "../../assets/search.svg";
-// import notifications from "../../assets/notifications.svg";
-// import settings from "../../assets/settings.svg";
 import person from "../../assets/person.jpg";
 
 import { SearchIcon, Notifications, Settings } from "../../helper/svg";
