@@ -15,56 +15,39 @@ import {
 const opts = {
   height: "0",
   width: "0",
-
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
     autoplay: 0,
   },
 };
 
-function Player({ videoid, setCurrentTrack, currentTrack, setvideoid }) {
+function Player({ videoid, currentTrack, setvideoid }) {
   const [isPlaying, setisPlaying] = useState(false);
   const [currentTime, setcurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const playerRef = useRef(null);
   useEffect(() => {
-    console.log("Fetching video ID");
-    console.log(currentTrack.search_query);
     axios
       .get(`http://localhost:5000/videoid?query=${currentTrack.search_query}`)
       .then((response) => {
-        console.log(response);
         setvideoid(response.data.id);
       });
-    // return () => {
-    //   cleanup
-    // }
-  }, [currentTrack]);
-  //   -1 (unstarted)
-  // 0 (ended)
-  // 1 (playing)
-  // 2 (paused)
-  // 3 (buffering)
-  // 5 (video cued)
-  // useEffect(() => {
-  //   let id;
-  //   if (isPlaying === true) {
-  //     id = setInterval(() => {
-  //       setcurrentTime((count) => count + 1);
-  //     }, 1000);
-  //   }
-  //   return () => {
-  //     if (id) {
-  //       clearInterval(id);
-  //     }
-  //   };
-  // }, [isPlaying]);
+    return () => {
+      resetPlayer();
+    };
+  }, [currentTrack, setvideoid]);
+
+  const resetPlayer = () => {
+    playerRef.current.resetPlayer();
+    setcurrentTime(0);
+  };
+
   useEffect(() => {
     let id;
     if (isPlaying === true) {
       id = setInterval(async () => {
         const t = await playerRef.current.internalPlayer.getCurrentTime();
-        setcurrentTime(Math.ceil(t));
+        setcurrentTime(t);
       }, 1000);
     }
 
@@ -82,38 +65,21 @@ function Player({ videoid, setCurrentTrack, currentTrack, setvideoid }) {
     }
   };
   const _onReady = (event) => {
-    // event.target.playVideo();
-    // access to player in all event handlers via event.target
-    console.log(event);
-    // var d = event.target.getCurrentTime();
-    // console.log(d / 60);
     const c = event.target.getDuration();
-    console.log(c);
-    setDuration(Math.ceil(c));
-
-    // console.log(c);
-    // console.log(d);
-
-    console.log(playerRef);
-
-    // console.log("songduration");
-    // console.log(songduration);
+    setDuration(c);
+    if (isPlaying) {
+      playerRef.current.internalPlayer.playVideo();
+    } else {
+      playerRef.current.internalPlayer.pauseVideo();
+    }
   };
   const playerStateHandler = (e) => {
-    console.log(e.data);
+    // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    (video cued)
     if (e.data === 0 || e.data === 2) {
       setisPlaying(false);
     } else if (e.data === 1 || e.data === 3) {
       setisPlaying(true);
-      // setcurrentTime((count) => count + 1);
     }
-  };
-
-  const dragHandler = () => {
-    const id = setInterval(() => {
-      setcurrentTime((count) => count + 1);
-    }, 1000);
-    return id;
   };
 
   const seekHandler = (e) => {
@@ -121,53 +87,19 @@ function Player({ videoid, setCurrentTrack, currentTrack, setvideoid }) {
     playerRef.current.internalPlayer.seekTo(time);
     setcurrentTime(time);
   };
-  const changeDuration = (e) => {
-    const c = e.target.getDuration();
-    // console.log(c);
-    setDuration(Math.ceil(c));
-  };
   const getTime = (time) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
     );
   };
   return (
-    // <div className="player">
-
-    //   <div className="play-control">
-    //     {currentTime}
-    //     <input
-    //       min={0}
-    //       max={duration}
-    //       onChange={seekHandler}
-    //       value={currentTime}
-    //       type="range"
-    //     />
-    //     {duration}
-    //     <button
-    //       onClick={() => {
-    //         isplayinghandler();
-    //       }}
-    //     >
-    //       Play
-    //     </button>
-    //   </div>
-    // </div>
     <section className="player">
       <YouTube
         videoId={videoid}
         opts={opts}
-        // onPlayerReady={() => {
-        //   console.log("ready");
-        // }}
-        onReady={(e) => _onReady(e)}
-        // onTimeUpdate={() => console.log("hi")}
+        onReady={_onReady}
         onStateChange={(e) => playerStateHandler(e)}
-        // onPlay={() => {
-        //   console.log(duration);
-        // }}
-        onPlay={(e) => changeDuration(e)}
-        // onPlaybackRateChange={(e) => console.log(e.target.value)}
+        onEnd={resetPlayer}
         ref={playerRef}
       />
       <div className="current-song-info">
@@ -191,19 +123,23 @@ function Player({ videoid, setCurrentTrack, currentTrack, setvideoid }) {
         </div>
 
         <div className="main-controller">
-          <p className="time-elapsed">{getTime(currentTime)}</p>
+          <p className="time-elapsed">
+            {currentTime ? getTime(currentTime) : "0:00"}
+          </p>
           <div className="slider-container">
             <input
               type="range"
               min={0}
-              max={duration}
+              max={Math.ceil(duration)}
               onChange={seekHandler}
-              value={currentTime}
+              value={Math.ceil(currentTime)}
               className="slider"
               id="myRange"
             />
           </div>
-          <p className="total-duration">{getTime(duration)}</p>
+          <p className="total-duration">
+            {duration ? getTime(duration) : "0:00"}
+          </p>
         </div>
 
         <div className="interactivity">

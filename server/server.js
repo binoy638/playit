@@ -8,9 +8,9 @@ const app = express();
 require("dotenv").config();
 const client = new MongoClient(process.env.ATLAS_URI);
 const port = process.env.PORT || 5000;
-const REDIS_PORT = process.env.PORT || 6379;
+const REDIS_URL = process.env.REDIS_URL;
 
-const redisCache = redis.createClient(REDIS_PORT);
+const redisCache = redis.createClient(REDIS_URL);
 
 app.use(cors());
 let collection;
@@ -76,7 +76,7 @@ app.get("/new-release", cache, async (req, res) => {
 
     const key = req.path.slice(1);
 
-    redisCache.set(key, redisValue);
+    redisCache.setex(key, 86400, redisValue);
     res.send(result);
   } catch (e) {
     console.error(e);
@@ -90,7 +90,7 @@ app.get("/top-tracks", cache, async (req, res) => {
     const redisValue = JSON.stringify(result);
     const key = req.path.slice(1);
 
-    redisCache.set(key, redisValue);
+    redisCache.setex(key, 86400, redisValue);
     res.send(result);
   } catch (e) {
     console.error(e);

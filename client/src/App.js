@@ -20,17 +20,11 @@ function App() {
       <div className="upper-section">
         <Sidebar />
         <Search />
-        <Main
-          setvideoid={setvideoid}
-          setCurrentTrack={setCurrentTrack}
-          currentTrack={currentTrack}
-        />
+        <Main setCurrentTrack={setCurrentTrack} />
       </div>
-
       <Player
         setvideoid={setvideoid}
         videoid={videoid}
-        setCurrentTrack={setCurrentTrack}
         currentTrack={currentTrack}
       />
     </div>

@@ -1,37 +1,26 @@
 import { useState, useEffect } from "react";
 import Track from "./Track";
-import Search from "./Search";
 import axios from "axios";
 
-function Main({ setvideoid, setCurrentTrack, currentTrack }) {
+function Main({ setCurrentTrack }) {
   const [newtracks, setnewTracks] = useState([]);
   const [toptracks, settopTracks] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:5000/new-release`).then((response) => {
-      const newTracks = response.data;
-      setnewTracks(newTracks);
-      setCurrentTrack(newTracks[0]);
-    });
-    axios.get(`http://localhost:5000/top-tracks`).then((response) => {
-      settopTracks(response.data);
-    });
+    const fetchMainScreenTracks = () => {
+      axios.get(`http://localhost:5000/new-release`).then((response) => {
+        const newTracks = response.data;
+        setnewTracks(newTracks);
+        setCurrentTrack(newTracks[0]);
+      });
+      axios.get(`http://localhost:5000/top-tracks`).then((response) => {
+        settopTracks(response.data);
+      });
+    };
+    fetchMainScreenTracks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
-    // <div className="main">
-    //   <Search setTracks={setTracks} />
-    //   <div className="tracks-list">
-    //     {tracks.map((track) => (
-    //       <Track
-    //         key={track.title}
-    //         title={track.title}
-    //         image={track.image}
-    //         artist={track.artist}
-    //         search_query={track.search_query}
-    //         setvideoid={setvideoid}
-    //       />
-    //     ))}
-    //   </div>
-    // </div>
     <main className="main">
       <section className="new-releases">
         <h1>New Releases</h1>
@@ -44,7 +33,6 @@ function Main({ setvideoid, setCurrentTrack, currentTrack }) {
               artist={track.artist}
               setCurrentTrack={setCurrentTrack}
               search_query={track.search_query}
-              setvideoid={setvideoid}
             />
           ))}
         </div>
@@ -60,7 +48,6 @@ function Main({ setvideoid, setCurrentTrack, currentTrack }) {
               artist={track.artist}
               setCurrentTrack={setCurrentTrack}
               search_query={track.search_query}
-              setvideoid={setvideoid}
             />
           ))}
         </div>
