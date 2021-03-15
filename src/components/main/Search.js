@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import person from "../../assets/person.jpg";
 import { SearchIcon, Notifications, Settings } from "../../helper/svg";
+import { AppContext } from "../../App";
 
 // const BASE_URL =  "http://localhost:5000/"
 const BASE_URL = "https://playit-server.herokuapp.com/";
 
-function Search({ setsearchResult, setshowHome, searchResult }) {
+function Search() {
+  const { setsearchResult, setshowHome, searchResult } = useContext(AppContext);
+
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState("");
   const searchHandler = async () => {

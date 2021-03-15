@@ -1,20 +1,17 @@
 import Track from "./Track";
+import { useContext } from "react";
+import { AppContext } from "../../App";
 
-function Home({ setCurrentTrack, newtracks, toptracks }) {
+function Home() {
+  const { newtracks, toptracks } = useContext(AppContext);
+
   return (
     <>
       <section className="new-releases">
         <h1>New Releases</h1>
         <div className="song-list card-list">
           {newtracks.map((track) => (
-            <Track
-              key={track.title}
-              title={track.title}
-              image={track.image}
-              artist={track.artist}
-              setCurrentTrack={setCurrentTrack}
-              search_query={track.search_query}
-            />
+            <Track key={track.title} {...track} />
           ))}
         </div>
       </section>
@@ -22,14 +19,7 @@ function Home({ setCurrentTrack, newtracks, toptracks }) {
         <h1>Most Popular</h1>
         <div className="song-list card-list">
           {toptracks.map((track) => (
-            <Track
-              key={track.title}
-              title={track.title}
-              image={track.image}
-              artist={track.artist}
-              setCurrentTrack={setCurrentTrack}
-              search_query={track.search_query}
-            />
+            <Track key={track.title} {...track} />
           ))}
         </div>
       </section>

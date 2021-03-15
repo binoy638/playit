@@ -11,6 +11,8 @@ import {
   ArrowUp,
   Pause,
 } from "../../helper/svg";
+import { useContext } from "react";
+import { AppContext } from "../../App";
 
 const opts = {
   height: "0",
@@ -24,12 +26,15 @@ const opts = {
 // const BASE_URL =  "http://localhost:5000/"
 const BASE_URL = "https://playit-server.herokuapp.com/";
 
-function Player({ videoid, currentTrack, setvideoid }) {
+function Player() {
+  const { videoid, currentTrack, setvideoid } = useContext(AppContext);
+
   const [isPlaying, setisPlaying] = useState(false);
   const [currentTime, setcurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const playerRef = useRef(null);
 
+  //hook to fetch youtube video id
   useEffect(() => {
     axios
       .get(`${BASE_URL}videoid?query=${currentTrack.search_query}`)
@@ -38,13 +43,14 @@ function Player({ videoid, currentTrack, setvideoid }) {
         setvideoid(response.data.id);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTrack]);
+  }, [currentTrack]); //this hook runs only when the current track changes
 
   const resetPlayer = () => {
     playerRef.current.resetPlayer();
     setcurrentTime(0);
   };
 
+  //hook to make the player silder move
   useEffect(() => {
     let id;
     if (isPlaying === true) {
@@ -57,17 +63,19 @@ function Player({ videoid, currentTrack, setvideoid }) {
       playerRef.current.internalPlayer.pauseVideo();
     }
 
+    //cleanup function to clear previous setInverval before starting a new one
     return () => {
       if (id) {
         clearInterval(id);
       }
     };
-  }, [isPlaying]);
+  }, [isPlaying]); //this hook runs only when the track is paused or resume
 
   const isplayinghandler = () => {
     setisPlaying(!isPlaying);
   };
 
+  //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
     const c = event.target.getDuration();
     setDuration(c);
@@ -78,6 +86,7 @@ function Player({ videoid, currentTrack, setvideoid }) {
     }
   };
 
+  //function to see if the video is playing or not and set our isPlaying state accordingly
   const playerStateHandler = (e) => {
     // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    (video cued)
     if (e.data === 0 || e.data === 2) {
@@ -87,12 +96,14 @@ function Player({ videoid, currentTrack, setvideoid }) {
     }
   };
 
+  //function to make the slider work
   const seekHandler = (e) => {
     let time = e.target.value;
     playerRef.current.internalPlayer.seekTo(time);
     setcurrentTime(time);
   };
 
+  //function to format time in seconds to this 0:00
   const getTime = (time) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)

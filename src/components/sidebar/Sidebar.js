@@ -1,11 +1,6 @@
 import React from "react";
-
-// import collection from "../../assets/collections.svg";
-// import Hotlists from "../../helper/svg";
-// import filledheart from "../../assets/filled-heart.svg";
-// import playlist from "../../assets/playlist.svg";
-// import albums from "../../assets/albums.svg";
-// import artists from "../../assets/artists.svg";
+import { useContext } from "react";
+import { AppContext } from "../../App";
 import {
   Collections,
   Hotlists,
@@ -15,7 +10,8 @@ import {
   Artists,
 } from "../../helper/svg";
 
-function Sidebar({ setshowHome }) {
+function Sidebar() {
+  const { setshowHome } = useContext(AppContext);
   return (
     <aside className="sidebar">
       <div className="logo-container">

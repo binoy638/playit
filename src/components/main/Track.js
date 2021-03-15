@@ -1,5 +1,8 @@
 import React from "react";
-function Track({ artist, title, image, search_query, setCurrentTrack }) {
+import { useContext } from "react";
+import { AppContext } from "../../App";
+function Track({ artist, title, image, search_query }) {
+  const { setCurrentTrack } = useContext(AppContext);
   const setTrack = async () => {
     setCurrentTrack({ artist, title, image, search_query });
   };
