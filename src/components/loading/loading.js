@@ -23,7 +23,7 @@ function Loading() {
           borderRadius: ["20%", "20%", "50%", "50%", "20%"],
           transition: {
             duration: 3,
-            yoyo: 10,
+            yoyo: Infinity,
           },
         }}
         className="circle"
@@ -35,7 +35,7 @@ function Loading() {
           borderRadius: ["20%", "20%", "50%", "50%", "20%"],
           transition: {
             duration: 3,
-            yoyo: 10,
+            yoyo: Infinity,
           },
         }}
         className="circle"

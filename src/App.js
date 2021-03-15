@@ -21,6 +21,10 @@ function App() {
 
   const [videoid, setvideoid] = useState();
 
+  const [searchResult, setsearchResult] = useState([]);
+
+  const [showHome, setshowHome] = useState(true);
+
   const [currentTrack, setCurrentTrack] = useState({
     artist: "Blue Wednesday",
     title: "Runaway",
@@ -54,12 +58,18 @@ function App() {
         <Loading />
       ) : (
         <div className="upper-section">
-          <Sidebar />
-          <Search />
+          <Sidebar setshowHome={setshowHome} />
+          <Search
+            searchResult={searchResult}
+            setsearchResult={setsearchResult}
+            setshowHome={setshowHome}
+          />
           <Main
             setCurrentTrack={setCurrentTrack}
             newtracks={newtracks}
             toptracks={toptracks}
+            searchResult={searchResult}
+            showHome={showHome}
           />
         </div>
       )}

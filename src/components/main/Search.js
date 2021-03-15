@@ -6,13 +6,15 @@ import { SearchIcon, Notifications, Settings } from "../../helper/svg";
 // const BASE_URL =  "http://localhost:5000/"
 const BASE_URL = "https://playit-server.herokuapp.com/";
 
-function Search({ setTracks }) {
+function Search({ setsearchResult, setshowHome, searchResult }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState("");
-  const searchHandler = () => {
-    axios.get(`${BASE_URL}search?q=${query}`).then((response) => {
-      setTracks(response.data);
-    });
+  const searchHandler = async () => {
+    const response = await axios.get(`${BASE_URL}search?query=${query}`);
+    setsearchResult(response.data);
+    console.log(searchResult);
+
+    setshowHome(false);
   };
   const suggestHandler = () => {
     if (query.length > 2) {
@@ -54,6 +56,13 @@ function Search({ setTracks }) {
           type="text"
           className="search-input"
           placeholder="Search for songs, artists etc."
+          onChange={(event) => setQuery(event.target.value)}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              searchHandler();
+              event.target.value = "";
+            }
+          }}
         />
       </div>
       <div className="header-account-settings">

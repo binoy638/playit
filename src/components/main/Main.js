@@ -1,38 +1,27 @@
-import Track from "./Track";
+import Home from "./Home";
+import SearchResult from "./SearchResult";
 
-function Main({ setCurrentTrack, newtracks, toptracks }) {
+function Main({
+  setCurrentTrack,
+  newtracks,
+  toptracks,
+  searchResult,
+  showHome,
+}) {
   return (
     <main className="main">
-      <section className="new-releases">
-        <h1>New Releases</h1>
-        <div className="song-list card-list">
-          {newtracks.map((track) => (
-            <Track
-              key={track.title}
-              title={track.title}
-              image={track.image}
-              artist={track.artist}
-              setCurrentTrack={setCurrentTrack}
-              search_query={track.search_query}
-            />
-          ))}
-        </div>
-      </section>
-      <section className="most-popular">
-        <h1>Most Popular</h1>
-        <div className="song-list card-list">
-          {toptracks.map((track) => (
-            <Track
-              key={track.title}
-              title={track.title}
-              image={track.image}
-              artist={track.artist}
-              setCurrentTrack={setCurrentTrack}
-              search_query={track.search_query}
-            />
-          ))}
-        </div>
-      </section>
+      {showHome ? (
+        <Home
+          setCurrentTrack={setCurrentTrack}
+          newtracks={newtracks}
+          toptracks={toptracks}
+        />
+      ) : (
+        <SearchResult
+          setCurrentTrack={setCurrentTrack}
+          searchResult={searchResult}
+        />
+      )}
     </main>
   );
 }

@@ -15,13 +15,18 @@ import {
   Artists,
 } from "../../helper/svg";
 
-function Sidebar() {
+function Sidebar({ setshowHome }) {
   return (
     <aside className="sidebar">
       <div className="logo-container">
-        <a className="logo" href="index.html">
+        <div
+          className="logo"
+          onClick={() => {
+            setshowHome(true);
+          }}
+        >
           Playit
-        </a>
+        </div>
       </div>
       <section className="discover-section">
         <h1>Discover</h1>
