@@ -170,8 +170,8 @@ export const Notifications = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24.75"
-      height="29.25"
+      width="20.75"
+      height="22.25"
       viewBox="0 0 24.75 29.25"
     >
       <path
@@ -305,8 +305,8 @@ export const Settings = () => {
       id="Icon_feather-settings"
       data-name="Icon feather-settings"
       xmlns="http://www.w3.org/2000/svg"
-      width="28.286"
-      height="28.286"
+      width="20.286"
+      height="20.286"
       viewBox="0 0 28.286 28.286"
     >
       <path

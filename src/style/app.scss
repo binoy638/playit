@@ -168,6 +168,27 @@ header {
       border-radius: 50%;
     }
   }
+  .search-suggestion{
+    border-radius: 0 0 5% 5%;
+    overflow: hidden;
+    background-color: black;
+    position: absolute;
+    width: 20rem;
+    opacity: 0.8;
+
+    .results{
+      padding: 0.5rem;
+      .result-item{
+         color: #c5ffe6;
+         font-size: 0.9rem;
+         cursor: pointer;
+      }
+      .result-item:hover{
+        color:black;
+        background-color: rgb(248, 248, 248);
+      }
+    }
+  }
 }
 
 .main {
@@ -340,3 +361,4 @@ header {
         background-color: white;
    }
 }
+

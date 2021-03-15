@@ -1,7 +1,13 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import person from "../../assets/person.jpg";
-import { SearchIcon, Notifications, Settings } from "../../helper/svg";
+import Suggestion from "./Suggestion";
+import {
+  SearchIcon,
+  Notifications,
+  Settings,
+  Previous,
+} from "../../helper/svg";
 import { AppContext } from "../../App";
 
 // const BASE_URL =  "http://localhost:5000/"
@@ -11,7 +17,7 @@ function Search() {
   const { setsearchResult, setshowHome, searchResult } = useContext(AppContext);
 
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
   const searchHandler = async () => {
     const response = await axios.get(`${BASE_URL}search?query=${query}`);
     setsearchResult(response.data);
@@ -21,11 +27,13 @@ function Search() {
   };
   const suggestHandler = () => {
     if (query.length > 2) {
-      axios.get(`${BASE_URL}autosearch?query=${query}`).then((response) => {
+      axios.get(`${BASE_URL}autosearch/artist/${query}`).then((response) => {
         try {
-          const artist = response.data[0].artist;
-          if (artist) {
-            setSuggestions(artist);
+          const tracks = response.data;
+
+          if (tracks.length > 0) {
+            setSuggestions(tracks);
+            console.log(suggestions);
           }
         } catch (e) {
           console.log(e);
@@ -52,22 +60,26 @@ function Search() {
     <header>
       <div className="search-container">
         <div className="search-btn">
-          {/* <img src={search} alt="" /> */}
           <SearchIcon />
         </div>
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search for songs, artists etc."
-          onChange={(event) => setQuery(event.target.value)}
-          onKeyPress={(event) => {
-            if (event.key === "Enter") {
-              searchHandler();
-              event.target.value = "";
-            }
-          }}
-        />
+        <div className="search-input">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search for songs, artists etc."
+            onChange={(event) => setQuery(event.target.value)}
+            onKeyUp={() => suggestHandler()}
+            onKeyPress={(event) => {
+              if (event.key === "Enter") {
+                searchHandler();
+                event.target.value = "";
+              }
+            }}
+          />
+          {suggestions ? <Suggestion suggestions={suggestions} /> : ""}
+        </div>
       </div>
+
       <div className="header-account-settings">
         <Notifications />
         <Settings />

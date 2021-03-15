@@ -30,8 +30,11 @@ function Player() {
   const { videoid, currentTrack, setvideoid } = useContext(AppContext);
 
   const [isPlaying, setisPlaying] = useState(false);
+
   const [currentTime, setcurrentTime] = useState(0);
+
   const [duration, setDuration] = useState(0);
+
   const playerRef = useRef(null);
 
   //hook to fetch youtube video id

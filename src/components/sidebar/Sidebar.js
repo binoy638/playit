@@ -28,12 +28,6 @@ function Sidebar() {
         <h1>Discover</h1>
 
         <div className="side-menu">
-          {/* <img
-            className="icon-clickable"
-            src={hotlists}
-            alt=""
-            // onload="SVGInject(this)"
-          /> */}
           <Hotlists />
           <span>Hotlist</span>
         </div>
