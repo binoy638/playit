@@ -4,9 +4,10 @@ import Main from "./components/main/Main";
 import Player from "./components/player/Player";
 import Sidebar from "./components/sidebar/Sidebar";
 import Search from "./components/main/Search";
-import Loading from "./components/loading/loading";
+import Loading from "./components/extra/loading";
 import axios from "axios";
 
+import { BrowserRouter as Router } from "react-router-dom";
 import "./style/app.scss";
 import "./style/utilities.css";
 
@@ -18,6 +19,8 @@ export const AppContext = React.createContext();
 
 function App() {
   const [loading, setLoading] = useState(true);
+
+  const [query, setQuery] = useState("");
 
   const [newtracks, setnewTracks] = useState([]);
 
@@ -67,19 +70,23 @@ function App() {
         currentTrack,
         setvideoid,
         videoid,
+        query,
+        setQuery,
       }}
       className="App"
     >
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="upper-section">
-          <Sidebar setshowHome={setshowHome} />
-          <Search />
-          <Main />
-        </div>
-      )}
-      {loading ? "" : <Player />}
+      <Router>
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="upper-section">
+            <Sidebar />
+            <Search />
+            <Main />
+          </div>
+        )}
+        {loading ? "" : <Player />}
+      </Router>
     </AppContext.Provider>
   );
 }

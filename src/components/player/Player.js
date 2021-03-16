@@ -40,7 +40,7 @@ function Player() {
   //hook to fetch youtube video id
   useEffect(() => {
     axios
-      .get(`${BASE_URL}videoid?query=${currentTrack.search_query}`)
+      .get(`${BASE_URL}videoid?query=${currentTrack.search_query} (Lyrics)`)
       .then((response) => {
         resetPlayer();
         setvideoid(response.data.id);

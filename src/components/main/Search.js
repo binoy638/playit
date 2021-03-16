@@ -1,43 +1,35 @@
-import { useState, useContext } from "react";
-import axios from "axios";
+import { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import person from "../../assets/person.jpg";
 import { SearchIcon, Notifications, Settings } from "../../helper/svg";
 import { AppContext } from "../../App";
 
-// const BASE_URL =  "http://localhost:5000/"
-const BASE_URL = "https://playit-server.herokuapp.com/";
-
 function Search() {
-  const { setsearchResult, setshowHome } = useContext(AppContext);
-
-  const [query, setQuery] = useState("");
-
-  const searchHandler = async () => {
-    const response = await axios.get(`${BASE_URL}search?query=${query}`);
-    setsearchResult(response.data);
-    setshowHome(false);
+  const history = useHistory();
+  const handleOnClick = () => history.push(`/search?query=${query}`);
+  const { query, setQuery } = useContext(AppContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleOnClick();
   };
-
   return (
     <header>
       <div className="search-container">
         <div className="search-btn">
           <SearchIcon />
         </div>
-        <div className="search-input">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search for songs, artists etc."
-            onChange={(event) => setQuery(event.target.value)}
-            onKeyPress={(event) => {
-              if (event.key === "Enter") {
-                searchHandler();
-                event.target.value = "";
-              }
-            }}
-          />
-        </div>
+
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div className="search-input">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search for songs, artists etc."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+          </div>
+        </form>
       </div>
 
       <div className="header-account-settings">
