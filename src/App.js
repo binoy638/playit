@@ -4,7 +4,7 @@ import Main from "./components/main/Main";
 import Player from "./components/player/Player";
 import Sidebar from "./components/sidebar/Sidebar";
 import Search from "./components/main/Search";
-import Loading from "./components/extra/loading";
+import { Loading } from "./components/extra/loading";
 import axios from "axios";
 
 import { BrowserRouter as Router } from "react-router-dom";
@@ -41,9 +41,8 @@ function App() {
         const newTracks = response.data;
         setnewTracks(newTracks);
         setCurrentTrack(newTracks[0]);
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
+
+        setLoading(false);
       });
       //fetch new top tracks to show on homepage while loading
       axios.get(`${BASE_URL}top-tracks`).then((response) => {

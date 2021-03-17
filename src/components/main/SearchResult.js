@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import Track from "./Track";
 import { AppContext } from "../../App";
 import { useContext } from "react";
 import axios from "axios";
+import { TrackLoading } from "../extra/loading";
 
 const BASE_URL = "https://playit-server.herokuapp.com/";
 
@@ -11,10 +12,17 @@ function SearchResult({ location }) {
   const { setCurrentTrack, searchResult, setsearchResult } = useContext(
     AppContext
   );
+
   const { query } = queryString.parse(location.search);
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    setLoading(true);
     if (query) {
-      fetchTracks();
+      fetchTracks().then(() => {
+        setLoading(false);
+      });
     }
     return () => {
       setsearchResult([]);
@@ -29,12 +37,11 @@ function SearchResult({ location }) {
     }
   };
 
-  if (searchResult.length) {
-  }
-
   return (
     <>
-      {searchResult && searchResult.length > 0 && (
+      {loading ? (
+        <TrackLoading />
+      ) : (
         <section className="new-releases">
           <h1>Top Result</h1>
           <div className="song-list card-list">
@@ -46,7 +53,9 @@ function SearchResult({ location }) {
           </div>
         </section>
       )}
-      {searchResult && searchResult.length > 0 && (
+      {loading ? (
+        ""
+      ) : (
         <section className="most-popular">
           <h1>Other Results</h1>
           <div className="song-list card-list">

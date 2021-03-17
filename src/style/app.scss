@@ -362,3 +362,18 @@ header {
    }
 }
 
+
+.tracks-loading{
+  display: flex;
+  height: 60vh;
+  align-items: center;
+  justify-content: center;
+  .loading-circle{
+  display: inline-block;
+  width: 5rem;
+  height: 5rem;
+  border: 5px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  }
+}

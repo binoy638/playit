@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function Loading() {
+export const Loading = () => {
   return (
     <div className="loading">
       <motion.div
@@ -42,6 +42,22 @@ function Loading() {
       />
     </div>
   );
-}
+};
 
-export default Loading;
+export const TrackLoading = () => {
+  return (
+    <div className="tracks-loading">
+      <motion.div
+        animate={{
+          rotate: 360,
+          transition: {
+            loop: Infinity,
+            duration: 1,
+            ease: "linear",
+          },
+        }}
+        className="loading-circle"
+      />
+    </div>
+  );
+};
