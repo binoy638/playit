@@ -168,7 +168,7 @@ header {
       border-radius: 50%;
     }
   }
-  .search-suggestion{
+  .search-suggestion {
     border-radius: 0 0 5% 5%;
     overflow: hidden;
     background-color: black;
@@ -176,15 +176,15 @@ header {
     width: 20rem;
     opacity: 0.8;
 
-    .results{
+    .results {
       padding: 0.5rem;
-      .result-item{
-         color: #c5ffe6;
-         font-size: 0.9rem;
-         cursor: pointer;
+      .result-item {
+        color: #c5ffe6;
+        font-size: 0.9rem;
+        cursor: pointer;
       }
-      .result-item:hover{
-        color:black;
+      .result-item:hover {
+        color: black;
         background-color: rgb(248, 248, 248);
       }
     }
@@ -221,6 +221,7 @@ header {
     gap: 0.2rem;
 
     img {
+      cursor: pointer;
       width: 13rem;
       height: 13rem;
       margin-bottom: 0.5rem;
@@ -347,33 +348,32 @@ header {
   }
 }
 
-.loading{
-   background: var(--primary-color);
-   height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5rem;
-   .circle{
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 50%;
-        background-color: white;
-   }
+.loading {
+  background: var(--primary-color);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  .circle {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    background-color: white;
+  }
 }
 
-
-.tracks-loading{
+.tracks-loading {
   display: flex;
   height: 60vh;
   align-items: center;
   justify-content: center;
-  .loading-circle{
-  display: inline-block;
-  width: 5rem;
-  height: 5rem;
-  border: 5px solid rgba(255,255,255,.3);
-  border-radius: 50%;
-  border-top-color: #fff;
+  .loading-circle {
+    display: inline-block;
+    width: 5rem;
+    height: 5rem;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
   }
 }

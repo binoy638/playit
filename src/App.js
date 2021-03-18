@@ -30,8 +30,6 @@ function App() {
 
   const [searchResult, setsearchResult] = useState([]);
 
-  const [showHome, setshowHome] = useState(true);
-
   const [currentTrack, setCurrentTrack] = useState();
 
   useEffect(() => {
@@ -64,8 +62,6 @@ function App() {
         setCurrentTrack,
         searchResult,
         setsearchResult,
-        setshowHome,
-        showHome,
         currentTrack,
         setvideoid,
         videoid,
