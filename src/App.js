@@ -10,6 +10,7 @@ import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./style/app.scss";
 import "./style/utilities.css";
+import { shuffle } from "./helper/shuffle";
 
 // const BASE_URL =  "http://localhost:5000/"
 const BASE_URL = "https://playit-server.herokuapp.com/";
@@ -36,7 +37,8 @@ function App() {
     const fetchMainScreenTracks = () => {
       //fetch new release tracks to show on homepage while loading
       axios.get(`${BASE_URL}new-release`).then((response) => {
-        const newTracks = response.data;
+        let newTracks = response.data;
+        newTracks = shuffle(newTracks, 7);
         setnewTracks(newTracks);
         setCurrentTrack(newTracks[0]);
 
@@ -44,7 +46,9 @@ function App() {
       });
       //fetch new top tracks to show on homepage while loading
       axios.get(`${BASE_URL}top-tracks`).then((response) => {
-        settopTracks(response.data);
+        let topTracks = response.data;
+        topTracks = shuffle(topTracks, 7);
+        settopTracks(topTracks);
       });
     };
     fetchMainScreenTracks();
