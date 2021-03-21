@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
-import axios from "axios";
 import {
   Previous,
   Play,
@@ -11,8 +10,8 @@ import {
   ArrowUp,
   Pause,
 } from "../../helper/svg";
-import { useContext } from "react";
-import { AppContext } from "../../App";
+
+import { useSelector } from "react-redux";
 
 const opts = {
   height: "0",
@@ -23,11 +22,10 @@ const opts = {
   },
 };
 
-// const BASE_URL =  "http://localhost:5000/"
-const BASE_URL = "https://playit-server.herokuapp.com/";
-
 function Player() {
-  const { videoid, currentTrack, setvideoid } = useContext(AppContext);
+  const { title, artist, image, videoid } = useSelector(
+    (state) => state.currentTrack
+  );
 
   const [isPlaying, setisPlaying] = useState(false);
 
@@ -39,14 +37,9 @@ function Player() {
 
   //hook to fetch youtube video id
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}videoid?query=${currentTrack.search_query} (Lyrics)`)
-      .then((response) => {
-        resetPlayer();
-        setvideoid(response.data.id);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTrack]); //this hook runs only when the current track changes
+    console.log("resetting the player");
+    resetPlayer();
+  }, [videoid]);
 
   const resetPlayer = () => {
     playerRef.current.resetPlayer();
@@ -124,10 +117,10 @@ function Player() {
         ref={playerRef}
       />
       <div className="current-song-info">
-        <img src={currentTrack.image} alt="" />
+        <img src={image} alt="" />
         <div>
-          <p className="song-name">{currentTrack.title}</p>
-          <p className="song-artist">{currentTrack.artist}</p>
+          <p className="song-name">{title}</p>
+          <p className="song-artist">{artist}</p>
         </div>
       </div>
 

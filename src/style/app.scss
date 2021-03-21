@@ -219,6 +219,13 @@ header {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
+    width: 13rem;
+
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     img {
       cursor: pointer;
@@ -255,7 +262,6 @@ header {
   align-items: center;
 
   .current-song-info {
-    // width: 15rem;
     display: flex;
     gap: 2rem;
     flex: 1;
@@ -376,4 +382,11 @@ header {
     border-radius: 50%;
     border-top-color: #fff;
   }
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
 }

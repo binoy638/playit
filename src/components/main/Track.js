@@ -1,12 +1,14 @@
 import React from "react";
-import { useContext } from "react";
-import { AppContext } from "../../App";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+
+//actions
+import { setCurrentTrack } from "../../actions";
 
 function Track({ artist, title, image, search_query }) {
-  const { setCurrentTrack } = useContext(AppContext);
+  const dispatch = useDispatch();
   const setTrack = async () => {
-    setCurrentTrack({ artist, title, image, search_query });
+    dispatch(setCurrentTrack({ artist, title, image, search_query }));
   };
   return (
     <div className="song-info card">
@@ -19,7 +21,7 @@ function Track({ artist, title, image, search_query }) {
           onClick={() => setTrack()}
         />
       </div>
-      <p className="song-name">{title.substring(0, 30)}</p>
+      <p className="song-name">{title}</p>
       <p className="song-artist">{artist}</p>
     </div>
   );
