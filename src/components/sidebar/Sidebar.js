@@ -9,12 +9,14 @@ import {
   Playlist,
   Albums,
   Artists,
+  MenuExit,
 } from "../../helper/svg";
 
 function Sidebar() {
   const dispatch = useDispatch();
   return (
     <aside className="sidebar">
+      <MenuExit />
       <div className="logo-container">
         <Link to="/" onClick={() => dispatch(setQuery(""))}>
           <div className="logo">Playit</div>

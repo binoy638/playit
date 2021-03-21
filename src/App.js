@@ -9,7 +9,7 @@ import { fetchDefaultPlaylists } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./style/app.scss";
-import "./style/utilities.css";
+import "./style/utilities.scss";
 
 function App() {
   const dispatch = useDispatch();

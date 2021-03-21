@@ -78,6 +78,7 @@ export const Artists = () => {
 export const Previous = () => {
   return (
     <svg
+      className="backward"
       xmlns="http://www.w3.org/2000/svg"
       width="15.25"
       height="15.25"
@@ -134,6 +135,7 @@ export const Heart = () => {
 export const Next = () => {
   return (
     <svg
+      className="forward"
       xmlns="http://www.w3.org/2000/svg"
       width="15.25"
       height="15.25"
@@ -205,6 +207,7 @@ export const OutlineHeart = () => {
 export const Play = ({ clickFunction }) => {
   return (
     <svg
+      className="play"
       xmlns="http://www.w3.org/2000/svg"
       width="45.832"
       height="45.832"
@@ -347,6 +350,76 @@ export const Volume = () => {
         d="M17.025,19.275a.964.964,0,0,1-.682-1.646,6.758,6.758,0,0,0,0-9.546.964.964,0,0,1,1.364-1.364,8.678,8.678,0,0,1,0,12.273A.961.961,0,0,1,17.025,19.275ZM13.6,17.457a.964.964,0,0,1-.682-1.646,4.183,4.183,0,0,0,0-5.909.964.964,0,1,1,1.364-1.364,6.114,6.114,0,0,1,0,8.637A.961.961,0,0,1,13.6,17.457Zm-2.672,4.4a.643.643,0,0,1-.455-.188L5.519,16.713H3.214a.643.643,0,0,1-.643-.643V9.642A.643.643,0,0,1,3.214,9H5.519l4.955-4.955a.643.643,0,0,1,1.1.455V21.213a.643.643,0,0,1-.643.643Z"
         transform="translate(-2.571 -3.856)"
         fill="#898989"
+      />
+    </svg>
+  );
+};
+
+export const Menu = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="23.942"
+      height="20"
+      viewBox="0 0 13.942 10"
+    >
+      <g
+        id="Icon_feather-menu"
+        data-name="Icon feather-menu"
+        transform="translate(-4 -8.5)"
+      >
+        <path
+          id="Path_5"
+          data-name="Path 5"
+          d="M4.5,18H17.442"
+          transform="translate(0 -4.5)"
+          fill="none"
+          stroke="#898989"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <path
+          id="Path_6"
+          data-name="Path 6"
+          d="M4.5,9H17.442"
+          fill="none"
+          stroke="#898989"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+        <path
+          id="Path_7"
+          data-name="Path 7"
+          d="M4.5,27H17.442"
+          transform="translate(0 -9)"
+          fill="none"
+          stroke="#898989"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+        />
+      </g>
+    </svg>
+  );
+};
+
+export const MenuExit = () => {
+  return (
+    <svg
+      className="menu-exit"
+      xmlns="http://www.w3.org/2000/svg"
+      width="7.288"
+      height="12.746"
+      viewBox="0 0 7.288 12.746"
+    >
+      <path
+        id="Icon_ionic-ios-arrow-forward"
+        data-name="Icon ionic-ios-arrow-forward"
+        d="M16.337,12.567l-4.823-4.82a.907.907,0,0,1,0-1.286.919.919,0,0,1,1.29,0l5.465,5.461a.909.909,0,0,1,.027,1.256l-5.488,5.5a.911.911,0,0,1-1.29-1.286Z"
+        transform="translate(-11.246 -6.196)"
+        fill="#c4c4c4"
       />
     </svg>
   );

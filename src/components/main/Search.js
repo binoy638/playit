@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { setQuery } from "../../actions";
 import person from "../../assets/person.jpg";
-import { SearchIcon, Notifications, Settings } from "../../helper/svg";
+import { SearchIcon, Notifications, Settings, Menu } from "../../helper/svg";
 
 function Search() {
   const history = useHistory();
@@ -33,13 +33,20 @@ function Search() {
           </div>
         </form>
       </div>
-
+      <div class="logo-container">
+        <a class="logo" href="index.html">
+          Playit
+        </a>
+      </div>
       <div className="header-account-settings">
         <Notifications />
         <Settings />
         <div className="profile-pic-container">
           <img className="profile-pic" src={person} alt="" />
         </div>
+      </div>
+      <div class="menu-btn-mobile-tab click-effect" id="menu-btn-mobile-tab">
+        <Menu />
       </div>
     </header>
   );
