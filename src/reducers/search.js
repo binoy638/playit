@@ -1,6 +1,7 @@
-import { SEARCH } from "../actions/types";
+import { SEARCH, SET_QUERY } from "../actions/types";
 
 const initialStore = {
+  query: "",
   searchResult: [],
   loading: true,
   resultFound: false,
@@ -15,6 +16,10 @@ const SearchReducer = (state = initialStore, action) => {
     } else {
       return { ...state, loading: false, resultFound: false };
     }
+  }
+  if (action.type === SET_QUERY) {
+    const { query } = action.payload;
+    return { ...state, query };
   }
   return { ...state };
 };

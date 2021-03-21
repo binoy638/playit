@@ -1,3 +1,4 @@
 export const FETCH_DEFAULT_PLAYLISTS = "FETCH_DEFAULT_PLAYLISTS";
 export const SET_CURRENT_TRACK = "SET_CURRENT_TRACK";
 export const SEARCH = "SEARCH";
+export const SET_QUERY = "SET_QUERY";

@@ -1,7 +1,7 @@
 import React from "react";
-import { useContext } from "react";
-import { AppContext } from "../../App";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { setQuery } from "../../actions";
 import {
   Collections,
   Hotlists,
@@ -12,11 +12,11 @@ import {
 } from "../../helper/svg";
 
 function Sidebar() {
-  const { setQuery } = useContext(AppContext);
+  const dispatch = useDispatch();
   return (
     <aside className="sidebar">
       <div className="logo-container">
-        <Link to="/" onClick={() => setQuery("")}>
+        <Link to="/" onClick={() => dispatch(setQuery(""))}>
           <div className="logo">Playit</div>
         </Link>
       </div>

@@ -2,7 +2,6 @@ import Track from "./Track";
 import { useSelector } from "react-redux";
 
 function Home() {
-  // const { newtracks, toptracks } = useContext(AppContext);
   const { newRelease: newtracks, hotTracks: toptracks } = useSelector(
     (state) => state.defaultPlaylists
   );

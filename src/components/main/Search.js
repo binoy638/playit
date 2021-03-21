@@ -1,13 +1,15 @@
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { setQuery } from "../../actions";
 import person from "../../assets/person.jpg";
 import { SearchIcon, Notifications, Settings } from "../../helper/svg";
-import { AppContext } from "../../App";
 
 function Search() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { query } = useSelector((state) => state.search);
   const handleOnClick = () => history.push(`/search?query=${query}`);
-  const { query, setQuery } = useContext(AppContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     handleOnClick();
@@ -26,7 +28,7 @@ function Search() {
               className="search-input"
               placeholder="Search for songs, artists etc."
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => dispatch(setQuery(event.target.value))}
             />
           </div>
         </form>

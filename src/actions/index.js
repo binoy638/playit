@@ -6,7 +6,12 @@ import {
   searchTracksURL,
 } from "../api";
 import { shuffle } from "../helper/shuffle";
-import { FETCH_DEFAULT_PLAYLISTS, SET_CURRENT_TRACK, SEARCH } from "./types";
+import {
+  FETCH_DEFAULT_PLAYLISTS,
+  SET_CURRENT_TRACK,
+  SEARCH,
+  SET_QUERY,
+} from "./types";
 
 //Action Creator
 
@@ -48,5 +53,12 @@ export const search = (query) => async (dispatch) => {
   dispatch({
     type: SEARCH,
     payload,
+  });
+};
+
+export const setQuery = (query) => (dispatch) => {
+  dispatch({
+    type: SET_QUERY,
+    payload: { query },
   });
 };
