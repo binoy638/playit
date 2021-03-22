@@ -194,7 +194,8 @@ header {
   justify-content: space-between;
   align-items: center;
 
-  img {
+  svg {
+    cursor: pointer;
     width: 1.2rem;
     height: 1.2rem;
   }
@@ -226,6 +227,7 @@ header {
     gap: 1.5rem;
 
     .profile-pic {
+      cursor: pointer;
       width: 3rem;
       height: 3rem;
       border-radius: 50%;
@@ -295,6 +297,13 @@ header {
   }
 }
 
+.player-loading {
+  height: 0.2rem;
+  // transform: translateX(6%);
+  position: absolute;
+  background: var(--secondary-color);
+}
+
 .player {
   background: var(--music-player-color);
   width: 100%;
@@ -347,7 +356,8 @@ header {
       align-items: center;
       gap: 1rem;
 
-      img {
+      svg {
+        cursor: pointer;
         transform: scale(0.9);
       }
     }
@@ -381,12 +391,14 @@ header {
       align-items: center;
       gap: 2rem;
 
-      img {
+      svg {
+        cursor: pointer;
         width: 0.8rem;
         height: 0.8rem;
       }
 
       .other-options {
+        cursor: pointer;
         color: var(--primary-text-color);
         font-weight: bold;
         letter-spacing: 0.1rem;
@@ -396,6 +408,7 @@ header {
   }
 
   .full-min-player-toggle {
+    cursor: pointer;
     width: 1rem;
     height: 1rem;
   }

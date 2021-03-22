@@ -1,7 +1,5 @@
 import Home from "./Home";
 import SearchResult from "./SearchResult";
-// import { useContext } from "react";
-// import { AppContext } from "../../App";
 import Error from "../extra/Error";
 import { Switch, Route } from "react-router-dom";
 

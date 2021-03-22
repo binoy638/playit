@@ -1,5 +1,6 @@
 import Track from "./Track";
 import { useSelector } from "react-redux";
+// import { v4 as uuidv4 } from "uuid";
 
 function Home() {
   const { newRelease: newtracks, hotTracks: toptracks } = useSelector(
@@ -11,7 +12,7 @@ function Home() {
         <h1>New Releases</h1>
         <div className="song-list card-list">
           {newtracks.map((track) => (
-            <Track key={track.title} {...track} />
+            <Track key={track.id} {...track} />
           ))}
         </div>
       </section>
@@ -19,7 +20,7 @@ function Home() {
         <h1>Most Popular</h1>
         <div className="song-list card-list">
           {toptracks.map((track) => (
-            <Track key={track.title} {...track} />
+            <Track key={track.id} {...track} />
           ))}
         </div>
       </section>

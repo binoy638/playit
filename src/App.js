@@ -4,7 +4,7 @@ import Main from "./components/main/Main";
 import Player from "./components/player/Player";
 import Sidebar from "./components/sidebar/Sidebar";
 import Search from "./components/main/Search";
-import { Loading } from "./components/extra/loading";
+import { Loading, PlayerLoading } from "./components/extra/loading";
 import { fetchDefaultPlaylists } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -21,6 +21,10 @@ function App() {
 
   const { loading } = useSelector((state) => state.defaultPlaylists);
 
+  const { loading: playerLoading, percent, duration } = useSelector(
+    (state) => state.player
+  );
+
   if (loading) {
     return (
       <div className="App">
@@ -33,6 +37,15 @@ function App() {
       <div className="App">
         <Router>
           <div className="upper-section">
+            {playerLoading ? (
+              <PlayerLoading
+                widthPercent={percent}
+                transitionDuration={duration}
+              />
+            ) : (
+              ""
+            )}
+
             <Sidebar />
             <Search />
             <Main />

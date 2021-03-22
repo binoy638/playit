@@ -28,7 +28,10 @@ function Search() {
               className="search-input"
               placeholder="Search for songs, artists etc."
               value={query}
-              onChange={(event) => dispatch(setQuery(event.target.value))}
+              onChange={(event) => {
+                dispatch(setQuery(event.target.value));
+                // handleOnClick();
+              }}
             />
           </div>
         </form>

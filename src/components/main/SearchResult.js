@@ -5,6 +5,7 @@ import { TrackLoading } from "../extra/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { search } from "../../actions";
 import Error from "../extra/Error";
+// import { v4 as uuidv4 } from "uuid";
 
 function SearchResult({ location }) {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function SearchResult({ location }) {
           <section className="new-releases">
             <h1>Top Result</h1>
             <div className="song-list card-list">
-              <Track key={searchResult[0].title} {...searchResult[0]} />
+              <Track key={searchResult[0].id} {...searchResult[0]} />
             </div>
           </section>
 
@@ -44,7 +45,7 @@ function SearchResult({ location }) {
               {searchResult &&
                 searchResult
                   .slice(1)
-                  .map((track) => <Track key={track.title} {...track} />)}
+                  .map((track) => <Track key={track.id} {...track} />)}
             </div>
           </section>
         </>

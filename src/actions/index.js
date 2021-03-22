@@ -11,6 +11,7 @@ import {
   SET_CURRENT_TRACK,
   SEARCH,
   SET_QUERY,
+  SET_LOADING,
 } from "./types";
 
 //Action Creator
@@ -18,6 +19,7 @@ import {
 export const fetchDefaultPlaylists = () => async (dispatch) => {
   const { data: newRelease } = await axios.get(newReleaseURL);
   const { data: hotTracks } = await axios.get(hotTracksURL);
+
   dispatch({
     type: FETCH_DEFAULT_PLAYLISTS,
     payload: {
@@ -29,6 +31,7 @@ export const fetchDefaultPlaylists = () => async (dispatch) => {
 };
 
 export const setCurrentTrack = (payload) => async (dispatch) => {
+  dispatch(setPlayerLoading(true, 100, 2));
   const response = await axios.get(fetchVideoURL(payload.search_query));
   const videoid = response.data.id;
 
@@ -60,5 +63,12 @@ export const setQuery = (query) => (dispatch) => {
   dispatch({
     type: SET_QUERY,
     payload: { query },
+  });
+};
+
+export const setPlayerLoading = (loading, percent, duration) => (dispatch) => {
+  dispatch({
+    type: SET_LOADING,
+    payload: { loading, percent, duration },
   });
 };

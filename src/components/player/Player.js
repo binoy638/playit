@@ -11,7 +11,8 @@ import {
   Pause,
 } from "../../helper/svg";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setPlayerLoading } from "../../actions";
 
 const opts = {
   height: "0",
@@ -26,6 +27,7 @@ function Player() {
   const { title, artist, image, videoid } = useSelector(
     (state) => state.currentTrack
   );
+  const dispatch = useDispatch();
 
   const [isPlaying, setisPlaying] = useState(false);
 
@@ -35,9 +37,7 @@ function Player() {
 
   const playerRef = useRef(null);
 
-  //hook to fetch youtube video id
   useEffect(() => {
-    console.log("resetting the player");
     resetPlayer();
   }, [videoid]);
 
@@ -73,6 +73,9 @@ function Player() {
 
   //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
+    dispatch(setPlayerLoading(false, 0, 0));
+    console.log("player is ready");
+
     const c = event.target.getDuration();
     setDuration(c);
     if (isPlaying) {

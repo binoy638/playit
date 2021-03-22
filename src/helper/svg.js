@@ -3,12 +3,7 @@ import "../style/app.scss";
 
 export const Hotlists = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16.338"
-      height="21.784"
-      viewBox="0 0 16.338 21.784"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.338 21.784">
       <path
         id="Icon_awesome-fire"
         data-name="Icon awesome-fire"
@@ -21,12 +16,7 @@ export const Hotlists = () => {
 
 export const Albums = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="19.128"
-      height="19.128"
-      viewBox="0 0 19.128 19.128"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.128 19.128">
       <path
         id="Icon_material-album"
         data-name="Icon material-album"
@@ -137,8 +127,7 @@ export const Next = () => {
     <svg
       className="forward"
       xmlns="http://www.w3.org/2000/svg"
-      width="15.25"
-      height="15.25"
+      style={{ width: "1rem", height: "1rem" }}
       viewBox="0 0 15.25 15.25"
     >
       <path

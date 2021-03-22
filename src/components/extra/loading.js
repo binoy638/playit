@@ -61,3 +61,14 @@ export const TrackLoading = () => {
     </div>
   );
 };
+
+export const PlayerLoading = ({ widthPercent, transitionDuration }) => {
+  return (
+    <motion.div
+      initial={{ width: 0 }}
+      animate={{ width: `${widthPercent}%` }}
+      transition={{ duration: transitionDuration }}
+      className="player-loading"
+    ></motion.div>
+  );
+};
