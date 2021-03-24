@@ -122,9 +122,10 @@ export const Heart = () => {
     </svg>
   );
 };
-export const Next = () => {
+export const Next = ({ clickFunction }) => {
   return (
     <svg
+      onClick={() => clickFunction()}
       className="forward"
       xmlns="http://www.w3.org/2000/svg"
       style={{ width: "1rem", height: "1rem" }}

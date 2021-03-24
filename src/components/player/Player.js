@@ -19,7 +19,7 @@ const opts = {
   width: "0",
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
-    autoplay: 0,
+    autoplay: 1,
   },
 };
 
@@ -29,6 +29,8 @@ function Player() {
   );
   const dispatch = useDispatch();
 
+  const isFirstRun = useRef(true);
+
   const [isPlaying, setisPlaying] = useState(false);
 
   const [currentTime, setcurrentTime] = useState(0);
@@ -37,7 +39,23 @@ function Player() {
 
   const playerRef = useRef(null);
 
+  // useEffect(() => {
+  //   const id = setTimeout(() => {
+  //     resetPlayer();
+  //   }, 1000);
+  //   return () => {
+  //     if (id) {
+  //       clearTimeout(id);
+  //     }
+  //   };
+  // }, [videoid]);
+
   useEffect(() => {
+    if (isFirstRun.current) {
+      dispatch(setPlayerLoading(false, 0, 0));
+      isFirstRun.current = false;
+      return;
+    }
     resetPlayer();
   }, [videoid]);
 
@@ -73,28 +91,30 @@ function Player() {
 
   //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
-    dispatch(setPlayerLoading(false, 0, 0));
-    console.log("player is ready");
+    const duration = event.target.getDuration();
+    setDuration(duration);
 
-    const c = event.target.getDuration();
-    setDuration(c);
-    if (isPlaying) {
-      playerRef.current.internalPlayer.playVideo();
-    } else {
-      playerRef.current.internalPlayer.pauseVideo();
-    }
+    // if (isPlaying) {
+    //   playerRef.current.internalPlayer.playVideo();
+    // } else {
+    //   playerRef.current.internalPlayer.pauseVideo();
+    // }
   };
 
   //function to see if the video is playing or not and set our isPlaying state accordingly
   const playerStateHandler = (e) => {
-    // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    (video cued)
+    // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    5 (video cued)
+    // console.log(e);
+    if (e.data === 1) {
+      dispatch(setPlayerLoading(false, 0, 0));
+    }
     if (e.data === 0 || e.data === 2) {
       setisPlaying(false);
     } else if (e.data === 1 || e.data === 3) {
       setisPlaying(true);
     }
   };
-
+  // dispatch(setPlayerLoading(false, 0, 0));
   //function to make the slider work
   const seekHandler = (e) => {
     let time = e.target.value;

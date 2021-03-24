@@ -27,6 +27,7 @@ export const fetchDefaultPlaylists = () => async (dispatch) => {
       hotTracks: shuffle(hotTracks, 7),
     },
   });
+
   dispatch(setCurrentTrack(newRelease[0]));
 };
 
@@ -34,7 +35,6 @@ export const setCurrentTrack = (payload) => async (dispatch) => {
   dispatch(setPlayerLoading(true, 100, 2));
   const response = await axios.get(fetchVideoURL(payload.search_query));
   const videoid = response.data.id;
-
   dispatch({
     type: SET_CURRENT_TRACK,
     payload: { ...payload, videoid },
