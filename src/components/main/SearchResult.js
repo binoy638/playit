@@ -17,7 +17,6 @@ function SearchResult({ location }) {
   const { SearchLoading: loading } = useSelector((state) => state.loading);
 
   useEffect(() => {
-    console.log("inside searchresult useeffect");
     dispatch(search(query));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
