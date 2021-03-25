@@ -6,7 +6,7 @@ const initialStore = {
   artist: "",
   image: "",
   search_query: "",
-  videoid: "",
+  videoid: null,
 };
 
 const CurrentTrackReducer = (state = initialStore, action) => {

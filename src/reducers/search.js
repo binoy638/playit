@@ -3,7 +3,6 @@ import { SEARCH, SET_QUERY } from "../actions/types";
 const initialStore = {
   query: "",
   searchResult: [],
-  loading: true,
   resultFound: false,
 };
 
@@ -12,9 +11,9 @@ const SearchReducer = (state = initialStore, action) => {
     const { resultFound } = action.payload;
     if (resultFound) {
       const { searchResult } = action.payload;
-      return { ...state, searchResult, loading: false, resultFound };
+      return { ...state, searchResult, resultFound };
     } else {
-      return { ...state, loading: false, resultFound: false };
+      return { ...state, resultFound: false };
     }
   }
   if (action.type === SET_QUERY) {

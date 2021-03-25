@@ -12,9 +12,9 @@ function SearchResult({ location }) {
 
   const { query } = queryString.parse(location.search);
 
-  const { searchResult, loading, resultFound } = useSelector(
-    (state) => state.search
-  );
+  const { searchResult, resultFound } = useSelector((state) => state.search);
+
+  const { SearchLoading: loading } = useSelector((state) => state.loading);
 
   useEffect(() => {
     console.log("inside searchresult useeffect");

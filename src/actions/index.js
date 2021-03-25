@@ -11,7 +11,11 @@ import {
   SET_CURRENT_TRACK,
   SEARCH,
   SET_QUERY,
-  SET_LOADING,
+  SHOW_APP,
+  SHOW_SEARCH,
+  HIDE_SEARCH,
+  SHOW_PLAYER,
+  SHOW_TRACK_LOADING,
 } from "./types";
 
 //Action Creator
@@ -27,29 +31,31 @@ export const fetchDefaultPlaylists = () => async (dispatch) => {
       hotTracks: shuffle(hotTracks, 7),
     },
   });
-
-  dispatch(setCurrentTrack(newRelease[0]));
+  dispatch({ type: SHOW_APP });
 };
 
 export const setCurrentTrack = (payload) => async (dispatch) => {
-  dispatch(setPlayerLoading(true, 100, 2));
+  dispatch({ type: SHOW_TRACK_LOADING });
   const response = await axios.get(fetchVideoURL(payload.search_query));
   const videoid = response.data.id;
+  console.log("fetching current");
   dispatch({
     type: SET_CURRENT_TRACK,
     payload: { ...payload, videoid },
   });
+  dispatch({ type: SHOW_PLAYER });
 };
 
 export const search = (query) => async (dispatch) => {
+  dispatch({ type: HIDE_SEARCH });
+
   const response = await axios.get(searchTracksURL(query));
   let payload;
   if (response.data.statusCode === 404) {
-    payload = { searchResult: [], loading: false, resultFound: false };
+    payload = { searchResult: [], resultFound: false };
   } else {
     payload = {
       searchResult: response.data,
-      loading: false,
       resultFound: true,
     };
   }
@@ -57,18 +63,13 @@ export const search = (query) => async (dispatch) => {
     type: SEARCH,
     payload,
   });
+
+  dispatch({ type: SHOW_SEARCH });
 };
 
 export const setQuery = (query) => (dispatch) => {
   dispatch({
     type: SET_QUERY,
     payload: { query },
-  });
-};
-
-export const setPlayerLoading = (loading, percent, duration) => (dispatch) => {
-  dispatch({
-    type: SET_LOADING,
-    payload: { loading, percent, duration },
   });
 };

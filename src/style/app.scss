@@ -299,9 +299,13 @@ header {
 
 .player-loading {
   height: 0.2rem;
-  // transform: translateX(6%);
   position: absolute;
   background: var(--secondary-color);
+  top: 0;
+  left: 0;
+  right: 0;
+  // grid-column: 1 / span 3;
+  width: 100%;
 }
 
 .player {

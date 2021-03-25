@@ -1,23 +1,23 @@
-import { SET_LOADING } from "../actions/types";
+// import { SET_LOADING } from "../actions/types";
 
-const inititalStore = {
-  loading: false,
-  percent: 0,
-  duration: 0,
-};
+// const inititalStore = {
+//   loading: false,
+//   percent: 0,
+//   duration: 2,
+// };
 
-const playerReducer = (state = inititalStore, action) => {
-  if (action.type === SET_LOADING) {
-    const { loading, percent, duration } = action.payload;
+// const playerReducer = (state = inititalStore, action) => {
+//   if (action.type === SET_LOADING) {
+//     const { loading, percent, duration } = action.payload;
 
-    return {
-      ...state,
-      loading,
-      percent,
-      duration,
-    };
-  }
-  return { ...state };
-};
+//     return {
+//       ...state,
+//       loading,
+//       percent,
+//       duration,
+//     };
+//   }
+//   return { ...state };
+// };
 
-export default playerReducer;
+// export default playerReducer;

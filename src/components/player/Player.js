@@ -12,13 +12,14 @@ import {
 } from "../../helper/svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setPlayerLoading } from "../../actions";
+import { motion } from "framer-motion";
+import { PlayerLoading } from "../extra/loading";
+import { HIDE_TRACK_LOADING } from "../../actions/types";
 
 const opts = {
   height: "0",
   width: "0",
   playerVars: {
-    // https://developers.google.com/youtube/player_parameters
     autoplay: 1,
   },
 };
@@ -27,6 +28,9 @@ function Player() {
   const { title, artist, image, videoid } = useSelector(
     (state) => state.currentTrack
   );
+
+  const { TrackLoading } = useSelector((state) => state.loading);
+
   const dispatch = useDispatch();
 
   const isFirstRun = useRef(true);
@@ -39,20 +43,8 @@ function Player() {
 
   const playerRef = useRef(null);
 
-  // useEffect(() => {
-  //   const id = setTimeout(() => {
-  //     resetPlayer();
-  //   }, 1000);
-  //   return () => {
-  //     if (id) {
-  //       clearTimeout(id);
-  //     }
-  //   };
-  // }, [videoid]);
-
   useEffect(() => {
     if (isFirstRun.current) {
-      dispatch(setPlayerLoading(false, 0, 0));
       isFirstRun.current = false;
       return;
     }
@@ -91,14 +83,14 @@ function Player() {
 
   //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
+    // if (playerFirstLoad.current) {
+    //   console.log("inside playerfirst");
+    // dispatch(setAppLoading(false));
+    //   playerFirstLoad.current = false;
+    //   return;
+    // }
     const duration = event.target.getDuration();
     setDuration(duration);
-
-    // if (isPlaying) {
-    //   playerRef.current.internalPlayer.playVideo();
-    // } else {
-    //   playerRef.current.internalPlayer.pauseVideo();
-    // }
   };
 
   //function to see if the video is playing or not and set our isPlaying state accordingly
@@ -106,7 +98,7 @@ function Player() {
     // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    5 (video cued)
     // console.log(e);
     if (e.data === 1) {
-      dispatch(setPlayerLoading(false, 0, 0));
+      dispatch({ type: HIDE_TRACK_LOADING });
     }
     if (e.data === 0 || e.data === 2) {
       setisPlaying(false);
@@ -114,7 +106,7 @@ function Player() {
       setisPlaying(true);
     }
   };
-  // dispatch(setPlayerLoading(false, 0, 0));
+
   //function to make the slider work
   const seekHandler = (e) => {
     let time = e.target.value;
@@ -130,15 +122,36 @@ function Player() {
   };
 
   return (
-    <section className="player">
-      <YouTube
-        videoId={videoid}
-        opts={opts}
-        onReady={_onReady}
-        onStateChange={(e) => playerStateHandler(e)}
-        onEnd={resetPlayer}
-        ref={playerRef}
-      />
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        transition: {
+          ease: "easeOut",
+          duration: 1,
+        },
+      }}
+      className="player"
+    >
+      {TrackLoading ? (
+        <PlayerLoading widthPercent={100} transitionDuration={2} />
+      ) : (
+        ""
+      )}
+
+      {videoid ? (
+        <YouTube
+          videoId={videoid}
+          opts={opts}
+          onReady={_onReady}
+          onStateChange={(e) => playerStateHandler(e)}
+          onEnd={resetPlayer}
+          ref={playerRef}
+        />
+      ) : (
+        ""
+      )}
+
       <div className="current-song-info">
         <img src={image} alt="" />
         <div>
@@ -188,7 +201,7 @@ function Player() {
       </div>
 
       <ArrowUp />
-    </section>
+    </motion.section>
   );
 }
 
