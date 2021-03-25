@@ -33,8 +33,6 @@ function Player() {
 
   const dispatch = useDispatch();
 
-  const isFirstRun = useRef(true);
-
   const [isPlaying, setisPlaying] = useState(false);
 
   const [currentTime, setcurrentTime] = useState(0);
@@ -44,10 +42,6 @@ function Player() {
   const playerRef = useRef(null);
 
   useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
     resetPlayer();
   }, [videoid]);
 
@@ -83,12 +77,6 @@ function Player() {
 
   //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
-    // if (playerFirstLoad.current) {
-    //   console.log("inside playerfirst");
-    // dispatch(setAppLoading(false));
-    //   playerFirstLoad.current = false;
-    //   return;
-    // }
     const duration = event.target.getDuration();
     setDuration(duration);
   };
@@ -96,8 +84,7 @@ function Player() {
   //function to see if the video is playing or not and set our isPlaying state accordingly
   const playerStateHandler = (e) => {
     // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    5 (video cued)
-    // console.log(e);
-    if (e.data === 1) {
+    if (e.data === 1 || e.data === -1) {
       dispatch({ type: HIDE_TRACK_LOADING });
     }
     if (e.data === 0 || e.data === 2) {

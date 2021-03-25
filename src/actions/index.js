@@ -43,6 +43,7 @@ export const setCurrentTrack = (payload) => async (dispatch) => {
     type: SET_CURRENT_TRACK,
     payload: { ...payload, videoid },
   });
+
   dispatch({ type: SHOW_PLAYER });
 };
 
