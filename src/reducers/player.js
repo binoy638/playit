@@ -1,23 +1,41 @@
-// import { SET_LOADING } from "../actions/types";
+import {
+  SET_PLAYLIST,
+  CURRENT_TRACK,
+  NEXT_TRACK,
+  PREVIOUS_TRACK,
+} from "../actions/types";
+import Playlist from "../helper/playlist";
 
-// const inititalStore = {
-//   loading: false,
-//   percent: 0,
-//   duration: 2,
-// };
+const inititalStore = {
+  playlist: new Playlist(),
+  current: null,
+  next: null,
+  previous: null,
+};
 
-// const playerReducer = (state = inititalStore, action) => {
-//   if (action.type === SET_LOADING) {
-//     const { loading, percent, duration } = action.payload;
+const playerReducer = (state = inititalStore, action) => {
+  switch (action.type) {
+    case SET_PLAYLIST:
+      const { playlist: pl, index } = action.payload;
+      const playlist = new Playlist(pl, index);
+      return {
+        ...state,
+        playlist,
+        current: playlist.getCurrent(),
+        next: playlist.getNext(),
+        previous: playlist.getPrevious(),
+      };
+    case CURRENT_TRACK:
+      const current = state.playlist.getCurrent();
+      return { ...state, current };
+    case NEXT_TRACK:
+      state.playlist.skipTrack();
+      return { ...state, current: state.playlist.getCurrent() };
+    case PREVIOUS_TRACK:
+      return { ...state, previous: state.playlist.getPrevious() };
+    default:
+      return { ...state };
+  }
+};
 
-//     return {
-//       ...state,
-//       loading,
-//       percent,
-//       duration,
-//     };
-//   }
-//   return { ...state };
-// };
-
-// export default playerReducer;
+export default playerReducer;

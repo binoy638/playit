@@ -16,6 +16,10 @@ import {
   HIDE_SEARCH,
   SHOW_PLAYER,
   SHOW_TRACK_LOADING,
+  SET_PLAYLIST,
+  CURRENT_TRACK,
+  NEXT_TRACK,
+  PREVIOUS_TRACK,
 } from "./types";
 
 //Action Creator
@@ -38,7 +42,6 @@ export const setCurrentTrack = (payload) => async (dispatch) => {
   dispatch({ type: SHOW_TRACK_LOADING });
   const response = await axios.get(fetchVideoURL(payload.search_query));
   const videoid = response.data.id;
-  console.log("fetching current");
   dispatch({
     type: SET_CURRENT_TRACK,
     payload: { ...payload, videoid },
@@ -72,5 +75,30 @@ export const setQuery = (query) => (dispatch) => {
   dispatch({
     type: SET_QUERY,
     payload: { query },
+  });
+};
+
+export const setPlaylist = (payload) => (dispatch) => {
+  dispatch({
+    type: SET_PLAYLIST,
+    payload,
+  });
+};
+
+export const currentTrack = () => (dispatch) => {
+  dispatch({
+    type: CURRENT_TRACK,
+  });
+};
+
+export const nextTrack = () => (dispatch) => {
+  dispatch({
+    type: NEXT_TRACK,
+  });
+};
+
+export const previousTrack = () => (dispatch) => {
+  dispatch({
+    type: PREVIOUS_TRACK,
   });
 };

@@ -34,7 +34,12 @@ function SearchResult({ location }) {
           <section className="new-releases">
             <h1>Top Result</h1>
             <div className="song-list card-list">
-              <Track key={searchResult[0].id} {...searchResult[0]} />
+              <Track
+                key={searchResult[0].id}
+                index={0}
+                playlist={searchResult}
+                {...searchResult[0]}
+              />
             </div>
           </section>
 
@@ -44,7 +49,14 @@ function SearchResult({ location }) {
               {searchResult &&
                 searchResult
                   .slice(1)
-                  .map((track) => <Track key={track.id} {...track} />)}
+                  .map((track, index) => (
+                    <Track
+                      key={track.id}
+                      index={index}
+                      playlist={searchResult}
+                      {...track}
+                    />
+                  ))}
             </div>
           </section>
         </>

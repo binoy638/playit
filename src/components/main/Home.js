@@ -11,16 +11,26 @@ function Home() {
       <section className="new-releases">
         <h1>New Releases</h1>
         <div className="song-list card-list">
-          {newtracks.map((track) => (
-            <Track key={track.id} {...track} />
+          {newtracks.map((track, index) => (
+            <Track
+              key={track.id}
+              index={index}
+              playlist={newtracks}
+              {...track}
+            />
           ))}
         </div>
       </section>
       <section className="most-popular">
         <h1>Most Popular</h1>
         <div className="song-list card-list">
-          {toptracks.map((track) => (
-            <Track key={track.id} {...track} />
+          {toptracks.map((track, index) => (
+            <Track
+              key={track.id}
+              index={index}
+              playlist={toptracks}
+              {...track}
+            />
           ))}
         </div>
       </section>

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { PlayerLoading } from "../extra/loading";
 import { HIDE_TRACK_LOADING } from "../../actions/types";
+import { nextTrack, setCurrentTrack } from "../../actions";
 
 const opts = {
   height: "0",
@@ -30,6 +31,8 @@ function Player() {
   );
 
   const { TrackLoading } = useSelector((state) => state.loading);
+
+  const { current } = useSelector((state) => state.player);
 
   const dispatch = useDispatch();
 
@@ -49,6 +52,10 @@ function Player() {
     playerRef.current.resetPlayer();
     setcurrentTime(0);
   };
+
+  useEffect(() => {
+    dispatch(setCurrentTrack(current));
+  }, [current]);
 
   //hook to make the player silder move
   useEffect(() => {
@@ -156,7 +163,11 @@ function Player() {
             <Play clickFunction={isplayinghandler} />
           )}
 
-          <Next />
+          <Next
+            clickFunction={() => {
+              dispatch(nextTrack());
+            }}
+          />
         </div>
 
         <div className="main-controller">

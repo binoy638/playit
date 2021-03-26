@@ -3,13 +3,13 @@ import DefaultPlaylistReducer from "./DefaultPlaylistReducer";
 import CurrentTrackReducer from "./CurrentTrack";
 import SearchReducer from "./search";
 import LoadingReducer from "./loading";
-// import playerReducer from "./player";
+import playerReducer from "./player";
 
 const rootReducer = combineReducers({
   defaultPlaylists: DefaultPlaylistReducer,
   currentTrack: CurrentTrackReducer,
   search: SearchReducer,
-  // player: playerReducer,
+  player: playerReducer,
   loading: LoadingReducer,
 });
 

@@ -3,18 +3,24 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 
 //actions
-import { setCurrentTrack } from "../../actions";
+import { setCurrentTrack, setPlaylist } from "../../actions";
 
-function Track({ id, artist, title, image, search_query }) {
+function Track({ index, id, artist, title, image, search_query, playlist }) {
   const dispatch = useDispatch();
 
   const { id: currentTrackID } = useSelector((state) => state.currentTrack);
 
-  const setTrack = async () => {
+  const setTrack = () => {
     if (currentTrackID !== id) {
       dispatch(setCurrentTrack({ id, artist, title, image, search_query }));
+
+      dispatch(setPlaylist({ playlist, index }));
+
+      // dispatch(currentTrack());
+      // dispatch(nextTrack());
     }
   };
+
   return (
     <div className="song-info card">
       <div className="thumbnail-container">
