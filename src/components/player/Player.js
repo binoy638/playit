@@ -50,7 +50,7 @@ function Player() {
 
   useEffect(() => {
     resetPlayer();
-  }, [current]);
+  }, [current, videoid]);
 
   const resetPlayer = () => {
     playerRef.current.resetPlayer();

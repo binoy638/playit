@@ -11,7 +11,6 @@ const SearchReducer = (state = initialStore, action) => {
     const { resultFound } = action.payload;
     if (resultFound) {
       const { searchResult } = action.payload;
-      console.log(searchResult);
       return { ...state, searchResult, resultFound };
     } else {
       return { ...state, resultFound: false };
