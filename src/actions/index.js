@@ -50,10 +50,12 @@ export const setCurrentTrack = (payload) => async (dispatch) => {
   dispatch({ type: SHOW_PLAYER });
 };
 
-export const search = (query) => async (dispatch) => {
-  dispatch({ type: HIDE_SEARCH });
+export const search = (query, cancelToken) => async (dispatch) => {
+  dispatch({ type: HIDE_SEARCH }); //hide search loading spinner
 
-  const response = await axios.get(searchTracksURL(query));
+  const response = await axios.get(searchTracksURL(query), {
+    cancelToken: cancelToken.token,
+  });
   let payload;
   if (response.data.statusCode === 404) {
     payload = { searchResult: [], resultFound: false };

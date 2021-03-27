@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { PlayerLoading } from "../extra/loading";
 import { HIDE_TRACK_LOADING } from "../../actions/types";
-import { nextTrack, setCurrentTrack } from "../../actions";
+import { nextTrack, previousTrack, setCurrentTrack } from "../../actions";
 
 const opts = {
   height: "0",
@@ -35,6 +35,8 @@ function Player() {
   const { current } = useSelector((state) => state.player);
 
   const dispatch = useDispatch();
+
+  const [volume, setVolume] = useState(100);
 
   const [isPlaying, setisPlaying] = useState(false);
 
@@ -115,6 +117,13 @@ function Player() {
     );
   };
 
+  const onEnd = () => dispatch(nextTrack());
+
+  const volumeControlHandler = (e) => {
+    setVolume(e.target.value);
+    playerRef.current.internalPlayer.setVolume(volume);
+  };
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -138,8 +147,8 @@ function Player() {
           videoId={videoid}
           opts={opts}
           onReady={_onReady}
-          onStateChange={(e) => playerStateHandler(e)}
-          onEnd={resetPlayer}
+          onStateChange={playerStateHandler}
+          onEnd={onEnd}
           ref={playerRef}
         />
       ) : (
@@ -156,7 +165,7 @@ function Player() {
 
       <div className="music-controller">
         <div className="play-fo-back-controller">
-          <Previous />
+          <Previous clickFunction={() => dispatch(previousTrack())} />
           {isPlaying ? (
             <Pause clickFunction={isplayinghandler} />
           ) : (
@@ -182,7 +191,6 @@ function Player() {
               onChange={seekHandler}
               value={Math.ceil(currentTime)}
               className="slider"
-              id="myRange"
             />
           </div>
           <p className="total-duration">
@@ -192,6 +200,14 @@ function Player() {
 
         <div className="interactivity">
           <Volume />
+          <input
+            type="range"
+            min={0}
+            max={100}
+            onChange={(e) => volumeControlHandler(e)}
+            value={volume}
+            className="volume-slider"
+          />
           <OutlineHeart />
           <Loop />
           <div className="other-options">...</div>

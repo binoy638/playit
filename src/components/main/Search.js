@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { setQuery } from "../../actions";
@@ -6,35 +7,36 @@ import { SearchIcon, Notifications, Settings, Menu } from "../../helper/svg";
 
 function Search() {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { query } = useSelector((state) => state.search);
-  const handleOnClick = () => history.push(`/search?query=${query}`);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleOnClick();
-  };
+  const dispatch = useDispatch();
+
+  const { query } = useSelector((state) => state.search);
+
+  useEffect(() => {
+    if (query) {
+      history.replace(`/search?query=${query}`);
+    } else {
+      history.push("/");
+    }
+  }, [query]);
+
   return (
     <header>
       <div className="search-container">
         <div className="search-btn">
           <SearchIcon />
         </div>
-
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div className="search-input">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search for songs, artists etc."
-              value={query}
-              onChange={(event) => {
-                dispatch(setQuery(event.target.value));
-                // handleOnClick();
-              }}
-            />
-          </div>
-        </form>
+        <div className="search-input">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search for songs, artists etc."
+            value={query}
+            onChange={(event) => {
+              dispatch(setQuery(event.target.value));
+            }}
+          />
+        </div>
       </div>
       <div class="logo-container">
         <a class="logo" href="index.html">

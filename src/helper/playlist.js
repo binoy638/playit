@@ -37,6 +37,18 @@ class Playlist {
     this.next = null;
     return;
   }
+  previousTrack() {
+    if (this.currentIndex > 0) {
+      this.currentIndex -= 1;
+      this.setCNP();
+      if (this.currentIndex === 0) {
+        this.previous = null;
+      }
+      return;
+    }
+    this.previous = null;
+    return;
+  }
   getCurrent() {
     return this.current;
   }

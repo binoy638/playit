@@ -65,9 +65,10 @@ export const Artists = () => {
   );
 };
 
-export const Previous = () => {
+export const Previous = ({ clickFunction }) => {
   return (
     <svg
+      onClick={clickFunction}
       className="backward"
       xmlns="http://www.w3.org/2000/svg"
       width="15.25"
@@ -125,7 +126,7 @@ export const Heart = () => {
 export const Next = ({ clickFunction }) => {
   return (
     <svg
-      onClick={() => clickFunction()}
+      onClick={clickFunction}
       className="forward"
       xmlns="http://www.w3.org/2000/svg"
       style={{ width: "1rem", height: "1rem" }}
@@ -202,7 +203,7 @@ export const Play = ({ clickFunction }) => {
       width="45.832"
       height="45.832"
       viewBox="0 0 45.832 45.832"
-      onClick={() => clickFunction()}
+      onClick={clickFunction}
     >
       <path
         id="Icon_material-play-circle-filled"

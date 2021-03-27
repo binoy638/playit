@@ -32,7 +32,8 @@ const playerReducer = (state = inititalStore, action) => {
       state.playlist.skipTrack();
       return { ...state, current: state.playlist.getCurrent() };
     case PREVIOUS_TRACK:
-      return { ...state, previous: state.playlist.getPrevious() };
+      state.playlist.previousTrack();
+      return { ...state, current: state.playlist.getCurrent() };
     default:
       return { ...state };
   }

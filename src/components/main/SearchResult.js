@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import queryString from "query-string";
 import Track from "./Track";
 import { TrackLoading } from "../extra/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { search } from "../../actions";
 import Error from "../extra/Error";
-// import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 function SearchResult({ location }) {
   const dispatch = useDispatch();
@@ -16,8 +16,15 @@ function SearchResult({ location }) {
 
   const { SearchLoading: loading } = useSelector((state) => state.loading);
 
+  const cancelToken = useRef();
+
   useEffect(() => {
-    dispatch(search(query));
+    if (typeof cancelToken.current != typeof undefined) {
+      cancelToken.current.cancel("Canceling the previous req");
+    }
+    cancelToken.current = axios.CancelToken.source();
+
+    dispatch(search(query, cancelToken.current));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
@@ -52,7 +59,7 @@ function SearchResult({ location }) {
                   .map((track, index) => (
                     <Track
                       key={track.id}
-                      index={index}
+                      index={index + 1}
                       playlist={searchResult}
                       {...track}
                     />

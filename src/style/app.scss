@@ -389,6 +389,22 @@ header {
         }
       }
     }
+    .volume-slider {
+      width: 5rem;
+      height: 3px;
+      display: none;
+      // -webkit-appearance: none;
+    }
+    // input[type="range"]::-moz-range-thumb {
+    //   -webkit-appearance: none;
+    //   background: transparent;
+    //   border: none;
+    // }
+    // input[type="range"]::-webkit-slider-thumb {
+    //   -webkit-appearance: none;
+    //   height: 16px;
+    //   width: 16px;
+    // }
 
     .interactivity {
       display: flex;

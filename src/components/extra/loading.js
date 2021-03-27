@@ -11,7 +11,7 @@ export const Loading = () => {
           borderRadius: ["20%", "20%", "50%", "50%", "20%"],
           transition: {
             duration: 3,
-            yoyo: Infinity,
+            repeat: Infinity,
           },
         }}
         className="circle"
@@ -23,7 +23,7 @@ export const Loading = () => {
           borderRadius: ["20%", "20%", "50%", "50%", "20%"],
           transition: {
             duration: 3,
-            yoyo: Infinity,
+            repeat: Infinity,
           },
         }}
         className="circle"
@@ -35,7 +35,7 @@ export const Loading = () => {
           borderRadius: ["20%", "20%", "50%", "50%", "20%"],
           transition: {
             duration: 3,
-            yoyo: Infinity,
+            repeat: Infinity,
           },
         }}
         className="circle"
@@ -51,7 +51,7 @@ export const TrackLoading = () => {
         animate={{
           rotate: 360,
           transition: {
-            loop: Infinity,
+            repeat: Infinity,
             duration: 1,
             ease: "linear",
           },
