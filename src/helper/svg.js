@@ -327,9 +327,10 @@ export const Settings = () => {
     </svg>
   );
 };
-export const Volume = () => {
+export const Volume = ({ clickFunction }) => {
   return (
     <svg
+      onClick={clickFunction}
       xmlns="http://www.w3.org/2000/svg"
       width="17.678"
       height="18"

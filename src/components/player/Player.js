@@ -38,6 +38,8 @@ function Player() {
 
   const [volume, setVolume] = useState(100);
 
+  const [showVolControl, setShowVolControl] = useState(false);
+
   const [isPlaying, setisPlaying] = useState(false);
 
   const [currentTime, setcurrentTime] = useState(0);
@@ -48,7 +50,7 @@ function Player() {
 
   useEffect(() => {
     resetPlayer();
-  }, [videoid]);
+  }, [current]);
 
   const resetPlayer = () => {
     playerRef.current.resetPlayer();
@@ -199,15 +201,24 @@ function Player() {
         </div>
 
         <div className="interactivity">
-          <Volume />
-          <input
-            type="range"
-            min={0}
-            max={100}
-            onChange={(e) => volumeControlHandler(e)}
-            value={volume}
-            className="volume-slider"
-          />
+          <div className="volume-control">
+            <Volume
+              clickFunction={() => {
+                setShowVolControl(!showVolControl);
+              }}
+            />
+            {showVolControl && (
+              <input
+                type="range"
+                min={0}
+                max={100}
+                onChange={(e) => volumeControlHandler(e)}
+                value={volume}
+                className="volume-slider"
+              />
+            )}
+          </div>
+
           <OutlineHeart />
           <Loop />
           <div className="other-options">...</div>

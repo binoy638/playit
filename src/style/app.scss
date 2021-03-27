@@ -389,12 +389,7 @@ header {
         }
       }
     }
-    .volume-slider {
-      width: 5rem;
-      height: 3px;
-      display: none;
-      // -webkit-appearance: none;
-    }
+
     // input[type="range"]::-moz-range-thumb {
     //   -webkit-appearance: none;
     //   background: transparent;
@@ -410,7 +405,16 @@ header {
       display: flex;
       align-items: center;
       gap: 2rem;
-
+      .volume-control {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        .volume-slider {
+          width: 4rem;
+          height: 3px;
+          cursor: pointer;
+        }
+      }
       svg {
         cursor: pointer;
         width: 0.8rem;
