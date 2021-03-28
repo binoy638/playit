@@ -46,18 +46,12 @@ function Player() {
 
   const [duration, setDuration] = useState(0);
 
+  const onReadyPlayerRef = useRef(null);
+
   const playerRef = useRef(null);
 
   useEffect(() => {
-    resetPlayer();
-  }, [current, videoid]);
-
-  const resetPlayer = () => {
-    playerRef.current.resetPlayer();
     setcurrentTime(0);
-  };
-
-  useEffect(() => {
     dispatch(setCurrentTrack(current));
   }, [current]);
 
@@ -90,6 +84,8 @@ function Player() {
   const _onReady = (event) => {
     const duration = event.target.getDuration();
     setDuration(duration);
+    onReadyPlayerRef.current = event.target;
+    setisPlaying(true);
   };
 
   //function to see if the video is playing or not and set our isPlaying state accordingly
@@ -119,7 +115,14 @@ function Player() {
     );
   };
 
-  const onEnd = () => dispatch(nextTrack());
+  const onEnd = () => {
+    dispatch(nextTrack());
+  };
+
+  const onPlay = () => {
+    const duration = onReadyPlayerRef.current.getDuration();
+    setDuration(duration);
+  };
 
   const volumeControlHandler = (e) => {
     setVolume(e.target.value);
@@ -151,6 +154,7 @@ function Player() {
           onReady={_onReady}
           onStateChange={playerStateHandler}
           onEnd={onEnd}
+          onPlay={onPlay}
           ref={playerRef}
         />
       ) : (
