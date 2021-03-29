@@ -4,6 +4,7 @@ import {
   hotTracksURL,
   fetchVideoURL,
   searchTracksURL,
+  ArtistInfoURL,
 } from "../api";
 import { shuffle } from "../helper/shuffle";
 import {
@@ -21,6 +22,10 @@ import {
   NEXT_TRACK,
   PREVIOUS_TRACK,
   LOOP,
+  SEARCH_BAR_FOCUS,
+  FETCH_ARTIST_INFO,
+  HIDE_ARTIST_PAGE,
+  SHOW_ARTIST_PAGE,
 } from "./types";
 
 //Action Creator
@@ -37,6 +42,25 @@ export const fetchDefaultPlaylists = () => async (dispatch) => {
     },
   });
   dispatch({ type: SHOW_APP });
+};
+
+export const fetchArtistInfo = (id) => async (dispatch) => {
+  dispatch({
+    type: HIDE_ARTIST_PAGE,
+  });
+  const { data } = await axios.get(ArtistInfoURL(id));
+  if (data.statusCode === 500) {
+    //TODO: SHOW NOT FOUND
+    return;
+  }
+
+  dispatch({
+    type: FETCH_ARTIST_INFO,
+    payload: data,
+  });
+  dispatch({
+    type: SHOW_ARTIST_PAGE,
+  });
 };
 
 export const setCurrentTrack = (payload) => async (dispatch) => {
@@ -109,6 +133,13 @@ export const previousTrack = () => (dispatch) => {
 export const setLoop = (bool) => (dispatch) => {
   dispatch({
     type: LOOP,
+    payload: bool,
+  });
+};
+
+export const setSearchBarFocus = (bool) => (dispatch) => {
+  dispatch({
+    type: SEARCH_BAR_FOCUS,
     payload: bool,
   });
 };

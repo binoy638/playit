@@ -475,6 +475,23 @@ header {
   height: 50vh;
 }
 
+.artist-info {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  img {
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+  }
+  .genres {
+    display: flex;
+    background-color: yellow;
+  }
+}
+
 // Media Queries for Responsive Design
 
 @media only screen and (max-width: 500px) {

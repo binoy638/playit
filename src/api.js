@@ -7,3 +7,4 @@ export const fetchVideoURL = (query) =>
   `${BASE_URL}/search/videoid?query=${query} (lyrics)`;
 export const searchTracksURL = (query) =>
   `${BASE_URL}/search/track?query=${query}`;
+export const ArtistInfoURL = (id) => `${BASE_URL}/search/artist/${id}`;

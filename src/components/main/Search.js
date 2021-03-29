@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { setQuery } from "../../actions";
+import { setQuery, setSearchBarFocus } from "../../actions";
 import person from "../../assets/person.jpg";
 import { SearchIcon, Notifications, Settings, Menu } from "../../helper/svg";
 
@@ -10,15 +10,17 @@ function Search() {
 
   const dispatch = useDispatch();
 
-  const { query } = useSelector((state) => state.search);
+  const { query, isSearchFocused } = useSelector((state) => state.search);
 
   useEffect(() => {
-    if (query) {
-      history.replace(`/search?query=${query}`);
-    } else {
-      history.push("/");
+    if (isSearchFocused) {
+      if (query) {
+        history.replace(`/search?query=${query}`);
+      } else {
+        history.replace("/");
+      }
     }
-  }, [query]);
+  }, [query, history, isSearchFocused]);
 
   return (
     <header>
@@ -28,6 +30,8 @@ function Search() {
         </div>
         <div className="search-input">
           <input
+            onFocus={() => dispatch(setSearchBarFocus(true))}
+            onBlur={() => dispatch(setSearchBarFocus(false))}
             type="text"
             className="search-input"
             placeholder="Search for songs, artists etc."
