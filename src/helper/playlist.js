@@ -25,6 +25,11 @@ class Playlist {
       if (this.loop && this.currentIndex === this.totalTracks - 1) {
         this.currentIndex = -1;
       }
+    } else {
+      if (this.loop && this.currentIndex === this.totalTracks - 1) {
+        this.currentIndex = 0;
+        this.setCurrentTrack();
+      }
     }
   }
 

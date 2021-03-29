@@ -17,6 +17,9 @@ const playerReducer = (state = inititalStore, action) => {
     case SET_PLAYLIST:
       const { playlist: pl, index } = action.payload;
       const playlist = new Playlist(pl, index);
+      if (state.loop) {
+        playlist.setLoop(true);
+      }
       return {
         ...state,
         playlist,
