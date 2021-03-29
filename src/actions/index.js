@@ -32,8 +32,8 @@ export const fetchDefaultPlaylists = () => async (dispatch) => {
   dispatch({
     type: FETCH_DEFAULT_PLAYLISTS,
     payload: {
-      newRelease: shuffle(newRelease, 7),
-      hotTracks: shuffle(hotTracks, 7),
+      newRelease: shuffle(newRelease),
+      hotTracks: shuffle(hotTracks),
     },
   });
   dispatch({ type: SHOW_APP });

@@ -60,6 +60,7 @@ function Player() {
 
   useEffect(() => {
     setcurrentTime(0);
+    setDuration(0);
     dispatch(setCurrentTrack(current));
   }, [current]);
 
@@ -140,8 +141,10 @@ function Player() {
   };
 
   const onPlay = () => {
-    const duration = onReadyPlayerRef.current.getDuration();
-    setDuration(duration);
+    setTimeout(() => {
+      const duration = onReadyPlayerRef.current.getDuration();
+      setDuration(duration);
+    }, 500);
   };
 
   const volumeControlHandler = (e) => {
