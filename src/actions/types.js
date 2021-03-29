@@ -17,3 +17,4 @@ export const CURRENT_TRACK = "CURRENT_TRACK";
 export const NEXT_TRACK = "NEXT_TRACK";
 export const PREVIOUS_TRACK = "PREVIOUS_TRACK";
 export const SKIP_TRACK = "SKIP_TRACK";
+export const LOOP = "LOOP";

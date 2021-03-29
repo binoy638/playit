@@ -9,13 +9,19 @@ import {
   Loop,
   ArrowUp,
   Pause,
+  Mute,
 } from "../../helper/svg";
 
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { PlayerLoading } from "../extra/loading";
 import { HIDE_TRACK_LOADING } from "../../actions/types";
-import { nextTrack, previousTrack, setCurrentTrack } from "../../actions";
+import {
+  nextTrack,
+  previousTrack,
+  setCurrentTrack,
+  setLoop,
+} from "../../actions";
 
 const opts = {
   height: "0",
@@ -32,11 +38,11 @@ function Player() {
 
   const { TrackLoading } = useSelector((state) => state.loading);
 
-  const { current } = useSelector((state) => state.player);
+  const { current, loop } = useSelector((state) => state.player);
 
   const dispatch = useDispatch();
 
-  const [volume, setVolume] = useState(100);
+  const [volume, setVolume] = useState();
 
   const [showVolControl, setShowVolControl] = useState(false);
 
@@ -49,6 +55,8 @@ function Player() {
   const onReadyPlayerRef = useRef(null);
 
   const playerRef = useRef(null);
+
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     setcurrentTime(0);
@@ -76,12 +84,24 @@ function Player() {
     };
   }, [isPlaying]); //this hook runs only when the track is paused or resume
 
+  useEffect(() => {
+    if (volume <= 1) {
+      setIsMuted(true);
+      playerRef.current.internalPlayer.mute();
+    } else {
+      setIsMuted(false);
+      playerRef.current.internalPlayer.unMute();
+    }
+  }, [volume]);
+
   const isplayinghandler = () => {
     setisPlaying(!isPlaying);
   };
 
   //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
+    setVolume(event.target.getVolume());
+    setIsMuted(event.target.isMuted());
     const duration = event.target.getDuration();
     setDuration(duration);
     onReadyPlayerRef.current = event.target;
@@ -129,6 +149,13 @@ function Player() {
     playerRef.current.internalPlayer.setVolume(volume);
   };
 
+  //TODO: Make an enopoint to grab another videoid
+  const onError = (e) => {
+    if (e.data === 150) {
+      console.log("error");
+      dispatch(nextTrack());
+    }
+  };
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -155,6 +182,7 @@ function Player() {
           onStateChange={playerStateHandler}
           onEnd={onEnd}
           onPlay={onPlay}
+          onError={onError}
           ref={playerRef}
         />
       ) : (
@@ -206,11 +234,20 @@ function Player() {
 
         <div className="interactivity">
           <div className="volume-control">
-            <Volume
-              clickFunction={() => {
-                setShowVolControl(!showVolControl);
-              }}
-            />
+            {isMuted ? (
+              <Mute
+                clickFunction={() => {
+                  setShowVolControl(!showVolControl);
+                }}
+              />
+            ) : (
+              <Volume
+                clickFunction={() => {
+                  setShowVolControl(!showVolControl);
+                }}
+              />
+            )}
+
             {showVolControl && (
               <input
                 type="range"
@@ -224,7 +261,12 @@ function Player() {
           </div>
 
           <OutlineHeart />
-          <Loop />
+          <Loop
+            clickFunction={() => {
+              dispatch(setLoop(!loop));
+            }}
+            isLoopActive={loop}
+          />
           <div className="other-options">...</div>
         </div>
       </div>

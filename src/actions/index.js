@@ -20,6 +20,7 @@ import {
   CURRENT_TRACK,
   NEXT_TRACK,
   PREVIOUS_TRACK,
+  LOOP,
 } from "./types";
 
 //Action Creator
@@ -102,5 +103,12 @@ export const nextTrack = () => (dispatch) => {
 export const previousTrack = () => (dispatch) => {
   dispatch({
     type: PREVIOUS_TRACK,
+  });
+};
+
+export const setLoop = (bool) => (dispatch) => {
+  dispatch({
+    type: LOOP,
+    payload: bool,
   });
 };
