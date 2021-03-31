@@ -1,5 +1,5 @@
 // const BASE_URL =  "http://localhost:5000"
-const BASE_URL = "https://codewithbb.com";
+const BASE_URL = "https://www.api.playit.codewithbb.com";
 
 export const newReleaseURL = `${BASE_URL}/search/new-release`;
 export const hotTracksURL = `${BASE_URL}/search/top-tracks`;
