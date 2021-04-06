@@ -19,6 +19,7 @@
 }
 
 body {
+  background-color: var(--primary-color);
   &::-webkit-scrollbar-track {
     background-color: #080024;
   }
@@ -475,20 +476,105 @@ header {
   height: 50vh;
 }
 
-.artist-info {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  img {
-    height: 300px;
-    width: 300px;
-    border-radius: 50%;
-  }
-  .genres {
+.artist {
+  color: var(--primary-text-color);
+  .artist-info {
     display: flex;
-    background-color: yellow;
+    width: 80vw;
+    gap: 5rem;
+    padding-bottom: 1rem;
+    img {
+      border-radius: 5%;
+      height: 200px;
+      width: 200px;
+    }
+    h1 {
+      font-size: 4rem;
+      display: flex;
+      height: 20vh;
+      align-items: flex-start;
+    }
+  }
+
+  .artist-works {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+
+    .albums {
+      display: grid;
+      grid-template-columns: repeat(3, 200px);
+      grid-row-gap: 1rem;
+      h3 {
+        grid-column: 3;
+      }
+    }
+    .header {
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.playlist-container {
+  display: grid;
+  grid-gap: 0.3rem;
+}
+
+.album-card {
+  width: 6rem;
+  img {
+    border-radius: 5%;
+    height: 6rem;
+    width: 6rem;
+  }
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: small;
+    align-self: center;
+  }
+}
+
+.track-card-small {
+  cursor: pointer;
+  color: var(--primary-text-color);
+  display: grid;
+  grid-template-columns: 5rem minmax(25rem, auto) 2rem;
+  p {
+    font-size: small;
+    align-self: center;
+  }
+  img {
+    border-radius: 5%;
+    height: 50px;
+    width: 50px;
+  }
+  &:hover {
+    background-color: rgb(56, 54, 54);
+  }
+}
+
+.album {
+  .album-info {
+    display: flex;
+    gap: 5rem;
+    img {
+      border-radius: 5%;
+      height: 200px;
+      width: 200px;
+    }
+    h1 {
+      font-size: 1.5rem;
+      display: flex;
+      height: 20vh;
+      align-items: center;
+    }
+  }
+  .album-tracks {
+    padding-top: 3rem;
+    display: grid;
+    grid-template-columns: minmax(50rem, auto);
   }
 }
 

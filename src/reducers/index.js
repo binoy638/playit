@@ -4,7 +4,8 @@ import CurrentTrackReducer from "./CurrentTrack";
 import SearchReducer from "./search";
 import LoadingReducer from "./loading";
 import playerReducer from "./player";
-import pagesInfo from "./pagesInfo";
+import artist from "./artist";
+import album from "./album";
 
 const rootReducer = combineReducers({
   defaultPlaylists: DefaultPlaylistReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   search: SearchReducer,
   player: playerReducer,
   loading: LoadingReducer,
-  pagesInfo: pagesInfo,
+  artist: artist,
+  album: album,
 });
 
 export default rootReducer;

@@ -1,4 +1,4 @@
-import Track from "./Track";
+import Track from "../components/main/Track";
 import { useSelector } from "react-redux";
 // import { v4 as uuidv4 } from "uuid";
 

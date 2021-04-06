@@ -42,10 +42,8 @@ function Search() {
           />
         </div>
       </div>
-      <div class="logo-container">
-        <a class="logo" href="index.html">
-          Playit
-        </a>
+      <div className="logo-container">
+        <div className="logo">Playit</div>
       </div>
       <div className="header-account-settings">
         <Notifications />
@@ -54,7 +52,10 @@ function Search() {
           <img className="profile-pic" src={person} alt="" />
         </div>
       </div>
-      <div class="menu-btn-mobile-tab click-effect" id="menu-btn-mobile-tab">
+      <div
+        className="menu-btn-mobile-tab click-effect"
+        id="menu-btn-mobile-tab"
+      >
         <Menu />
       </div>
     </header>

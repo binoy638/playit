@@ -9,17 +9,18 @@ const initialStore = {
     popularity: "",
     genres: [],
   },
-  album: {},
-  track: {},
+  albums: [],
+  tracks: [],
 };
 
-const pagesInfo = (state = initialStore, action) => {
+const artistInfo = (state = initialStore, action) => {
   switch (action.type) {
     case FETCH_ARTIST_INFO:
-      return { ...state, artist: action.payload };
+      const { info, albums, tracks } = action.payload;
+      return { ...state, artist: info, albums, tracks };
     default:
       return { ...state };
   }
 };
 
-export default pagesInfo;
+export default artistInfo;

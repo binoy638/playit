@@ -5,6 +5,9 @@ import {
   fetchVideoURL,
   searchTracksURL,
   ArtistInfoURL,
+  ArtistAlbumsURL,
+  ArtistTopTracksURL,
+  AlbumURL,
 } from "../api";
 import { shuffle } from "../helper/shuffle";
 import {
@@ -26,6 +29,9 @@ import {
   FETCH_ARTIST_INFO,
   HIDE_ARTIST_PAGE,
   SHOW_ARTIST_PAGE,
+  FETCH_ALBUM,
+  HIDE_ALBUM_PAGE,
+  SHOW_ALBUM_PAGE,
 } from "./types";
 
 //Action Creator
@@ -48,7 +54,15 @@ export const fetchArtistInfo = (id) => async (dispatch) => {
   dispatch({
     type: HIDE_ARTIST_PAGE,
   });
-  const { data } = await axios.get(ArtistInfoURL(id));
+  // const { data } = await axios.get(ArtistInfoURL(id));
+  // const { data: albums } = await axios.get(ArtistAlbumsURL(id, 10, 0, "album"));
+
+  let [{ data }, { data: albums }, { data: tracks }] = await Promise.all([
+    axios.get(ArtistInfoURL(id)),
+    axios.get(ArtistAlbumsURL(id, 10, 0, "album")),
+    axios.get(ArtistTopTracksURL(id)),
+  ]);
+
   if (data.statusCode === 500) {
     //TODO: SHOW NOT FOUND
     return;
@@ -56,15 +70,35 @@ export const fetchArtistInfo = (id) => async (dispatch) => {
 
   dispatch({
     type: FETCH_ARTIST_INFO,
-    payload: data,
+    payload: { info: data, albums, tracks },
   });
   dispatch({
     type: SHOW_ARTIST_PAGE,
   });
 };
 
+export const fetchAlbumInfo = (id) => async (dispatch) => {
+  dispatch({
+    type: HIDE_ALBUM_PAGE,
+  });
+
+  let { data } = await axios.get(AlbumURL(id));
+  if (data.statusCode === 500) {
+    //TODO: SHOW NOT FOUND
+    return;
+  }
+  dispatch({
+    type: FETCH_ALBUM,
+    payload: data,
+  });
+  dispatch({
+    type: SHOW_ALBUM_PAGE,
+  });
+};
+
 export const setCurrentTrack = (payload) => async (dispatch) => {
   dispatch({ type: SHOW_TRACK_LOADING });
+  console.log("fetching video id");
   const response = await axios.get(fetchVideoURL(payload.search_query));
   const videoid = response.data.id;
   dispatch({

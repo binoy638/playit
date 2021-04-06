@@ -22,6 +22,7 @@ import {
   setCurrentTrack,
   setLoop,
 } from "../../actions";
+import { useFirstRender } from "../../hooks/useFirstRender";
 
 const opts = {
   height: "0",
@@ -54,14 +55,18 @@ function Player() {
 
   const onReadyPlayerRef = useRef(null);
 
+  const firstRender = useFirstRender();
+
   const playerRef = useRef(null);
 
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    setcurrentTime(0);
-    setDuration(0);
-    dispatch(setCurrentTrack(current));
+    if (!firstRender) {
+      setcurrentTime(0);
+      setDuration(0);
+      dispatch(setCurrentTrack(current));
+    }
   }, [current]);
 
   //hook to make the player silder move
