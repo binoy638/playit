@@ -259,7 +259,7 @@ export const SearchIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24.049"
+      Width="24.049"
       height="24.049"
       viewBox="0 0 24.049 24.049"
     >
@@ -274,9 +274,9 @@ export const SearchIcon = () => {
           d="M22.658,13.579A9.079,9.079,0,1,1,13.579,4.5,9.079,9.079,0,0,1,22.658,13.579Z"
           fill="none"
           stroke="#898989"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="3"
         />
         <path
           id="Path_2"
@@ -285,9 +285,9 @@ export const SearchIcon = () => {
           transform="translate(-4.984 -4.984)"
           fill="none"
           stroke="#898989"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="3"
         />
       </g>
     </svg>
@@ -311,9 +311,9 @@ export const Settings = () => {
         transform="translate(-2.805 -2.805)"
         fill="none"
         stroke="#898989"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="3"
       />
       <path
         id="Path_4"
@@ -321,9 +321,9 @@ export const Settings = () => {
         d="M22.648,17.591a1.9,1.9,0,0,0,.379,2.092l.069.069A2.3,2.3,0,1,1,19.844,23l-.069-.069a1.912,1.912,0,0,0-3.241,1.356v.2a2.3,2.3,0,1,1-4.6,0v-.1a1.9,1.9,0,0,0-1.241-1.736,1.9,1.9,0,0,0-2.092.379l-.069.069a2.3,2.3,0,1,1-3.253-3.253l.069-.069a1.912,1.912,0,0,0-1.356-3.241H3.8a2.3,2.3,0,1,1,0-4.6h.1a1.9,1.9,0,0,0,1.736-1.241A1.9,1.9,0,0,0,5.258,8.6l-.069-.069A2.3,2.3,0,1,1,8.442,5.281l.069.069A1.9,1.9,0,0,0,10.6,5.73h.092a1.9,1.9,0,0,0,1.149-1.736V3.8a2.3,2.3,0,0,1,4.6,0v.1a1.912,1.912,0,0,0,3.241,1.356l.069-.069A2.3,2.3,0,1,1,23,8.442l-.069.069a1.9,1.9,0,0,0-.379,2.092v.092a1.9,1.9,0,0,0,1.736,1.149h.2a2.3,2.3,0,1,1,0,4.6h-.1a1.9,1.9,0,0,0-1.736,1.149Z"
         fill="none"
         stroke="#898989"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="3"
       />
     </svg>
   );
@@ -393,7 +393,7 @@ export const Menu = () => {
           stroke="#898989"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="1"
+          strokewidth="1"
         />
         <path
           id="Path_6"
@@ -403,7 +403,7 @@ export const Menu = () => {
           stroke="#898989"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="1"
+          strokewidth="1"
         />
         <path
           id="Path_7"
@@ -414,7 +414,7 @@ export const Menu = () => {
           stroke="#898989"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="1"
+          strokewidth="1"
         />
       </g>
     </svg>

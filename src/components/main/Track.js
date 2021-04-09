@@ -4,20 +4,30 @@ import { useDispatch, useSelector } from "react-redux";
 
 //actions
 import { setCurrentTrack, setPlaylist } from "../../actions";
+import { Link } from "react-router-dom";
 
-function Track({ index, id, artist, title, image, search_query, playlist }) {
+function Track({
+  index,
+  id,
+  artist,
+  artists,
+  title,
+  image,
+  search_query,
+  playlist,
+}) {
   const dispatch = useDispatch();
 
   const { id: currentTrackID } = useSelector((state) => state.currentTrack);
 
+  const { PlayerLoading } = useSelector((state) => state.loading);
+
   const setTrack = () => {
     if (currentTrackID !== id) {
-      dispatch(setCurrentTrack({ id, artist, title, image, search_query }));
-
+      if (PlayerLoading) {
+        dispatch(setCurrentTrack({ id, artist, title, image, search_query }));
+      }
       dispatch(setPlaylist({ playlist, index }));
-
-      // dispatch(currentTrack());
-      // dispatch(nextTrack());
     }
   };
 
@@ -33,7 +43,9 @@ function Track({ index, id, artist, title, image, search_query, playlist }) {
         />
       </div>
       <p className="song-name">{title}</p>
-      <p className="song-artist">{artist}</p>
+      <Link to={`/artist/${artists[0].id}`}>
+        <p className="song-artist">{artist}</p>
+      </Link>
     </div>
   );
 }

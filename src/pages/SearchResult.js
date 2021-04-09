@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import queryString from "query-string";
-import Track from "./Track";
-import { TrackLoading } from "../extra/loading";
+import Track from "../components/main/Track";
+import { TrackLoading } from "../components/extra/loading";
 import { useDispatch, useSelector } from "react-redux";
-import { search } from "../../actions";
-import Error from "../extra/Error";
+import { search } from "../actions";
+import Error from "../components/extra/Error";
 import axios from "axios";
 
 function SearchResult({ location }) {

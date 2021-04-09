@@ -7,6 +7,10 @@ import {
   HIDE_SEARCH,
   SHOW_TRACK_LOADING,
   HIDE_TRACK_LOADING,
+  SHOW_ARTIST_PAGE,
+  HIDE_ARTIST_PAGE,
+  SHOW_ALBUM_PAGE,
+  HIDE_ALBUM_PAGE,
 } from "../actions/types";
 
 const initialStore = {
@@ -14,6 +18,8 @@ const initialStore = {
   PlayerLoading: true,
   TrackLoading: true,
   SearchLoading: true,
+  ArtistLoading: false,
+  AlbumLoading: false,
 };
 
 const LoadingReducer = (state = initialStore, action) => {
@@ -34,6 +40,14 @@ const LoadingReducer = (state = initialStore, action) => {
       return { ...state, SearchLoading: false };
     case HIDE_SEARCH:
       return { ...state, SearchLoading: true };
+    case SHOW_ARTIST_PAGE:
+      return { ...state, ArtistLoading: false };
+    case HIDE_ARTIST_PAGE:
+      return { ...state, ArtistLoading: true };
+    case SHOW_ALBUM_PAGE:
+      return { ...state, AlbumLoading: false };
+    case HIDE_ALBUM_PAGE:
+      return { ...state, AlbumLoading: true };
     default:
       return { ...state };
   }
