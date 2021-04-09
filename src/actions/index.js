@@ -8,6 +8,7 @@ import {
   ArtistAlbumsURL,
   ArtistTopTracksURL,
   AlbumURL,
+  fetchVideoURL2,
 } from "../api";
 import { shuffle } from "../helper/shuffle";
 import {
@@ -32,6 +33,7 @@ import {
   FETCH_ALBUM,
   HIDE_ALBUM_PAGE,
   SHOW_ALBUM_PAGE,
+  FETCH_VIDEO_ID,
 } from "./types";
 
 //Action Creator
@@ -106,6 +108,16 @@ export const setCurrentTrack = (payload) => async (dispatch) => {
     payload: { ...payload, videoid },
   });
 
+  dispatch({ type: SHOW_PLAYER });
+};
+
+export const setVideoID = (query) => async (dispatch) => {
+  dispatch({ type: SHOW_TRACK_LOADING });
+  const { data } = await axios.get(fetchVideoURL2(query));
+  dispatch({
+    type: FETCH_VIDEO_ID,
+    payload: data.id,
+  });
   dispatch({ type: SHOW_PLAYER });
 };
 

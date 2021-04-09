@@ -21,6 +21,7 @@ import {
   previousTrack,
   setCurrentTrack,
   setLoop,
+  setVideoID,
 } from "../../actions";
 import { useFirstRender } from "../../hooks/useFirstRender";
 
@@ -61,13 +62,19 @@ function Player() {
 
   const [isMuted, setIsMuted] = useState(false);
 
+  const onErrorRef = useRef(null);
+
   useEffect(() => {
     if (!firstRender) {
-      setcurrentTime(0);
-      setDuration(0);
-      dispatch(setCurrentTrack(current));
+      setPlayerTrack();
     }
   }, [current]);
+
+  const setPlayerTrack = () => {
+    setcurrentTime(0);
+    setDuration(0);
+    dispatch(setCurrentTrack(current));
+  };
 
   //hook to make the player silder move
   useEffect(() => {
@@ -150,6 +157,9 @@ function Player() {
       const duration = onReadyPlayerRef.current.getDuration();
       setDuration(duration);
     }, 500);
+    if (onErrorRef.current) {
+      onErrorRef.current = null;
+    }
   };
 
   const volumeControlHandler = (e) => {
@@ -157,11 +167,14 @@ function Player() {
     playerRef.current.internalPlayer.setVolume(volume);
   };
 
-  //TODO: Make an enopoint to grab another videoid
   const onError = (e) => {
     if (e.data === 150) {
-      console.log("error");
-      dispatch(nextTrack());
+      if (onErrorRef.current) {
+        dispatch(nextTrack());
+      } else {
+        onErrorRef.current = current.id;
+        dispatch(setVideoID(current.search_query));
+      }
     }
   };
   return (

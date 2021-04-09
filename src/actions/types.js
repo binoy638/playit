@@ -25,3 +25,4 @@ export const HIDE_ARTIST_PAGE = "HIDE_ARTIST_PAGE";
 export const FETCH_ALBUM = "FETCH_ALBUM";
 export const SHOW_ALBUM_PAGE = "SHOW_ALBUM_PAGE";
 export const HIDE_ALBUM_PAGE = "HIDE_ALBUM_PAGE";
+export const FETCH_VIDEO_ID = "FETCH_VIDEO_ID";
