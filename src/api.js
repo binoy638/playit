@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 // const BASE_URL =  "http://localhost:5000"
 const BASE_URL = "https://playit.sytes.net";
-=======
-const BASE_URL = "https://playit.sytes.net";
-// const BASE_URL = "http://144.202.14.194";
->>>>>>> dev
 
 export const newReleaseURL = `${BASE_URL}/search/new-release`;
 
