@@ -85,7 +85,6 @@
         }
         background-color: var(--secondary-color);
         width: 25rem;
-
         // .slider {
         //   // appearance: none;
 
@@ -100,6 +99,7 @@
           position: absolute;
           top: 0;
           left: 0;
+          transition: linear;
           pointer-events: none;
         }
       }

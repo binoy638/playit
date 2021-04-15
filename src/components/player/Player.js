@@ -87,7 +87,7 @@ function Player() {
       id = setInterval(async () => {
         const t = await playerRef.current.internalPlayer.getCurrentTime();
         setcurrentTime(t);
-      }, 1000);
+      }, 500);
     } else {
       playerRef.current.internalPlayer.pauseVideo();
     }
