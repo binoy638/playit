@@ -1,5 +1,4 @@
 import React from "react";
-import "../style/app.scss";
 
 export const Hotlists = () => {
   return (
@@ -145,6 +144,7 @@ export const Next = ({ clickFunction }) => {
 export const Loop = ({ clickFunction, isLoopActive }) => {
   return (
     <svg
+    className="loop"
       onClick={clickFunction}
       xmlns="http://www.w3.org/2000/svg"
       width="20.571"

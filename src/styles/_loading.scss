@@ -1,0 +1,42 @@
+.player-loading {
+  height: 0.2rem;
+  position: absolute;
+  background: var(--secondary-color);
+  top: 0;
+  left: 0;
+  right: 0;
+  // grid-column: 1 / span 3;
+  width: 100%;
+}
+
+
+
+.loading {
+  background: var(--primary-color);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  .circle {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    background-color: white;
+  }
+}
+
+.tracks-loading {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  .loading-circle {
+    display: inline-block;
+    width: 5rem;
+    height: 5rem;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+  }
+}

@@ -1,0 +1,38 @@
+.artist {
+  color: var(--primary-text-color);
+  .artist-info {
+    display: flex;
+    width: 80vw;
+    gap: 5rem;
+    padding-bottom: 1rem;
+    img {
+      border-radius: 5%;
+      height: 200px;
+      width: 200px;
+    }
+    h1 {
+      font-size: 4rem;
+      display: flex;
+      height: 20vh;
+      align-items: flex-start;
+    }
+  }
+
+  .artist-works {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+
+    .albums {
+      display: grid;
+      grid-template-columns: repeat(3, 200px);
+      grid-row-gap: 1rem;
+      h3 {
+        grid-column: 3;
+      }
+    }
+    .header {
+      margin-bottom: 2rem;
+    }
+  }
+}

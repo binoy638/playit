@@ -8,8 +8,8 @@ import { Loading } from "./components/extra/loading";
 import { fetchDefaultPlaylists } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import "./style/app.scss";
-import "./style/utilities.scss";
+import "./styles/app.scss";
+
 
 function App() {
   const dispatch = useDispatch();

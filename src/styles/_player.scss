@@ -1,0 +1,132 @@
+.player {
+  background: var(--music-player-color);
+  width: 100%;
+  height: 7rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 1rem 3.5rem;
+  z-index: 6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .current-song-info {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex: 1;
+
+    img {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+    }
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.4rem;
+
+      .song-name {
+        color: var(--primary-text-color);
+        font-weight: 600;
+      }
+
+      .song-artist {
+        font-size: 0.8rem;
+        color: var(--secondary-text-color);
+      }
+    }
+  }
+  .music-controller {
+    flex: 2;
+    display: flex;
+    gap: 3rem;
+
+    .play-fo-back-controller {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      svg {
+        cursor: pointer;
+        transform: scale(0.9);
+      }
+    }
+
+    .main-controller {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      p {
+        width: 1.5rem;
+        font-size: 0.8rem;
+        color: var(--secondary-text-color);
+      }
+
+      .slider-container {
+        display: flex;
+        align-items: center;
+
+        .slider {
+          // appearance: none;
+          width: 25rem;
+          height: 1px;
+          // overflow: hidden;
+        }
+      }
+    }
+
+    // input[type="range"]::-moz-range-thumb {
+    //   -webkit-appearance: none;
+    //   background: transparent;
+    //   border: none;
+    // }
+    // input[type="range"]::-webkit-slider-thumb {
+    //   -webkit-appearance: none;
+    //   height: 16px;
+    //   width: 16px;
+    // }
+
+    .interactivity {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      .volume-control {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        .volume-slider {
+          width: 4rem;
+          height: 3px;
+          cursor: pointer;
+        }
+      }
+      svg {
+        cursor: pointer;
+        width: 0.8rem;
+        height: 0.8rem;
+      }
+
+      .other-options {
+        cursor: pointer;
+        color: var(--primary-text-color);
+        font-weight: bold;
+        letter-spacing: 0.1rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  .full-min-player-toggle {
+    cursor: pointer;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+
+

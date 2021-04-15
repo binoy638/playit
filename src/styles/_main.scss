@@ -1,0 +1,58 @@
+.main {
+  margin-left: 20rem;
+  background: var(--primary-color);
+  padding: 4rem 3.5rem;
+  padding-bottom: 9rem;
+  overflow: hidden;
+
+  h1 {
+    color: var(--primary-text-color);
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+  }
+
+  .song-list {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    // overflow: hidden;
+  }
+
+  // .song-list::-webkit-scrollbar {
+  //   display: none;
+  // }
+
+  .song-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    width: 13rem;
+
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    img {
+      cursor: pointer;
+      width: 13rem;
+      height: 13rem;
+      margin-bottom: 0.5rem;
+      border-radius: 1.5rem;
+    }
+
+    .song-name {
+      font-size: 0.9rem;
+
+      font-weight: 600;
+      color: var(--primary-text-color);
+    }
+
+    .song-artist {
+      font-size: 0.8rem;
+      color: var(--secondary-text-color);
+    }
+  }
+}

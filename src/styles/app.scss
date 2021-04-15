@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+
+:root {
+  --primary-color: #0a0033;
+  --secondary-color: #ffa47d;
+  --sidebar-color: #09002a;
+  --music-player-color: #190d4a;
+  --primary-text-color: #c4c4c4;
+  --secondary-text-color: #898989;
+  --highlight-color: #c5ffe6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  outline: none;
+}
+
+body {
+  background-color: var(--primary-color);
+  &::-webkit-scrollbar-track {
+    background-color: #080024;
+  }
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #2c1b5e;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #4d0e68;
+  }
+}
+
+.menu-exit {
+  display: none;
+}
+
+
+@import "./album";
+@import "./artist";
+@import "./player";
+@import "./header";
+@import "./sidebar";
+@import "./loading";
+@import "./main";
+@import "./misc";
+@import "./mediaQuery";
+@import "./utilities";

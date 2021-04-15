@@ -254,6 +254,7 @@ function Player() {
         </div>
 
         <div className="interactivity">
+     
           <div className="volume-control">
             {isMuted ? (
               <Mute
@@ -282,6 +283,8 @@ function Player() {
           </div>
 
           <OutlineHeart />
+       
+   
           <Loop
             clickFunction={() => {
               dispatch(setLoop(!loop));
@@ -289,6 +292,7 @@ function Player() {
             isLoopActive={loop}
           />
           <div className="other-options">...</div>
+         
         </div>
       </div>
 

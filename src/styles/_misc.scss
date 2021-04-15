@@ -1,0 +1,57 @@
+
+.logo-container {
+  text-align: center;
+  .logo {
+    font-family: "Great Vibes", cursive;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    width: 100%;
+  }
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.playlist-container {
+  display: grid;
+  grid-gap: 0.3rem;
+}
+
+.album-card {
+  width: 6rem;
+  img {
+    border-radius: 5%;
+    height: 6rem;
+    width: 6rem;
+  }
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: small;
+    align-self: center;
+  }
+}
+
+.track-card-small {
+  cursor: pointer;
+  color: var(--primary-text-color);
+  display: grid;
+  grid-template-columns: 5rem minmax(25rem, auto) 2rem;
+  p {
+    font-size: small;
+    align-self: center;
+  }
+  img {
+    border-radius: 5%;
+    height: 50px;
+    width: 50px;
+  }
+  &:hover {
+    background-color: rgb(56, 54, 54);
+  }
+}
