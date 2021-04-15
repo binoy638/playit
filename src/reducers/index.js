@@ -6,6 +6,7 @@ import LoadingReducer from "./loading";
 import playerReducer from "./player";
 import artist from "./artist";
 import album from "./album";
+import sidebar from "./sidebar";
 
 const rootReducer = combineReducers({
   defaultPlaylists: DefaultPlaylistReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   loading: LoadingReducer,
   artist: artist,
   album: album,
+  sidebar: sidebar,
 });
 
 export default rootReducer;

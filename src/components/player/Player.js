@@ -54,6 +54,8 @@ function Player() {
 
   const [duration, setDuration] = useState(0);
 
+  const [sliderPercentage, setSliderPercentage] = useState();
+
   const onReadyPlayerRef = useRef(null);
 
   const firstRender = useFirstRender();
@@ -73,6 +75,7 @@ function Player() {
   const setPlayerTrack = () => {
     setcurrentTime(0);
     setDuration(0);
+    setSliderPercentage(0);
     dispatch(setCurrentTrack(current));
   };
 
@@ -88,7 +91,6 @@ function Player() {
     } else {
       playerRef.current.internalPlayer.pauseVideo();
     }
-
     //cleanup function to clear previous setInverval before starting a new one
     return () => {
       if (id) {
@@ -96,6 +98,13 @@ function Player() {
       }
     };
   }, [isPlaying]); //this hook runs only when the track is paused or resume
+
+  useEffect(() => {
+    if (duration) {
+      setSliderPercentage((currentTime / duration) * 100);
+      console.log(sliderPercentage);
+    }
+  }, [currentTime]);
 
   useEffect(() => {
     if (volume <= 1) {
@@ -247,6 +256,10 @@ function Player() {
               value={Math.ceil(currentTime)}
               className="slider"
             />
+            <div
+              className="animate-track"
+              style={{ transform: `translateX(${sliderPercentage}%)` }}
+            ></div>
           </div>
           <p className="total-duration">
             {duration ? getTime(duration) : "0:00"}
@@ -254,7 +267,6 @@ function Player() {
         </div>
 
         <div className="interactivity">
-     
           <div className="volume-control">
             {isMuted ? (
               <Mute
@@ -281,10 +293,8 @@ function Player() {
               />
             )}
           </div>
+          {!showVolControl && <OutlineHeart />}
 
-          <OutlineHeart />
-       
-   
           <Loop
             clickFunction={() => {
               dispatch(setLoop(!loop));
@@ -292,7 +302,6 @@ function Player() {
             isLoopActive={loop}
           />
           <div className="other-options">...</div>
-         
         </div>
       </div>
 

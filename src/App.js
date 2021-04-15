@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import Main from "./components/main/Main";
 import Player from "./components/player/Player";
@@ -9,10 +9,30 @@ import { fetchDefaultPlaylists } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/app.scss";
-
+import { HIDE_SIDEBAR, SHOW_SIDEBAR } from "./actions/types";
 
 function App() {
   const dispatch = useDispatch();
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (windowWidth < 500) {
+      dispatch({ type: HIDE_SIDEBAR });
+    } else {
+      dispatch({ type: SHOW_SIDEBAR });
+    }
+  }, [windowWidth]);
 
   useEffect(() => {
     dispatch(fetchDefaultPlaylists());
@@ -22,6 +42,8 @@ function App() {
   const { AppLoading: loading, PlayerLoading } = useSelector(
     (state) => state.loading
   );
+
+  const { showSidebar } = useSelector((state) => state.sidebar);
 
   if (loading) {
     return (
@@ -35,11 +57,11 @@ function App() {
       <div className="App">
         <Router>
           <div className="upper-section">
-            <Sidebar />
+            {showSidebar && <Sidebar />}
             <Search />
             <Main />
           </div>
-          {PlayerLoading ? "" : <Player />}
+          {!PlayerLoading && <Player />}
         </Router>
       </div>
     );

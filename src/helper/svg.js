@@ -144,7 +144,7 @@ export const Next = ({ clickFunction }) => {
 export const Loop = ({ clickFunction, isLoopActive }) => {
   return (
     <svg
-    className="loop"
+      className="loop"
       onClick={clickFunction}
       xmlns="http://www.w3.org/2000/svg"
       width="20.571"
@@ -371,9 +371,10 @@ export const Mute = ({ clickFunction }) => {
   );
 };
 
-export const Menu = () => {
+export const Menu = ({ clickFunction }) => {
   return (
     <svg
+      onClick={clickFunction}
       xmlns="http://www.w3.org/2000/svg"
       width="23.942"
       height="20"

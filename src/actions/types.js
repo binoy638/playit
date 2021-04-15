@@ -26,3 +26,6 @@ export const FETCH_ALBUM = "FETCH_ALBUM";
 export const SHOW_ALBUM_PAGE = "SHOW_ALBUM_PAGE";
 export const HIDE_ALBUM_PAGE = "HIDE_ALBUM_PAGE";
 export const FETCH_VIDEO_ID = "FETCH_VIDEO_ID";
+export const SHOW_SIDEBAR = "SHOW_SIDEBAR";
+export const HIDE_SIDEBAR = "HIDE_SIDEBAR";
+export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";

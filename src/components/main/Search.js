@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { setQuery, setSearchBarFocus } from "../../actions";
+import { SHOW_SIDEBAR, TOGGLE_SIDEBAR } from "../../actions/types";
 import person from "../../assets/person.jpg";
 import { SearchIcon, Notifications, Settings, Menu } from "../../helper/svg";
 
@@ -55,6 +56,7 @@ function Search() {
       <div
         className="menu-btn-mobile-tab click-effect"
         id="menu-btn-mobile-tab"
+        onClick={() => dispatch({ type: TOGGLE_SIDEBAR })}
       >
         <Menu />
       </div>
