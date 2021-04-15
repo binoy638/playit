@@ -75,7 +75,7 @@
         border-radius: 10px;
         overflow: hidden;
         .slider {
-          height: 0.25rem;
+          height: 1px;
         }
         input {
           width: 100%;
@@ -85,13 +85,6 @@
         }
         background-color: var(--secondary-color);
         width: 25rem;
-        // .slider {
-        //   // appearance: none;
-
-        //   width: 25rem;
-        //   height: 1px;
-        //   // overflow: hidden;
-        // }
         .animate-track {
           background-color: grey;
           width: 100%;
@@ -104,18 +97,6 @@
         }
       }
     }
-
-    // input[type="range"]::-moz-range-thumb {
-    //   -webkit-appearance: none;
-    //   background: transparent;
-    //   border: none;
-    // }
-    // input[type="range"]::-webkit-slider-thumb {
-    //   -webkit-appearance: none;
-    //   height: 16px;
-    //   width: 16px;
-    // }
-
     .interactivity {
       display: flex;
       align-items: center;
