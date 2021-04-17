@@ -11,14 +11,19 @@ export const fetchVideoURL = (query) =>
 export const fetchVideoURL2 = (query) =>
   `${BASE_URL}/search/videoid?query=${query}`;
 
+//URL to search Tracks
 export const searchTracksURL = (query) =>
   `${BASE_URL}/search/track?query=${query}`;
 
+//URL to get artist info
 export const ArtistInfoURL = (id) => `${BASE_URL}/artist/${id}`;
 
+//URL to get artist albums
 export const ArtistAlbumsURL = (id, limit, offset, include_groups) =>
   `${BASE_URL}/artist-albums?id=${id}&limit=${limit}&offset=${offset}&include_groups=${include_groups}`;
 
+//URL to get artist top tracks
 export const ArtistTopTracksURL = (id) => `${BASE_URL}/artist-toptracks/${id}`;
 
+//URL to get album details
 export const AlbumURL = (id) => `${BASE_URL}/album/${id}`;

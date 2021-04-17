@@ -11,7 +11,7 @@ import {
   Pause,
   Mute,
 } from "../../helper/svg";
-
+import { AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { PlayerLoading } from "../extra/loading";
@@ -256,10 +256,10 @@ function Player() {
               value={Math.ceil(currentTime)}
               className="slider"
             />
-            <div
+            <motion.div
               className="animate-track"
-              style={{ transform: `translateX(${sliderPercentage}%)` }}
-            ></div>
+              animate={{ x: `${sliderPercentage}%` }}
+            ></motion.div>
           </div>
           <p className="total-duration">
             {duration ? getTime(duration) : "0:00"}
@@ -282,16 +282,24 @@ function Player() {
               />
             )}
 
-            {showVolControl && (
-              <input
-                type="range"
-                min={0}
-                max={100}
-                onChange={(e) => volumeControlHandler(e)}
-                value={volume}
-                className="volume-slider"
-              />
-            )}
+            <AnimatePresence>
+              {showVolControl && (
+                <div className="volume-slider-container">
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    onChange={(e) => volumeControlHandler(e)}
+                    value={volume}
+                    className="volume-slider"
+                  />
+                  <div
+                    className="volume-slider-animation"
+                    style={{ transform: `translateX(${volume}%)` }}
+                  ></div>
+                </div>
+              )}
+            </AnimatePresence>
           </div>
           {!showVolControl && <OutlineHeart />}
 
