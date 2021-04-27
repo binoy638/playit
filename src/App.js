@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import React from "react";
 import Main from "./components/main/Main";
 import Player from "./components/player/Player";
@@ -10,21 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/app.scss";
 import { HIDE_SIDEBAR, SHOW_SIDEBAR } from "./actions/types";
+import { useWindowSize } from "./hooks/useWindowSize";
 
 function App() {
   const dispatch = useDispatch();
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  const handleResize = () => {
-    setWindowWidth(window.innerWidth);
-  };
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const [windowWidth] = useWindowSize();
 
   useEffect(() => {
     if (windowWidth < 500) {
@@ -32,7 +23,7 @@ function App() {
     } else {
       dispatch({ type: SHOW_SIDEBAR });
     }
-  }, [windowWidth]);
+  }, [windowWidth, dispatch]);
 
   useEffect(() => {
     dispatch(fetchDefaultPlaylists());

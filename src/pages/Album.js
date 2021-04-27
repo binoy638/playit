@@ -12,9 +12,8 @@ function Album() {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log(tracks);
     dispatch(fetchAlbumInfo(id));
-  }, []);
+  }, [dispatch, id]);
 
   if (AlbumLoading) {
     return (

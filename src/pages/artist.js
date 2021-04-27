@@ -13,7 +13,7 @@ function Artist() {
 
   useEffect(() => {
     dispatch(fetchArtistInfo(id));
-  }, []);
+  }, [dispatch, id]);
 
   if (ArtistLoading) {
     return (

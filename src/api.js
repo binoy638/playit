@@ -1,5 +1,7 @@
 // const BASE_URL =  "http://localhost:5000"
-const BASE_URL = "https://playit.sytes.net";
+// const BASE_URL = "https://playit.sytes.net";
+
+const BASE_URL = "https://playit-server.herokuapp.com/new-release";
 
 export const newReleaseURL = `${BASE_URL}/search/new-release`;
 
