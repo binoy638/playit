@@ -29,3 +29,7 @@ export const FETCH_VIDEO_ID = "FETCH_VIDEO_ID";
 export const SHOW_SIDEBAR = "SHOW_SIDEBAR";
 export const HIDE_SIDEBAR = "HIDE_SIDEBAR";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
+export const LOGOUT = "LOGOUT";
+export const SET_USER = "SET_USER";

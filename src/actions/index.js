@@ -1,15 +1,3 @@
-import axios from "axios";
-import {
-  newReleaseURL,
-  hotTracksURL,
-  fetchVideoURL,
-  searchTracksURL,
-  ArtistInfoURL,
-  ArtistAlbumsURL,
-  ArtistTopTracksURL,
-  AlbumURL,
-  fetchVideoURL2,
-} from "../api";
 import { shuffle } from "../helper/shuffle";
 import {
   FETCH_DEFAULT_PLAYLISTS,
@@ -34,13 +22,21 @@ import {
   HIDE_ALBUM_PAGE,
   SHOW_ALBUM_PAGE,
   FETCH_VIDEO_ID,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  SET_USER,
+  LOGOUT,
 } from "./types";
-
+import jwt_decode from "jwt-decode";
+import * as API from "../api/publicRequests";
 //Action Creator
 
 export const fetchDefaultPlaylists = () => async (dispatch) => {
-  const { data: newRelease } = await axios.get(newReleaseURL);
-  const { data: hotTracks } = await axios.get(hotTracksURL);
+  // const { data: newRelease } = await axios.get(newReleaseURL);
+  // const { data: hotTracks } = await axios.get(hotTracksURL);
+
+  const { data: newRelease } = await API.getNewReleasesRequest();
+  const { data: hotTracks } = await API.getTopTracksRequest();
 
   dispatch({
     type: FETCH_DEFAULT_PLAYLISTS,
@@ -56,13 +52,11 @@ export const fetchArtistInfo = (id) => async (dispatch) => {
   dispatch({
     type: HIDE_ARTIST_PAGE,
   });
-  // const { data } = await axios.get(ArtistInfoURL(id));
-  // const { data: albums } = await axios.get(ArtistAlbumsURL(id, 10, 0, "album"));
 
   let [{ data }, { data: albums }, { data: tracks }] = await Promise.all([
-    axios.get(ArtistInfoURL(id)),
-    axios.get(ArtistAlbumsURL(id, 10, 0, "album")),
-    axios.get(ArtistTopTracksURL(id)),
+    API.getArtistRequest(id),
+    API.getArtistAlbumsRequest(id, 10, 0, "album"),
+    API.getArtistTopTracksRequest(id),
   ]);
 
   if (data.statusCode === 500) {
@@ -84,7 +78,7 @@ export const fetchAlbumInfo = (id) => async (dispatch) => {
     type: HIDE_ALBUM_PAGE,
   });
 
-  let { data } = await axios.get(AlbumURL(id));
+  let { data } = await API.getAlbumRequest(id);
   if (data.statusCode === 500) {
     //TODO: SHOW NOT FOUND
     return;
@@ -101,7 +95,8 @@ export const fetchAlbumInfo = (id) => async (dispatch) => {
 export const setCurrentTrack = (payload) => async (dispatch) => {
   dispatch({ type: SHOW_TRACK_LOADING });
   console.log("fetching video id");
-  const response = await axios.get(fetchVideoURL(payload.search_query));
+  const response = await API.searchVideoIdRequest(payload.search_query);
+
   const videoid = response.data.id;
   dispatch({
     type: SET_CURRENT_TRACK,
@@ -113,7 +108,8 @@ export const setCurrentTrack = (payload) => async (dispatch) => {
 
 export const setVideoID = (query) => async (dispatch) => {
   dispatch({ type: SHOW_TRACK_LOADING });
-  const { data } = await axios.get(fetchVideoURL2(query));
+  const { data } = await API.searchVideoIdRequest_(query);
+
   dispatch({
     type: FETCH_VIDEO_ID,
     payload: data.id,
@@ -124,9 +120,7 @@ export const setVideoID = (query) => async (dispatch) => {
 export const search = (query, cancelToken) => async (dispatch) => {
   dispatch({ type: HIDE_SEARCH }); //hide search loading spinner
 
-  const response = await axios.get(searchTracksURL(query), {
-    cancelToken: cancelToken.token,
-  });
+  const response = await API.searchTracksRequest(query, cancelToken);
   let payload;
   if (response.data.statusCode === 404) {
     payload = { searchResult: [], resultFound: false };
@@ -187,5 +181,51 @@ export const setSearchBarFocus = (bool) => (dispatch) => {
   dispatch({
     type: SEARCH_BAR_FOCUS,
     payload: bool,
+  });
+};
+
+export const login = (credentials, router) => async (dispatch) => {
+  try {
+    const { data } = await API.loginRequest(credentials);
+    const token = data?.token;
+    if (token) {
+      const decoded = jwt_decode(token);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: { username: decoded.username, email: decoded.email, token },
+      });
+      router.push("/");
+    } else {
+      dispatch({
+        type: LOGIN_FAILURE,
+        payload: "Something went wrong.",
+      });
+    }
+  } catch (error) {
+    if (!error.response) {
+      dispatch({
+        type: LOGIN_FAILURE,
+        payload: "Something went wrong.",
+      });
+      return;
+    }
+    dispatch({
+      type: LOGIN_FAILURE,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const setUser = (user) => (dispatch) => {
+  dispatch({
+    type: SET_USER,
+    payload: user,
+  });
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT,
   });
 };

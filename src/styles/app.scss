@@ -21,6 +21,7 @@
 
 body {
   background-color: var(--primary-color);
+
   &::-webkit-scrollbar-track {
     background-color: #080024;
   }
@@ -67,3 +68,4 @@ input[type="range"]::-moz-range-thumb {
 @import "./misc";
 @import "./mediaQuery";
 @import "./utilities";
+@import "./register";

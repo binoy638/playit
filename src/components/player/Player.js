@@ -102,7 +102,6 @@ function Player() {
   useEffect(() => {
     if (duration) {
       setSliderPercentage((currentTime / duration) * 100);
-      console.log(sliderPercentage);
     }
   }, [currentTime]);
 

@@ -1,17 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { setQuery, setSearchBarFocus } from "../../actions";
-import { SHOW_SIDEBAR, TOGGLE_SIDEBAR } from "../../actions/types";
-import person from "../../assets/person.jpg";
+import { TOGGLE_SIDEBAR } from "../../actions/types";
+import { FaUserCircle } from "react-icons/fa";
 import { SearchIcon, Notifications, Settings, Menu } from "../../helper/svg";
+import UserDropDown from "../extra/UserDropDown";
 
 function Search() {
   const history = useHistory();
 
   const dispatch = useDispatch();
 
+  const [dropDown, setDropDown] = useState(false);
+
   const { query, isSearchFocused } = useSelector((state) => state.search);
+
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isSearchFocused) {
@@ -50,7 +55,27 @@ function Search() {
         <Notifications />
         <Settings />
         <div className="profile-pic-container">
-          <img className="profile-pic" src={person} alt="" />
+          {user ? (
+            <div
+              onMouseEnter={() => setDropDown(true)}
+              onMouseLeave={() => setDropDown(false)}
+            >
+              <div className="profile-pic">
+                {user.username.charAt(0).toUpperCase()}
+              </div>
+              {dropDown && (
+                <UserDropDown status="loggedIn" setDropDown={setDropDown} />
+              )}
+            </div>
+          ) : (
+            <div
+              onMouseEnter={() => setDropDown(true)}
+              onMouseLeave={() => setDropDown(false)}
+            >
+              <FaUserCircle className="defaultIcon" />
+              {dropDown && <UserDropDown setDropDown={setDropDown} />}
+            </div>
+          )}
         </div>
       </div>
       <div

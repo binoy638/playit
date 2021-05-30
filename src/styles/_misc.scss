@@ -1,4 +1,3 @@
-
 .logo-container {
   text-align: center;
   .logo {
@@ -53,5 +52,30 @@
   }
   &:hover {
     background-color: rgb(56, 54, 54);
+  }
+}
+
+.userDropDown {
+  position: absolute;
+  height: auto;
+  width: 6rem;
+  right: 1.5rem;
+  border-radius: 5%;
+  background-color: #3d2a74;
+  padding: 0.5rem 0.2rem 0.5rem 0.2rem;
+  ul {
+    font-size: 0.9rem;
+
+    li {
+      text-decoration: none;
+      color: var(--primary-text-color);
+      border-radius: 5%;
+      padding-left: 0.5rem;
+      margin: 0.2rem 0;
+    }
+    li:hover {
+      cursor: pointer;
+      background-color: #4d4b52fa;
+    }
   }
 }

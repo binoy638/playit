@@ -41,12 +41,12 @@ function Sidebar() {
           <Heart />
           <span>Favourites</span>
         </div>
-        {/* <Link to="/playlist"> */}
-        <div className="side-menu">
-          <Playlist />
-          <span>Playlist</span>
-        </div>
-        {/* </Link> */}
+        <Link to="/library/playlists">
+          <div className="side-menu">
+            <Playlist />
+            <span>Playlists</span>
+          </div>
+        </Link>
 
         <div className="side-menu">
           <Albums />
