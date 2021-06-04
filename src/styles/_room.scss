@@ -1,0 +1,23 @@
+.prompt {
+    margin-top: 5rem;
+    .container {
+        background-color: red;
+        height: 20rem;
+        width: 20rem;
+        border-radius: 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        .choice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: lightblue;
+            height: 5rem;
+            width: 5rem;
+            cursor: pointer;
+        }
+    }
+}

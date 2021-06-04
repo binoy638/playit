@@ -56,6 +56,12 @@ function Sidebar() {
           <Artists />
           <span>Artists</span>
         </div>
+        <Link to="/rooms">
+          <div className="side-menu">
+            <Albums />
+            <span>Rooms</span>
+          </div>
+        </Link>
       </section>
       <input type="button" className="btn subs-btn" value="Subscribe" />
     </aside>

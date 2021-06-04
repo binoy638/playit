@@ -19,9 +19,13 @@ import { HIDE_TRACK_LOADING } from "../../actions/types";
 import {
   nextTrack,
   previousTrack,
+  setCurrentTime,
   setCurrentTrack,
   setLoop,
   setVideoID,
+  setisPlaying,
+  setDuration,
+  setPlayerRef,
 } from "../../actions";
 import { useFirstRender } from "../../hooks/useFirstRender";
 
@@ -40,7 +44,9 @@ function Player() {
 
   const { TrackLoading } = useSelector((state) => state.loading);
 
-  const { current, loop } = useSelector((state) => state.player);
+  const { current, loop, currentTime, isPlaying, duration } = useSelector(
+    (state) => state.player
+  );
 
   const dispatch = useDispatch();
 
@@ -48,11 +54,11 @@ function Player() {
 
   const [showVolControl, setShowVolControl] = useState(false);
 
-  const [isPlaying, setisPlaying] = useState(false);
+  // const [isPlaying, setisPlaying] = useState(false);
 
-  const [currentTime, setcurrentTime] = useState(0);
+  // const [currentTime, setcurrentTime] = useState(0);
 
-  const [duration, setDuration] = useState(0);
+  // const [duration, setDuration] = useState(0);
 
   const [sliderPercentage, setSliderPercentage] = useState();
 
@@ -66,6 +72,19 @@ function Player() {
 
   const onErrorRef = useRef(null);
 
+  const { isConnected, socket } = useSelector((state) => state.room);
+
+  useEffect(() => {
+    if (socket) {
+      // socket.on("ReceiveSync", (currentTrack) => {
+      //   dispatch(setCurrentTrack(currentTrack));
+      // });
+      socket.on("ReceiveSeek", (time) => {
+        playerRef.current.internalPlayer.seekTo(time);
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if (!firstRender) {
       setPlayerTrack();
@@ -73,8 +92,8 @@ function Player() {
   }, [current]);
 
   const setPlayerTrack = () => {
-    setcurrentTime(0);
-    setDuration(0);
+    dispatch(setCurrentTime(0));
+    dispatch(setDuration(0));
     setSliderPercentage(0);
     dispatch(setCurrentTrack(current));
   };
@@ -86,7 +105,7 @@ function Player() {
       playerRef.current.internalPlayer.playVideo();
       id = setInterval(async () => {
         const t = await playerRef.current.internalPlayer.getCurrentTime();
-        setcurrentTime(t);
+        dispatch(setCurrentTime(t));
       }, 500);
     } else {
       playerRef.current.internalPlayer.pauseVideo();
@@ -102,6 +121,7 @@ function Player() {
   useEffect(() => {
     if (duration) {
       setSliderPercentage((currentTime / duration) * 100);
+      dispatch(setCurrentTime(currentTime));
     }
   }, [currentTime]);
 
@@ -116,17 +136,22 @@ function Player() {
   }, [volume]);
 
   const isplayinghandler = () => {
-    setisPlaying(!isPlaying);
+    dispatch(setisPlaying(!isPlaying));
   };
+
+  useEffect(() => {
+    dispatch(setPlayerRef(playerRef));
+  }, [playerRef]);
 
   //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
     setVolume(event.target.getVolume());
     setIsMuted(event.target.isMuted());
     const duration = event.target.getDuration();
-    setDuration(duration);
+    dispatch(setDuration(duration));
     onReadyPlayerRef.current = event.target;
-    setisPlaying(true);
+    dispatch(setisPlaying(true));
+    // dispatch(setPlayerRef(event));
   };
 
   //function to see if the video is playing or not and set our isPlaying state accordingly
@@ -136,9 +161,9 @@ function Player() {
       dispatch({ type: HIDE_TRACK_LOADING });
     }
     if (e.data === 0 || e.data === 2) {
-      setisPlaying(false);
+      dispatch(setisPlaying(false));
     } else if (e.data === 1 || e.data === 3) {
-      setisPlaying(true);
+      dispatch(setisPlaying(true));
     }
   };
 
@@ -146,7 +171,10 @@ function Player() {
   const seekHandler = (e) => {
     let time = e.target.value;
     playerRef.current.internalPlayer.seekTo(time);
-    setcurrentTime(time);
+    if (socket) {
+      socket.emit("Seek", time);
+    }
+    dispatch(setCurrentTime(time));
   };
 
   //function to format time in seconds to this 0:00
@@ -163,7 +191,7 @@ function Player() {
   const onPlay = () => {
     setTimeout(() => {
       const duration = onReadyPlayerRef.current.getDuration();
-      setDuration(duration);
+      dispatch(setDuration(duration));
     }, 500);
     if (onErrorRef.current) {
       onErrorRef.current = null;
@@ -257,7 +285,7 @@ function Player() {
             />
             <motion.div
               className="animate-track"
-              animate={{ x: `${sliderPercentage}%` }}
+              animate={{ x: `${sliderPercentage ? sliderPercentage : 0}%` }}
             ></motion.div>
           </div>
           <p className="total-duration">

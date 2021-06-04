@@ -8,6 +8,7 @@ import artist from "./artist";
 import album from "./album";
 import sidebar from "./sidebar";
 import auth from "./auth";
+import room from "./room";
 
 const rootReducer = combineReducers({
   defaultPlaylists: DefaultPlaylistReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   album: album,
   sidebar: sidebar,
   auth,
+  room,
 });
 
 export default rootReducer;

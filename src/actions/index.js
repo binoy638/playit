@@ -25,7 +25,15 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   SET_USER,
+  SET_CURRENT_TIME,
   LOGOUT,
+  SET_DURATION,
+  SET_IS_PLAYING,
+  SET_IS_CONNECTED,
+  SET_SOCKET,
+  SET_PLAYER_REF,
+  SHOW_AUTH,
+  AUTH_LOADING,
 } from "./types";
 import jwt_decode from "jwt-decode";
 import * as API from "../api/publicRequests";
@@ -185,6 +193,10 @@ export const setSearchBarFocus = (bool) => (dispatch) => {
 };
 
 export const login = (credentials, router) => async (dispatch) => {
+  dispatch({
+    type: AUTH_LOADING,
+    payload: true,
+  });
   try {
     const { data } = await API.loginRequest(credentials);
     const token = data?.token;
@@ -227,5 +239,62 @@ export const setUser = (user) => (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
+  });
+};
+
+export const setCurrentTime = (time) => (dispatch) => {
+  dispatch({
+    type: SET_CURRENT_TIME,
+    payload: time,
+  });
+};
+
+export const setDuration = (time) => (dispatch) => {
+  dispatch({
+    type: SET_DURATION,
+    payload: time,
+  });
+};
+
+export const setisPlaying = (bool) => (dispatch) => {
+  dispatch({
+    type: SET_IS_PLAYING,
+    payload: bool,
+  });
+};
+
+export const setConnected = (bool) => (dispatch) => {
+  console.log("inside connected", bool);
+  dispatch({
+    type: SET_IS_CONNECTED,
+    payload: bool,
+  });
+};
+
+export const setRoomID = (ID) => (dispatch) => {
+  dispatch({
+    type: SET_IS_CONNECTED,
+    payload: ID,
+  });
+};
+
+export const setSocket = (socket) => (dispatch) => {
+  dispatch({
+    type: SET_SOCKET,
+    payload: socket,
+  });
+};
+
+export const setPlayerRef = (ref) => (dispatch) => {
+  dispatch({
+    type: SET_PLAYER_REF,
+    payload: ref,
+  });
+};
+
+export const setShowAuth = (type) => (dispatch) => {
+  dispatch({
+    type: SHOW_AUTH,
+    payload: type,
   });
 };

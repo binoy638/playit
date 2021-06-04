@@ -3,6 +3,10 @@ import {
   NEXT_TRACK,
   PREVIOUS_TRACK,
   LOOP,
+  SET_CURRENT_TIME,
+  SET_DURATION,
+  SET_IS_PLAYING,
+  SET_PLAYER_REF,
 } from "../actions/types";
 import Playlist from "../helper/playlist";
 
@@ -10,6 +14,10 @@ const inititalStore = {
   playlist: new Playlist(),
   current: null,
   loop: false,
+  currentTime: 0,
+  isPlaying: false,
+  durtation: 0,
+  ref: null,
 };
 
 const playerReducer = (state = inititalStore, action) => {
@@ -38,6 +46,17 @@ const playerReducer = (state = inititalStore, action) => {
         state.playlist.setLoop(false);
       }
       return { ...state, loop: action.payload };
+    case SET_CURRENT_TIME:
+      const currentTime = action.payload;
+      return { ...state, currentTime };
+    case SET_DURATION:
+      const duration = action.payload;
+      return { ...state, duration };
+    case SET_IS_PLAYING:
+      const isPlaying = action.payload;
+      return { ...state, isPlaying };
+    case SET_PLAYER_REF:
+      return { ...state, ref: action.payload };
     default:
       return { ...state };
   }
