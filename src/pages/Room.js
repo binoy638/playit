@@ -5,6 +5,13 @@ import { setConnected, setCurrentTrack, setSocket } from "../actions";
 import { baseURL as ENDPOINT } from "../api/config";
 import { io } from "socket.io-client";
 
+let connectionOptions = {
+  "force new connection": true,
+  reconnectionAttempts: "Infinity",
+  timeout: 10000,
+  transports: ["websocket"],
+};
+
 // let socket;
 
 function Room() {

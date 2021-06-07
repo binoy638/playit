@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseURL = "https://playit.sytes.net";
+// export const baseURL = "https://fire-platinum-licorice.glitch.me/";
 export const baseURL = "https://playit-server.herokuapp.com";
-// const baseURL = "http://localhost:5000";
+// export const baseURL = "http://localhost:5001";
 
 export const API = axios.create({ baseURL });
