@@ -60,9 +60,8 @@ function Search() {
               onMouseEnter={() => setDropDown(true)}
               onMouseLeave={() => setDropDown(false)}
             >
-              <div className="profile-pic">
-                {user.username.charAt(0).toUpperCase()}
-              </div>
+              <img src={user.image.url} className="profile-pic" alt="profile" />
+
               {dropDown && (
                 <UserDropDown status="loggedIn" setDropDown={setDropDown} />
               )}

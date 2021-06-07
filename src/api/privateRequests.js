@@ -11,3 +11,5 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchPlaylistsRequest = () => API.get(`/playlist`);
+
+export const uploadProfileImage = (data) => API.post("/user/image", { data });

@@ -1,9 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { logout } from "../../actions";
+import { logout, setShowAuth } from "../../actions";
 
 function UserDropDown({ status, setDropDown }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   if (status === "loggedIn") {
     return (
@@ -11,8 +13,10 @@ function UserDropDown({ status, setDropDown }) {
         <ul onClick={() => setDropDown(false)}>
           <li>Favourites</li>
           <li>Playlists</li>
-          <li>Profile</li>
-          <li onClick={() => dispatch(logout())}>Log Out</li>
+          <Link to="/profile">
+            <li>Profile</li>
+          </Link>
+          <li onClick={() => dispatch(logout(history))}>Log Out</li>
         </ul>
       </div>
     );
@@ -20,12 +24,8 @@ function UserDropDown({ status, setDropDown }) {
     return (
       <div className="userDropDown">
         <ul onClick={() => setDropDown(false)}>
-          <Link to="/login">
-            <li>Log In</li>
-          </Link>
-          <Link to="/signup">
-            <li>Sign Up</li>
-          </Link>
+          <li onClick={() => dispatch(setShowAuth("login"))}>Log In</li>
+          <li onClick={() => dispatch(setShowAuth("signup"))}>Sign Up</li>
         </ul>
       </div>
     );

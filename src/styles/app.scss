@@ -20,6 +20,8 @@
 }
 
 body {
+  color: var(--primary-text-color);
+
   background-color: var(--primary-color);
 
   &::-webkit-scrollbar-track {
@@ -69,3 +71,5 @@ input[type="range"]::-moz-range-thumb {
 @import "./mediaQuery";
 @import "./utilities";
 @import "./register";
+@import "./room";
+@import "./profile";

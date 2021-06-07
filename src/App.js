@@ -11,9 +11,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/app.scss";
 import { HIDE_SIDEBAR, SHOW_SIDEBAR } from "./actions/types";
 import { useWindowSize } from "./hooks/useWindowSize";
+import Modal from "./components/extra/Modal";
 
 function App() {
   const dispatch = useDispatch();
+
+  const { showAuthType } = useSelector((state) => state.auth);
 
   const [windowWidth] = useWindowSize();
 
@@ -55,6 +58,7 @@ function App() {
             {showSidebar && <Sidebar />}
             <Header />
             <Main />
+            {showAuthType ? <Modal type={showAuthType} /> : ""}
           </div>
           {!PlayerLoading && <Player />}
         </Router>
