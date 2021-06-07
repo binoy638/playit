@@ -6,6 +6,7 @@ import {
   SHOW_AUTH,
   AUTH_LOADING,
   CLEAR_ERROR,
+  UPDATE_PROFILE_IMAGE,
 } from "../actions/types";
 
 const initialStore = {
@@ -53,6 +54,13 @@ const auth = (state = initialStore, action) => {
       return { ...state, loading: action.payload };
     case CLEAR_ERROR:
       return { ...state, error: null };
+    case UPDATE_PROFILE_IMAGE:
+      const newImage = action.payload;
+      const _user = JSON.parse(localStorage.getItem("user"));
+      if (!_user) return { ...state };
+      _user.image = newImage;
+      localStorage.setItem("user", JSON.stringify(_user));
+      return { ...state, user: _user };
     default:
       return { ...state };
   }

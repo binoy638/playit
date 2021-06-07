@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { registerRequest } from "../api/publicRequests";
+import { registerRequest } from "../../api/publicRequests";
 
 function Register() {
   const history = useHistory();
@@ -14,8 +13,6 @@ function Register() {
     password2: "",
   });
 
-  // const { error, loading } = useSelector((state) => state.auth);
-
   const [showPass, setShowPass] = useState(false);
 
   const [showPass2, setShowPass2] = useState(false);
@@ -24,7 +21,6 @@ function Register() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    // console.log(form);
   };
 
   const handleSubmit = async (e) => {
@@ -39,7 +35,6 @@ function Register() {
         password: form.password,
         username: form.username,
       });
-      console.log(response);
       if (response.status === 201) {
         return history.push("/login");
       }

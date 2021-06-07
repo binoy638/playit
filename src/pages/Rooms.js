@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CreateRoom from "../components/room/CreateRoom";
 import { nanoid } from "nanoid";
 import JoinRoom from "../components/room/JoinRoom";
+import PageHeader from "../components/extra/PageHeader";
 
 // function Room() {
 //   const [messageList, setMessageList] = useState([]);
@@ -91,22 +92,28 @@ function Rooms() {
 
   if (!choice)
     return (
-      <div className="prompt">
-        <div className="container">
-          <div className="choice" onClick={() => setChoice(1)}>
-            Create a Room
-          </div>
-          <div className="choice" onClick={() => setChoice(2)}>
-            Join a Room
+      <div>
+        <PageHeader heading={"Rooms"} />
+        <div className="prompt">
+          <div className="container">
+            <div className="choice" onClick={() => setChoice(1)}>
+              Create a Room
+            </div>
+            <div className="choice" onClick={() => setChoice(2)}>
+              Join a Room
+            </div>
           </div>
         </div>
       </div>
     );
   else
     return (
-      <div className="prompt">
-        <div className="container">
-          {choice === 1 ? <CreateRoom ID={nanoid(10)} /> : <JoinRoom />}
+      <div>
+        <PageHeader heading={"Rooms"} />
+        <div className="prompt">
+          <div className="container">
+            {choice === 1 ? <CreateRoom ID={nanoid(10)} /> : <JoinRoom />}
+          </div>
         </div>
       </div>
     );

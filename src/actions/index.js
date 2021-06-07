@@ -34,6 +34,7 @@ import {
   SET_PLAYER_REF,
   SHOW_AUTH,
   AUTH_LOADING,
+  UPDATE_PROFILE_IMAGE,
 } from "./types";
 import jwt_decode from "jwt-decode";
 import * as API from "../api/publicRequests";
@@ -192,22 +193,20 @@ export const setSearchBarFocus = (bool) => (dispatch) => {
   });
 };
 
-export const login = (credentials, router) => async (dispatch) => {
+export const login = (credentials) => async (dispatch) => {
   dispatch({
     type: AUTH_LOADING,
     payload: true,
   });
   try {
     const { data } = await API.loginRequest(credentials);
-    const token = data?.token;
+    const { token, username, email, image } = data;
     if (token) {
-      const decoded = jwt_decode(token);
-
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: { username: decoded.username, email: decoded.email, token },
+        payload: { username, email, token, image },
       });
-      router.push("/");
+      dispatch(setShowAuth(null));
     } else {
       dispatch({
         type: LOGIN_FAILURE,
@@ -236,10 +235,11 @@ export const setUser = (user) => (dispatch) => {
   });
 };
 
-export const logout = () => (dispatch) => {
+export const logout = (router) => (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+  router.push("/");
 };
 
 export const setCurrentTime = (time) => (dispatch) => {
@@ -296,5 +296,12 @@ export const setShowAuth = (type) => (dispatch) => {
   dispatch({
     type: SHOW_AUTH,
     payload: type,
+  });
+};
+
+export const updateUserImage = (image) => (dispatch) => {
+  dispatch({
+    type: UPDATE_PROFILE_IMAGE,
+    payload: image,
   });
 };

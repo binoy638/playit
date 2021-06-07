@@ -1,7 +1,6 @@
 .prompt {
     margin-top: 5rem;
     .container {
-        background-color: red;
         height: 20rem;
         width: 20rem;
         border-radius: 5%;
@@ -10,14 +9,50 @@
         justify-content: center;
         gap: 2rem;
         .choice {
+            color: black;
+            border-radius: 5%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background-color: lightblue;
+            background-color: var(--secondary-color);
             height: 5rem;
             width: 5rem;
             cursor: pointer;
         }
+    }
+}
+
+.chat-box {
+    height: 25rem;
+    width: 25rem;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    .message {
+        color: black;
+        display: flex;
+        align-items: centers;
+        border-radius: 100px;
+        gap: 0.5rem;
+        font-size: 13px;
+
+        word-break: break-all;
+        img {
+            height: 2rem;
+            width: 2rem;
+            border-radius: 50%;
+        }
+    }
+}
+
+.self-msg {
+    padding-left: 2rem;
+    justify-content: flex-end;
+    background-color: rgb(214, 211, 211);
+    img {
+        order: 2;
     }
 }

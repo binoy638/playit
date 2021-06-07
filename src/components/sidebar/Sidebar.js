@@ -63,7 +63,7 @@ function Sidebar() {
           </div>
         </Link>
       </section>
-      <input type="button" className="btn subs-btn" value="Subscribe" />
+      {/* <input type="button" className="btn subs-btn" value="Subscribe" /> */}
     </aside>
   );
 }

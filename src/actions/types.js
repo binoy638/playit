@@ -43,3 +43,4 @@ export const SET_PLAYER_REF = "SET_PLAYER_REF";
 export const SHOW_AUTH = "SHOW_AUTH";
 export const AUTH_LOADING = "LOGIN_LOADING";
 export const CLEAR_ERROR = "CLEAR_ERROR";
+export const UPDATE_PROFILE_IMAGE = "UPDATE_PROFILE_IMAGE";

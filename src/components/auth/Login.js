@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { login } from "../actions";
+import { login } from "../../actions";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { BsDashCircleFill } from "react-icons/bs";
 import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
-import { CLEAR_ERROR } from "../actions/types";
+import { CLEAR_ERROR } from "../../actions/types";
 
 function Login() {
-  const history = useHistory();
-
   const dispatch = useDispatch();
 
   const { error, loading } = useSelector((state) => state.auth);
@@ -29,7 +26,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }, history));
+    dispatch(login({ email, password }));
   };
 
   return (

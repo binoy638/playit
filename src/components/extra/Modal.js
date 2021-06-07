@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { setShowAuth } from "../../actions";
-import Login from "../../pages/Login";
-import Register from "../../pages/Register";
+import Login from "../auth/Login";
+import Register from "../auth/Register";
 
 const Modal = ({ type }) => {
   const dispatch = useDispatch();
