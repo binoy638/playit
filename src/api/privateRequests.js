@@ -13,3 +13,10 @@ API.interceptors.request.use((req) => {
 export const fetchPlaylistsRequest = () => API.get(`/playlist`);
 
 export const uploadProfileImage = (data) => API.post("/user/image", { data });
+
+export const findUser = (query, cancelToken) =>
+  API.get(`/search/user?query=${query}`, {
+    cancelToken: cancelToken.token,
+  });
+
+export const addFriend = (data) => API.post("/user/addfriend", { data });

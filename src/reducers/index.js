@@ -7,7 +7,7 @@ import playerReducer from "./player";
 import artist from "./artist";
 import album from "./album";
 import sidebar from "./sidebar";
-import auth from "./auth";
+import user from "./user";
 import room from "./room";
 
 const rootReducer = combineReducers({
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   artist: artist,
   album: album,
   sidebar: sidebar,
-  auth,
+  user,
   room,
 });
 

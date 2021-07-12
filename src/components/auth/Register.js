@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { registerRequest } from "../../api/publicRequests";
+import { setShowAuth } from "../../actions";
+import { useDispatch } from "react-redux";
+import Loader from "react-loader-spinner";
 
 function Register() {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     username: "",
@@ -12,6 +14,8 @@ function Register() {
     password: "",
     password2: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const [showPass, setShowPass] = useState(false);
 
@@ -25,6 +29,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (form.password !== form.password2) {
       setFormError("Password doesn't match.");
       return;
@@ -35,15 +40,19 @@ function Register() {
         password: form.password,
         username: form.username,
       });
+      console.log(response);
       if (response.status === 201) {
-        return history.push("/login");
+        setLoading(false);
+        return dispatch(setShowAuth("login"));
       }
 
       if (response?.data) {
+        setLoading(false);
         return setFormError(response.data);
       }
     } catch (error) {
       if (!error.response) {
+        setLoading(false);
         return setFormError("Something went wrong please try again later");
       }
       try {
@@ -51,6 +60,7 @@ function Register() {
       } catch (error) {
         setFormError("Something went wrong please try again later");
       }
+      setLoading(false);
     }
   };
 
@@ -126,7 +136,11 @@ function Register() {
             !form.username || !form.email || !form.password || !form.password2
           }
         >
-          Sign Up
+          {loading ? (
+            <Loader type="ThreeDots" color="#00BFFF" height={40} width={40} />
+          ) : (
+            "Sign Up"
+          )}
         </button>
       </form>
     </div>

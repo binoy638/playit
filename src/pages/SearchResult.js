@@ -25,6 +25,7 @@ function SearchResult({ location }) {
     cancelToken.current = axios.CancelToken.source();
 
     dispatch(search(query, cancelToken.current));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { setQuery, setSearchBarFocus } from "../../actions";
 import { TOGGLE_SIDEBAR } from "../../actions/types";
 import { FaUserCircle } from "react-icons/fa";
@@ -16,7 +16,7 @@ function Search() {
 
   const { query, isSearchFocused } = useSelector((state) => state.search);
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (isSearchFocused) {

@@ -6,7 +6,7 @@ import {
   SET_CURRENT_TIME,
   SET_DURATION,
   SET_IS_PLAYING,
-  SET_PLAYER_REF,
+  SET_PLAYER_SYNC,
 } from "../actions/types";
 import Playlist from "../helper/playlist";
 
@@ -17,7 +17,7 @@ const inititalStore = {
   currentTime: 0,
   isPlaying: false,
   durtation: 0,
-  ref: null,
+  sync: false,
 };
 
 const playerReducer = (state = inititalStore, action) => {
@@ -55,8 +55,8 @@ const playerReducer = (state = inititalStore, action) => {
     case SET_IS_PLAYING:
       const isPlaying = action.payload;
       return { ...state, isPlaying };
-    case SET_PLAYER_REF:
-      return { ...state, ref: action.payload };
+    case SET_PLAYER_SYNC:
+      return { ...state, sync: action.payload };
     default:
       return { ...state };
   }

@@ -1,7 +1,6 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { setQuery } from "../../actions";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import {
   Collections,
   Hotlists,
@@ -12,16 +11,31 @@ import {
   MenuExit,
 } from "../../helper/svg";
 
+import { setQuery } from "../../actions";
+
+import logo from "../../assets/logo_1.png";
+
 function Sidebar() {
+  const location = useLocation();
+
   const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user);
+
+  const addClass = (defaultClass, path) => {
+    if (location.pathname === path) return `${defaultClass} active`;
+    else return defaultClass;
+  };
+
   return (
     <aside className="sidebar">
       <MenuExit />
       <div className="logo-container">
         <Link to="/" onClick={() => dispatch(setQuery(""))}>
-          <div className="logo">Playit</div>
+          <img src={logo} alt="logo" />
         </Link>
       </div>
+
       <section className="discover-section">
         <h1>Discover</h1>
 
@@ -29,7 +43,7 @@ function Sidebar() {
           <Hotlists />
           <span>Hotlist</span>
         </div>
-        <div className="side-menu active">
+        <div className="side-menu ">
           <Collections />
           <span>Collections</span>
         </div>
@@ -42,7 +56,7 @@ function Sidebar() {
           <span>Favourites</span>
         </div>
         <Link to="/library/playlists">
-          <div className="side-menu">
+          <div className={addClass("side-menu", "/library/playlists")}>
             <Playlist />
             <span>Playlists</span>
           </div>
@@ -63,7 +77,11 @@ function Sidebar() {
           </div>
         </Link>
       </section>
-      {/* <input type="button" className="btn subs-btn" value="Subscribe" /> */}
+      {user && (
+        <section className="friend-list">
+          <h1>Friends</h1>
+        </section>
+      )}
     </aside>
   );
 }

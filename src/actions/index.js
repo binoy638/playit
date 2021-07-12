@@ -31,13 +31,15 @@ import {
   SET_IS_PLAYING,
   SET_IS_CONNECTED,
   SET_SOCKET,
-  SET_PLAYER_REF,
+  SET_PLAYER_SYNC,
   SHOW_AUTH,
   AUTH_LOADING,
   UPDATE_PROFILE_IMAGE,
+  SET_FIND_USER_RESULT,
 } from "./types";
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 import * as API from "../api/publicRequests";
+import * as APIV2 from "../api/privateRequests";
 //Action Creator
 
 export const fetchDefaultPlaylists = () => async (dispatch) => {
@@ -129,21 +131,28 @@ export const setVideoID = (query) => async (dispatch) => {
 export const search = (query, cancelToken) => async (dispatch) => {
   dispatch({ type: HIDE_SEARCH }); //hide search loading spinner
 
-  const response = await API.searchTracksRequest(query, cancelToken);
-  let payload;
-  if (response.data.statusCode === 404) {
-    payload = { searchResult: [], resultFound: false };
-  } else {
-    payload = {
-      searchResult: response.data,
-      resultFound: true,
-    };
-  }
-  dispatch({
-    type: SEARCH,
-    payload,
-  });
+  try {
+    const { data } = await API.searchTracksRequest(query, cancelToken);
 
+    if (data.length) {
+      dispatch({
+        type: SEARCH,
+        payload: {
+          searchResult: data,
+          resultFound: true,
+        },
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    dispatch({
+      type: SEARCH,
+      payload: {
+        searchResult: [],
+        resultFound: false,
+      },
+    });
+  }
   dispatch({ type: SHOW_SEARCH });
 };
 
@@ -285,10 +294,10 @@ export const setSocket = (socket) => (dispatch) => {
   });
 };
 
-export const setPlayerRef = (ref) => (dispatch) => {
+export const setPlayerRef = (bool) => (dispatch) => {
   dispatch({
-    type: SET_PLAYER_REF,
-    payload: ref,
+    type: SET_PLAYER_SYNC,
+    payload: bool,
   });
 };
 
@@ -304,4 +313,29 @@ export const updateUserImage = (image) => (dispatch) => {
     type: UPDATE_PROFILE_IMAGE,
     payload: image,
   });
+};
+
+export const searchFriend = (query, cancelToken) => async (dispatch) => {
+  try {
+    const { data } = await APIV2.findUser(query, cancelToken);
+
+    dispatch({
+      type: SET_FIND_USER_RESULT,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SET_FIND_USER_RESULT,
+      payload: null,
+    });
+  }
+};
+
+export const addFriend = (userID) => async (dispatch) => {
+  try {
+    const { data } = await APIV2.addFriend(userID);
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -10,7 +10,7 @@ import { CLEAR_ERROR } from "../../actions/types";
 function Login() {
   const dispatch = useDispatch();
 
-  const { error, loading } = useSelector((state) => state.auth);
+  const { error, loading } = useSelector((state) => state.user);
 
   const [email, setEmail] = useState("");
 

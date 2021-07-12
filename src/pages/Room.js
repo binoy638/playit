@@ -5,13 +5,6 @@ import { setConnected, setCurrentTrack, setSocket } from "../actions";
 import { baseURL as ENDPOINT } from "../api/config";
 import { io } from "socket.io-client";
 
-let connectionOptions = {
-  "force new connection": true,
-  reconnectionAttempts: "Infinity",
-  timeout: 10000,
-  transports: ["websocket"],
-};
-
 // let socket;
 
 function Room() {
@@ -21,17 +14,30 @@ function Room() {
 
   const { user } = useSelector((state) => state.auth);
 
-  const { socket } = useSelector((state) => state.room);
+  const { socket: Socket } = useSelector((state) => state.room);
 
   const [messageList, setMessageList] = useState([]);
 
   const [message, setMessage] = useState();
 
   const socketConnectionHandler = () => {
-    const conn = io(ENDPOINT);
-    conn.emit("join-room", id);
-    addSocketEvents(conn);
-    dispatch(setSocket(conn));
+    const socket = io(ENDPOINT, { autoConnect: false });
+
+    socket.auth = { username: user.username };
+    socket.connect();
+    socket.emit("join-room", id);
+
+    socket.onAny((event, ...args) => {
+      console.log("inside");
+      console.log(event, args);
+    });
+    socket.on("connect_error", (err) => {
+      if (err.message === "invalid username") {
+        return;
+      }
+    });
+    addSocketEvents(socket);
+    dispatch(setSocket(socket));
   };
 
   const addSocketEvents = (socket) => {
@@ -42,24 +48,22 @@ function Room() {
   };
 
   const socketDisconnectHandler = () => {
-    socket.disconnect();
+    Socket.disconnect();
     dispatch(setSocket(null));
   };
 
   const sendMessageHandler = () => {
     const msgObj = { message, user: user.username, image: user.image.url };
-    socket.emit("MessageSent", msgObj);
+    Socket.emit("MessageSent", msgObj);
     msgObj.self = true;
     setMessageList((oldMsg) => [...oldMsg, msgObj]);
     setMessage("");
   };
 
-  if (socket)
+  if (Socket)
     return (
       <div>
-        <div>
-          You are connected to {id} {id}
-        </div>
+        <div>You are connected to {id}</div>
         <button onClick={socketDisconnectHandler}>Disconnnect</button>
         <div className="chat-box">
           {messageList &&
@@ -78,7 +82,8 @@ function Room() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button onClick={sendMessageHandler}>send</button>
+        <button onClick={sendMessageHandler}>send</button> <br></br>
+        <button onClick={() => {}}>Sync Player</button>
       </div>
     );
   else

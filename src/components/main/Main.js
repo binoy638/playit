@@ -9,6 +9,7 @@ import Playlists from "../../pages/Playlists";
 import Rooms from "../../pages/Rooms";
 import Room from "../../pages/Room";
 import Profile from "../../pages/Profile";
+import Friends from "../../pages/Friends";
 
 function Main() {
   return (
@@ -22,6 +23,7 @@ function Main() {
         <ProtectedRoute path="/profile" component={Profile} />
         <Route path="/rooms" component={Rooms} />
         <ProtectedRoute path="/room/:id" component={Room} />
+        <ProtectedRoute path="/friends" component={Friends} />
         <Route path="*">
           <Error message={"No route here"} />
         </Route>

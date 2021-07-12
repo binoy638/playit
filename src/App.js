@@ -16,7 +16,7 @@ import Modal from "./components/extra/Modal";
 function App() {
   const dispatch = useDispatch();
 
-  const { showAuthType } = useSelector((state) => state.auth);
+  const { showAuthType } = useSelector((state) => state.user);
 
   const [windowWidth] = useWindowSize();
 

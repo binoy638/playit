@@ -7,6 +7,7 @@ import {
   AUTH_LOADING,
   CLEAR_ERROR,
   UPDATE_PROFILE_IMAGE,
+  SET_FIND_USER_RESULT,
 } from "../actions/types";
 
 const initialStore = {
@@ -15,9 +16,11 @@ const initialStore = {
   showAuthType: null,
   loading: false,
   error: null,
+  friends: [],
+  findUserResult: null,
 };
 
-const auth = (state = initialStore, action) => {
+const user = (state = initialStore, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       const user = action.payload;
@@ -61,9 +64,11 @@ const auth = (state = initialStore, action) => {
       _user.image = newImage;
       localStorage.setItem("user", JSON.stringify(_user));
       return { ...state, user: _user };
+    case SET_FIND_USER_RESULT:
+      return { ...state, findUserResult: action.payload };
     default:
       return { ...state };
   }
 };
 
-export default auth;
+export default user;
