@@ -5,7 +5,7 @@ import { fetchPlaylistsRequest } from "../api/privateRequests";
 function Playlists() {
   const [playlists, setPlaylists] = useState([]);
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     fetchPlaylistsRequest().then((res) => setPlaylists(res.data.playlist));

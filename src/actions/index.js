@@ -36,10 +36,13 @@ import {
   AUTH_LOADING,
   UPDATE_PROFILE_IMAGE,
   SET_FIND_USER_RESULT,
+  SET_FRIEND_LIST,
+  SET_ADD_FRIEND_ERROR,
 } from "./types";
 // import jwt_decode from "jwt-decode";
 import * as API from "../api/publicRequests";
 import * as APIV2 from "../api/privateRequests";
+import { FriendCard } from "../components/extra/cards";
 //Action Creator
 
 export const fetchDefaultPlaylists = () => async (dispatch) => {
@@ -209,11 +212,11 @@ export const login = (credentials) => async (dispatch) => {
   });
   try {
     const { data } = await API.loginRequest(credentials);
-    const { token, username, email, image } = data;
+    const { token, username, email, image, friends } = data;
     if (token) {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: { username, email, token, image },
+        payload: { user: { username, email, token, image }, friends },
       });
       dispatch(setShowAuth(null));
     } else {
@@ -334,7 +337,77 @@ export const searchFriend = (query, cancelToken) => async (dispatch) => {
 export const addFriend = (userID) => async (dispatch) => {
   try {
     const { data } = await APIV2.addFriend(userID);
-    console.log(data);
+    dispatch(fetchFriendList());
+  } catch (error) {
+    if (error.response) {
+      const { data } = error.response;
+      if (data?.status) {
+        const status = data.status;
+        if (status === 2)
+          return dispatch(addFriendError("This user have already added you."));
+        else if (status === 3)
+          return dispatch(addFriendError("You have already added this user."));
+        else if (status === 4)
+          return dispatch(
+            addFriendError("This user is already in your friend list.")
+          );
+      }
+    }
+  }
+};
+
+export const addFriendError = (error) => async (dispatch) => {
+  dispatch({
+    type: SET_ADD_FRIEND_ERROR,
+    payload: error,
+  });
+};
+
+export const acceptFriendRequest = (userID) => async (dispatch) => {
+  try {
+    const { data } = await APIV2.acceptFriendReq(userID);
+    dispatch(fetchFriendList());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const declineFriendRequest = (userID) => async (dispatch) => {
+  try {
+    const { data } = await APIV2.declineFriendReq(userID);
+    dispatch(fetchFriendList());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const removePendingFriendRequest = (userID) => async (dispatch) => {
+  try {
+    const { data } = await APIV2.removeFriendReq(userID);
+    dispatch(fetchFriendList());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchFriendList = () => async (dispatch) => {
+  try {
+    const { data } = await APIV2.fetchFriends();
+    if (!data) return;
+
+    const friends = [];
+    const friendsReq = [];
+    const friendsPen = [];
+
+    data.friends.forEach((friend) => {
+      if (friend.status === 4) return friends.push(friend);
+      else if (friend.status === 2) return friendsReq.push(friend);
+      else if (friend.status === 3) return friendsPen.push(friend);
+    });
+    dispatch({
+      type: SET_FRIEND_LIST,
+      payload: { friends, friendsPen, friendsReq },
+    });
   } catch (error) {
     console.log(error);
   }

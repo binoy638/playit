@@ -5,7 +5,7 @@ import Player from "./components/player/Player";
 import Sidebar from "./components/sidebar/Sidebar";
 import Header from "./components/main/Header";
 import { Loading } from "./components/extra/loading";
-import { fetchDefaultPlaylists, setUser } from "./actions";
+import { fetchDefaultPlaylists, fetchFriendList, setUser } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/app.scss";
@@ -30,6 +30,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchDefaultPlaylists());
+    dispatch(fetchFriendList());
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       dispatch(setUser(user));

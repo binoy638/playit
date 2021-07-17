@@ -97,15 +97,57 @@
   border-bottom: 0.1px solid rgba(109, 107, 107, 0.671);
 }
 
-.friend {
+.add-friend-card {
   margin-top: 1rem;
   display: flex;
   gap: 0.6rem;
   align-items: center;
+
   img {
     height: 2rem;
     width: 2rem;
     border-radius: 10rem;
+  }
+}
+
+.friend-card {
+  border-radius: 5%;
+  height: 8rem;
+  width: 12rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgb(43, 22, 83);
+
+  img {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 10rem;
+  }
+  .actions {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+  }
+  button {
+    height: 1.4rem;
+    width: 4rem;
+    border-radius: 2px;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .accept-btn {
+    background-color: rgb(61, 199, 73);
+  }
+  .decline-btn {
+    background-color: rgb(235, 53, 21);
+  }
+  .remove-btn {
+    background-color: rgb(235, 53, 21);
   }
 }
 

@@ -43,15 +43,13 @@ const Profile = () => {
 
   const uploadImage = async (base64EncodedImage) => {
     try {
-      const response = await uploadProfileImage(base64EncodedImage);
-      if (response.status === 200) {
-        dispatch(updateUserImage(response.data.image));
-      } else {
-        //TODO: SHOW ERROR IN UI
-        console.log("Could not update image try again later");
-      }
+      const { data } = await uploadProfileImage(base64EncodedImage);
+
+      dispatch(updateUserImage(data.image));
     } catch (err) {
       console.error(err);
+      //TODO: SHOW ERROR IN UI
+      console.log("Could not update image try again later");
     }
   };
 

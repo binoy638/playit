@@ -1,10 +1,13 @@
 .authForm {
     background-color: var(--primary-color);
-    height: 30rem;
+    height: 33rem;
     width: 25rem;
     color: white;
     border-radius: 0.5rem;
-    border: 1rem solid var(--primary-color);
+    padding: 1rem;
+    small {
+        color: var(--highlight-color);
+    }
     .header {
         display: flex;
         justify-content: center;

@@ -8,6 +8,8 @@ import {
   CLEAR_ERROR,
   UPDATE_PROFILE_IMAGE,
   SET_FIND_USER_RESULT,
+  SET_FRIEND_LIST,
+  SET_ADD_FRIEND_ERROR,
 } from "../actions/types";
 
 const initialStore = {
@@ -17,13 +19,16 @@ const initialStore = {
   loading: false,
   error: null,
   friends: [],
+  friendsReq: [],
+  friendsPen: [],
+  addFriendError: null,
   findUserResult: null,
 };
 
 const user = (state = initialStore, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      const user = action.payload;
+      const { user } = action.payload;
       localStorage.setItem("user", JSON.stringify(user));
       return {
         ...state,
@@ -66,6 +71,11 @@ const user = (state = initialStore, action) => {
       return { ...state, user: _user };
     case SET_FIND_USER_RESULT:
       return { ...state, findUserResult: action.payload };
+    case SET_FRIEND_LIST:
+      const { friends, friendsReq, friendsPen } = action.payload;
+      return { ...state, friends, friendsPen, friendsReq };
+    case SET_ADD_FRIEND_ERROR:
+      return { ...state, addFriendError: action.payload };
     default:
       return { ...state };
   }

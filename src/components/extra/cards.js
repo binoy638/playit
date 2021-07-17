@@ -1,7 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setCurrentTrack, setPlaylist } from "../../actions";
+import {
+  acceptFriendRequest,
+  addFriend,
+  declineFriendRequest,
+  removePendingFriendRequest,
+  setCurrentTrack,
+  setPlaylist,
+} from "../../actions";
 
 export const TrackCardSmall = ({
   id,
@@ -70,6 +77,62 @@ export const PlaylistContainer = ({ playlist, showImage }) => {
             showImage={showImage}
           />
         ))}
+    </div>
+  );
+};
+
+export const AddFriendCard = ({ username, image, _id }) => {
+  const dispatch = useDispatch();
+  return (
+    <div className="add-friend-card">
+      <img src={image ? image.url : ""} alt={username} />
+      <p>{username}</p>
+      <button onClick={() => dispatch(addFriend({ userID: _id }))}>Add</button>
+    </div>
+  );
+};
+
+export const FriendCard = ({ username, image, _id, type }) => {
+  const dispatch = useDispatch();
+  const renderCards = (type) => {
+    if (type === "requests") {
+      return (
+        <div className="actions">
+          <button
+            className="accept-btn"
+            onClick={() => dispatch(acceptFriendRequest({ userID: _id }))}
+          >
+            Accept
+          </button>
+          <button
+            className="decline-btn"
+            onClick={() => dispatch(declineFriendRequest({ userID: _id }))}
+          >
+            Decline
+          </button>
+        </div>
+      );
+    } else if (type === "pendings") {
+      return (
+        <div className="actions">
+          <button
+            className="remove-btn"
+            onClick={() =>
+              dispatch(removePendingFriendRequest({ userID: _id }))
+            }
+          >
+            Remove
+          </button>
+        </div>
+      );
+    }
+  };
+
+  return (
+    <div className="friend-card">
+      <img src={image ? image.url : ""} alt={username} />
+      <p>{username}</p>
+      {renderCards(type)}
     </div>
   );
 };

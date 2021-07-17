@@ -2,12 +2,14 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { searchFriend } from "../../actions";
-import AddFriendCard from "../extra/AddFriendCard";
+import { searchFriend, addFriendError } from "../../actions";
+import { AddFriendCard, FriendCard } from "../extra/cards";
 
 const FriendList = () => {
   const [query, setUserQuery] = useState("");
   const { findUserResult } = useSelector((state) => state.user);
+
+  const { friends, addFriendError: error } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -24,8 +26,14 @@ const FriendList = () => {
     }
   }, [query]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(addFriendError(null));
+    }, 10000);
+  }, [error]);
+
   return (
-    <div>
+    <div className="friends">
       <div className="search-friends">
         <div className="user-search-container">
           <input
@@ -34,9 +42,16 @@ const FriendList = () => {
             onChange={(e) => setUserQuery(e.target.value)}
           />
           {findUserResult && <AddFriendCard {...findUserResult} />}
+          {error && <small>{error}</small>}
         </div>
       </div>
-      <div className="friend-list">TODO: Display friend list</div>
+
+      <div className="friend-list-cards">
+        {friends.length > 0 &&
+          friends.map((friend, index) => (
+            <FriendCard {...friend.user} key={index} />
+          ))}
+      </div>
     </div>
   );
 };
