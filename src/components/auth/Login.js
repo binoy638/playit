@@ -22,7 +22,7 @@ function Login() {
     return () => {
       dispatch({ type: CLEAR_ERROR });
     };
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

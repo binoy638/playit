@@ -72,19 +72,6 @@ function Player() {
 
   const onErrorRef = useRef(null);
 
-  const { isConnected, socket } = useSelector((state) => state.room);
-
-  useEffect(() => {
-    if (socket) {
-      // socket.on("ReceiveSync", (currentTrack) => {
-      //   dispatch(setCurrentTrack(currentTrack));
-      // });
-      socket.on("ReceiveSeek", (time) => {
-        playerRef.current.internalPlayer.seekTo(time);
-      });
-    }
-  }, []);
-
   useEffect(() => {
     if (!firstRender) {
       setPlayerTrack();
@@ -116,14 +103,14 @@ function Player() {
         clearInterval(id);
       }
     };
-  }, [isPlaying]); //this hook runs only when the track is paused or resume
+  }, [isPlaying, dispatch]); //this hook runs only when the track is paused or resume
 
   useEffect(() => {
     if (duration) {
       setSliderPercentage((currentTime / duration) * 100);
       dispatch(setCurrentTime(currentTime));
     }
-  }, [currentTime]);
+  }, [currentTime, dispatch]);
 
   useEffect(() => {
     if (volume <= 1) {
@@ -171,9 +158,6 @@ function Player() {
   const seekHandler = (e) => {
     let time = e.target.value;
     playerRef.current.internalPlayer.seekTo(time);
-    if (socket) {
-      socket.emit("Seek", time);
-    }
     dispatch(setCurrentTime(time));
   };
 

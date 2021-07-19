@@ -149,6 +149,12 @@
   .remove-btn {
     background-color: rgb(235, 53, 21);
   }
+  .status {
+    align-self: flex-end;
+    height: 0.7rem;
+    width: 0.7rem;
+    border-radius: 50%;
+  }
 }
 
 .page-container {

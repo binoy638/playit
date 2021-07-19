@@ -2,7 +2,11 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { searchFriend, addFriendError } from "../../actions";
+import {
+  searchFriend,
+  addFriendError,
+  createSocketConnection,
+} from "../../actions";
 import { AddFriendCard, FriendCard } from "../extra/cards";
 
 const FriendList = () => {
@@ -24,13 +28,13 @@ const FriendList = () => {
       dispatch(searchFriend(query, cancelToken.current));
       // console.log(findUserResult);
     }
-  }, [query]);
+  }, [query, dispatch]);
 
   useEffect(() => {
     setTimeout(() => {
       dispatch(addFriendError(null));
     }, 10000);
-  }, [error]);
+  }, [error, dispatch]);
 
   return (
     <div className="friends">
@@ -49,7 +53,7 @@ const FriendList = () => {
       <div className="friend-list-cards">
         {friends.length > 0 &&
           friends.map((friend, index) => (
-            <FriendCard {...friend.user} key={index} />
+            <FriendCard {...friend.user} isOnline={friend.online} key={index} />
           ))}
       </div>
     </div>

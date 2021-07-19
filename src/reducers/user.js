@@ -10,6 +10,8 @@ import {
   SET_FIND_USER_RESULT,
   SET_FRIEND_LIST,
   SET_ADD_FRIEND_ERROR,
+  SET_SOCKET_CONNECTION,
+  SET_FRIEND_STATUS,
 } from "../actions/types";
 
 const initialStore = {
@@ -23,6 +25,7 @@ const initialStore = {
   friendsPen: [],
   addFriendError: null,
   findUserResult: null,
+  socket: null,
 };
 
 const user = (state = initialStore, action) => {
@@ -76,6 +79,19 @@ const user = (state = initialStore, action) => {
       return { ...state, friends, friendsPen, friendsReq };
     case SET_ADD_FRIEND_ERROR:
       return { ...state, addFriendError: action.payload };
+    case SET_SOCKET_CONNECTION:
+      return { ...state, socket: action.payload };
+    case SET_FRIEND_STATUS:
+      const { friendUserID, status } = action.payload;
+      const friendList = state.friends;
+      if (!friendList.length) return { ...state };
+      const newList = friendList.map((friend) => {
+        if (friend.user._id === friendUserID) {
+          friend.online = status === 0 ? false : true;
+        }
+        return friend;
+      });
+      return { ...state, friends: newList };
     default:
       return { ...state };
   }

@@ -5,20 +5,39 @@ import Player from "./components/player/Player";
 import Sidebar from "./components/sidebar/Sidebar";
 import Header from "./components/main/Header";
 import { Loading } from "./components/extra/loading";
-import { fetchDefaultPlaylists, fetchFriendList, setUser } from "./actions";
+import {
+  createSocketConnection,
+  destroySocketConnection,
+  fetchDefaultPlaylists,
+  fetchFriendList,
+  setUser,
+} from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/app.scss";
 import { HIDE_SIDEBAR, SHOW_SIDEBAR } from "./actions/types";
 import { useWindowSize } from "./hooks/useWindowSize";
 import Modal from "./components/extra/Modal";
+import useSocket from "./hooks/useSocket";
 
 function App() {
   const dispatch = useDispatch();
 
-  const { showAuthType } = useSelector((state) => state.user);
+  const { showAuthType, authenticated, user } = useSelector(
+    (state) => state.user
+  );
+  const socket = useSocket();
 
   const [windowWidth] = useWindowSize();
+
+  useEffect(() => {
+    if (authenticated) {
+      dispatch(createSocketConnection(user._id));
+      dispatch(fetchFriendList());
+    } else {
+      dispatch(destroySocketConnection());
+    }
+  }, [authenticated, dispatch]);
 
   useEffect(() => {
     if (windowWidth < 500) {
@@ -30,7 +49,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchDefaultPlaylists());
-    dispatch(fetchFriendList());
+
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       dispatch(setUser(user));

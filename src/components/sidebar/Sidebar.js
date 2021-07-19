@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -70,16 +70,12 @@ function Sidebar() {
           <Artists />
           <span>Artists</span>
         </div>
-        <Link to="/rooms">
-          <div className="side-menu">
-            <Albums />
-            <span>Rooms</span>
-          </div>
-        </Link>
       </section>
       {user && (
         <section className="friend-list">
-          <h1>Friends</h1>
+          <Link to="/friends">
+            <h1>Friends</h1>
+          </Link>
         </section>
       )}
     </aside>

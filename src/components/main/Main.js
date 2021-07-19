@@ -6,8 +6,6 @@ import Artist from "../../pages/artist";
 import Album from "../../pages/Album";
 import ProtectedRoute from "../../helper/ProtectedRoute";
 import Playlists from "../../pages/Playlists";
-import Rooms from "../../pages/Rooms";
-import Room from "../../pages/Room";
 import Profile from "../../pages/Profile";
 import Friends from "../../pages/Friends";
 
@@ -21,8 +19,6 @@ function Main() {
         <Route path="/album/:id" component={Album} />
         <ProtectedRoute path="/library/playlists" component={Playlists} />
         <ProtectedRoute path="/profile" component={Profile} />
-        <Route path="/rooms" component={Rooms} />
-        <ProtectedRoute path="/room/:id" component={Room} />
         <ProtectedRoute path="/friends" component={Friends} />
         <Route path="*">
           <Error message={"No route here"} />

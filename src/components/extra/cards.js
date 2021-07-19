@@ -92,7 +92,7 @@ export const AddFriendCard = ({ username, image, _id }) => {
   );
 };
 
-export const FriendCard = ({ username, image, _id, type }) => {
+export const FriendCard = ({ username, image, _id, type, isOnline }) => {
   const dispatch = useDispatch();
   const renderCards = (type) => {
     if (type === "requests") {
@@ -130,6 +130,10 @@ export const FriendCard = ({ username, image, _id, type }) => {
 
   return (
     <div className="friend-card">
+      <div
+        className="status"
+        style={{ backgroundColor: `${isOnline ? "green" : "red"}` }}
+      ></div>
       <img src={image ? image.url : ""} alt={username} />
       <p>{username}</p>
       {renderCards(type)}

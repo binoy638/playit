@@ -7,7 +7,7 @@ const PageMain = ({ heading, options }) => {
     if (options) {
       setSelectedOption(options[0].title);
     }
-  }, []);
+  }, [options]);
 
   return (
     <div className="page-container">

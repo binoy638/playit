@@ -29,8 +29,6 @@ import {
   LOGOUT,
   SET_DURATION,
   SET_IS_PLAYING,
-  SET_IS_CONNECTED,
-  SET_SOCKET,
   SET_PLAYER_SYNC,
   SHOW_AUTH,
   AUTH_LOADING,
@@ -38,17 +36,18 @@ import {
   SET_FIND_USER_RESULT,
   SET_FRIEND_LIST,
   SET_ADD_FRIEND_ERROR,
+  SET_SOCKET_CONNECTION,
+  SET_FRIEND_STATUS,
 } from "./types";
 // import jwt_decode from "jwt-decode";
 import * as API from "../api/publicRequests";
 import * as APIV2 from "../api/privateRequests";
-import { FriendCard } from "../components/extra/cards";
+import { io } from "socket.io-client";
+import { baseURL } from "../api/config";
+
 //Action Creator
 
 export const fetchDefaultPlaylists = () => async (dispatch) => {
-  // const { data: newRelease } = await axios.get(newReleaseURL);
-  // const { data: hotTracks } = await axios.get(hotTracksURL);
-
   const { data: newRelease } = await API.getNewReleasesRequest();
   const { data: hotTracks } = await API.getTopTracksRequest();
 
@@ -212,11 +211,11 @@ export const login = (credentials) => async (dispatch) => {
   });
   try {
     const { data } = await API.loginRequest(credentials);
-    const { token, username, email, image, friends } = data;
+    const { _id, token, username, email, image } = data;
     if (token) {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: { user: { username, email, token, image }, friends },
+        payload: { user: { _id, username, email, token, image } },
       });
       dispatch(setShowAuth(null));
     } else {
@@ -275,28 +274,6 @@ export const setisPlaying = (bool) => (dispatch) => {
   });
 };
 
-export const setConnected = (bool) => (dispatch) => {
-  console.log("inside connected", bool);
-  dispatch({
-    type: SET_IS_CONNECTED,
-    payload: bool,
-  });
-};
-
-export const setRoomID = (ID) => (dispatch) => {
-  dispatch({
-    type: SET_IS_CONNECTED,
-    payload: ID,
-  });
-};
-
-export const setSocket = (socket) => (dispatch) => {
-  dispatch({
-    type: SET_SOCKET,
-    payload: socket,
-  });
-};
-
 export const setPlayerRef = (bool) => (dispatch) => {
   dispatch({
     type: SET_PLAYER_SYNC,
@@ -336,7 +313,7 @@ export const searchFriend = (query, cancelToken) => async (dispatch) => {
 
 export const addFriend = (userID) => async (dispatch) => {
   try {
-    const { data } = await APIV2.addFriend(userID);
+    await APIV2.addFriend(userID);
     dispatch(fetchFriendList());
   } catch (error) {
     if (error.response) {
@@ -365,7 +342,7 @@ export const addFriendError = (error) => async (dispatch) => {
 
 export const acceptFriendRequest = (userID) => async (dispatch) => {
   try {
-    const { data } = await APIV2.acceptFriendReq(userID);
+    await APIV2.acceptFriendReq(userID);
     dispatch(fetchFriendList());
   } catch (error) {
     console.log(error);
@@ -374,7 +351,7 @@ export const acceptFriendRequest = (userID) => async (dispatch) => {
 
 export const declineFriendRequest = (userID) => async (dispatch) => {
   try {
-    const { data } = await APIV2.declineFriendReq(userID);
+    await APIV2.declineFriendReq(userID);
     dispatch(fetchFriendList());
   } catch (error) {
     console.log(error);
@@ -383,7 +360,7 @@ export const declineFriendRequest = (userID) => async (dispatch) => {
 
 export const removePendingFriendRequest = (userID) => async (dispatch) => {
   try {
-    const { data } = await APIV2.removeFriendReq(userID);
+    await APIV2.removeFriendReq(userID);
     dispatch(fetchFriendList());
   } catch (error) {
     console.log(error);
@@ -400,9 +377,11 @@ export const fetchFriendList = () => async (dispatch) => {
     const friendsPen = [];
 
     data.friends.forEach((friend) => {
-      if (friend.status === 4) return friends.push(friend);
-      else if (friend.status === 2) return friendsReq.push(friend);
-      else if (friend.status === 3) return friendsPen.push(friend);
+      if (friend.status === 4) {
+        friend.online = false;
+        friends.push(friend);
+      } else if (friend.status === 2) friendsReq.push(friend);
+      else if (friend.status === 3) friendsPen.push(friend);
     });
     dispatch({
       type: SET_FRIEND_LIST,
@@ -411,4 +390,30 @@ export const fetchFriendList = () => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const createSocketConnection = (username) => async (dispatch) => {
+  const socket = io(baseURL, { autoConnect: false });
+  socket.auth = { username };
+  socket.connect();
+  dispatch({
+    type: SET_SOCKET_CONNECTION,
+    payload: socket,
+  });
+};
+
+export const destroySocketConnection = () => async (dispatch, getState) => {
+  const state = getState();
+
+  const socket = state.user.socket;
+  if (socket) {
+    socket.disconnect();
+  }
+};
+
+export const setFriendStatus = (friendUserID, status) => async (dispatch) => {
+  dispatch({
+    type: SET_FRIEND_STATUS,
+    payload: { friendUserID, status },
+  });
 };
