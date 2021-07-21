@@ -44,6 +44,7 @@ import * as API from "../api/publicRequests";
 import * as APIV2 from "../api/privateRequests";
 import { io } from "socket.io-client";
 import { baseURL } from "../api/config";
+import axios from "axios";
 
 //Action Creator
 
@@ -147,13 +148,15 @@ export const search = (query, cancelToken) => async (dispatch) => {
     }
   } catch (error) {
     console.error(error);
-    dispatch({
-      type: SEARCH,
-      payload: {
-        searchResult: [],
-        resultFound: false,
-      },
-    });
+    if (!axios.isCancel(error)) {
+      dispatch({
+        type: SEARCH,
+        payload: {
+          searchResult: [],
+          resultFound: false,
+        },
+      });
+    }
   }
   dispatch({ type: SHOW_SEARCH });
 };

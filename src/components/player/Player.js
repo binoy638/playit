@@ -79,6 +79,7 @@ function Player() {
     if (!firstRender) {
       setPlayerTrack();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current]);
 
   const setPlayerTrack = () => {
@@ -119,7 +120,7 @@ function Player() {
       setSliderPercentage((currentTime / duration) * 100);
       dispatch(setCurrentTime(currentTime));
     }
-  }, [currentTime, dispatch]);
+  }, [currentTime, duration, dispatch]);
 
   useEffect(() => {
     if (volume <= 1) {

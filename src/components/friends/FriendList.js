@@ -2,11 +2,7 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {
-  searchFriend,
-  addFriendError,
-  createSocketConnection,
-} from "../../actions";
+import { searchFriend, addFriendError } from "../../actions";
 import { AddFriendCard, FriendCard } from "../extra/cards";
 
 const FriendList = () => {

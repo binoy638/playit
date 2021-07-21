@@ -26,7 +26,7 @@ function App() {
   const { showAuthType, authenticated, user } = useSelector(
     (state) => state.user
   );
-  const socket = useSocket();
+  useSocket();
 
   const [windowWidth] = useWindowSize();
 
@@ -37,7 +37,7 @@ function App() {
     } else {
       dispatch(destroySocketConnection());
     }
-  }, [authenticated, dispatch]);
+  }, [authenticated, user._id, dispatch]);
 
   useEffect(() => {
     if (windowWidth < 500) {
