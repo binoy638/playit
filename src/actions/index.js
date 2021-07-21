@@ -29,7 +29,6 @@ import {
   LOGOUT,
   SET_DURATION,
   SET_IS_PLAYING,
-  SET_PLAYER_SYNC,
   SHOW_AUTH,
   AUTH_LOADING,
   UPDATE_PROFILE_IMAGE,
@@ -38,6 +37,7 @@ import {
   SET_ADD_FRIEND_ERROR,
   SET_SOCKET_CONNECTION,
   SET_FRIEND_STATUS,
+  SET_SEEK_TIME,
 } from "./types";
 // import jwt_decode from "jwt-decode";
 import * as API from "../api/publicRequests";
@@ -274,13 +274,6 @@ export const setisPlaying = (bool) => (dispatch) => {
   });
 };
 
-export const setPlayerRef = (bool) => (dispatch) => {
-  dispatch({
-    type: SET_PLAYER_SYNC,
-    payload: bool,
-  });
-};
-
 export const setShowAuth = (type) => (dispatch) => {
   dispatch({
     type: SHOW_AUTH,
@@ -415,5 +408,12 @@ export const setFriendStatus = (friendUserID, status) => async (dispatch) => {
   dispatch({
     type: SET_FRIEND_STATUS,
     payload: { friendUserID, status },
+  });
+};
+
+export const setSeekTime = (time) => async (dispatch) => {
+  dispatch({
+    type: SET_SEEK_TIME,
+    payload: time,
   });
 };

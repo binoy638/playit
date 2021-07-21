@@ -25,9 +25,10 @@ import {
   setVideoID,
   setisPlaying,
   setDuration,
-  setPlayerRef,
+  setSeekTime,
 } from "../../actions";
 import { useFirstRender } from "../../hooks/useFirstRender";
+import usePlayerSync from "../../hooks/usePlayerSync";
 
 const opts = {
   height: "0",
@@ -44,21 +45,23 @@ function Player() {
 
   const { TrackLoading } = useSelector((state) => state.loading);
 
-  const { current, loop, currentTime, isPlaying, duration } = useSelector(
-    (state) => state.player
-  );
+  const {
+    current,
+    loop,
+    currentTime,
+    isPlaying,
+    duration,
+    seekTime,
+    syncedWith,
+  } = useSelector((state) => state.player);
+
+  usePlayerSync();
 
   const dispatch = useDispatch();
 
   const [volume, setVolume] = useState();
 
   const [showVolControl, setShowVolControl] = useState(false);
-
-  // const [isPlaying, setisPlaying] = useState(false);
-
-  // const [currentTime, setcurrentTime] = useState(0);
-
-  // const [duration, setDuration] = useState(0);
 
   const [sliderPercentage, setSliderPercentage] = useState();
 
@@ -84,6 +87,12 @@ function Player() {
     setSliderPercentage(0);
     dispatch(setCurrentTrack(current));
   };
+
+  useEffect(() => {
+    if (syncedWith) {
+      playerRef.current.internalPlayer.seekTo(seekTime);
+    }
+  }, [seekTime, syncedWith]);
 
   //hook to make the player silder move
   useEffect(() => {
@@ -126,10 +135,6 @@ function Player() {
     dispatch(setisPlaying(!isPlaying));
   };
 
-  useEffect(() => {
-    dispatch(setPlayerRef(playerRef));
-  }, [playerRef]);
-
   //this function runs the the youtube iframe is ready
   const _onReady = (event) => {
     setVolume(event.target.getVolume());
@@ -138,7 +143,6 @@ function Player() {
     dispatch(setDuration(duration));
     onReadyPlayerRef.current = event.target;
     dispatch(setisPlaying(true));
-    // dispatch(setPlayerRef(event));
   };
 
   //function to see if the video is playing or not and set our isPlaying state accordingly
@@ -159,6 +163,7 @@ function Player() {
     let time = e.target.value;
     playerRef.current.internalPlayer.seekTo(time);
     dispatch(setCurrentTime(time));
+    dispatch(setSeekTime(time));
   };
 
   //function to format time in seconds to this 0:00

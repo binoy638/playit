@@ -139,7 +139,14 @@
       height: 2rem;
     }
   }
-
+  .friend-list {
+    .friends {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-left: 0.5rem;
+    }
+  }
   .subs-btn {
     width: 100%;
     border-radius: 1rem;

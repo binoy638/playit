@@ -14,13 +14,14 @@ import {
 import { setQuery } from "../../actions";
 
 import logo from "../../assets/logo_1.png";
+import { FriendCardSmall } from "../extra/cards";
 
 function Sidebar() {
   const location = useLocation();
 
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.user);
+  const { authenticated, friends, socket } = useSelector((state) => state.user);
 
   const addClass = (defaultClass, path) => {
     if (location.pathname === path) return `${defaultClass} active`;
@@ -71,11 +72,20 @@ function Sidebar() {
           <span>Artists</span>
         </div>
       </section>
-      {user && (
+      {authenticated && friends.length !== 0 && (
         <section className="friend-list">
           <Link to="/friends">
             <h1>Friends</h1>
           </Link>
+          <div className="friends">
+            {friends.map((friend) => (
+              <FriendCardSmall
+                {...friend.user}
+                isOnline={friend.online}
+                socket={socket}
+              />
+            ))}
+          </div>
         </section>
       )}
     </aside>

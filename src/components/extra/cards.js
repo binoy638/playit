@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { AiOutlineSync } from "react-icons/ai";
+
 import {
   acceptFriendRequest,
   addFriend,
@@ -137,6 +139,27 @@ export const FriendCard = ({ username, image, _id, type, isOnline }) => {
       <img src={image ? image.url : ""} alt={username} />
       <p>{username}</p>
       {renderCards(type)}
+    </div>
+  );
+};
+
+export const FriendCardSmall = ({ _id, username, image, isOnline, socket }) => {
+  const handleClick = () => {
+    if (!socket) return;
+    socket.emit("Sync:request", _id, username);
+  };
+
+  return (
+    <div className="friend-card-small">
+      <div className="image">
+        <img src={image ? image.url : ""} alt={username} />
+        <div
+          className="status-indicator"
+          style={{ backgroundColor: `${isOnline ? "green" : "grey"}` }}
+        ></div>
+      </div>
+      <small>{username}</small>
+      <AiOutlineSync style={{ cursor: "pointer" }} onClick={handleClick} />
     </div>
   );
 };

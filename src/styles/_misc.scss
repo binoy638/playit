@@ -110,6 +110,31 @@
   }
 }
 
+.friend-card-small {
+  color: var(--secondary-text-color);
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  .image {
+    position: relative;
+    img {
+      height: 2rem;
+      width: 2rem;
+      border-radius: 10rem;
+    }
+    .status-indicator {
+      height: 0.5rem;
+      width: 0.5rem;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin-bottom: 0.4rem;
+      margin-right: 0.1rem;
+    }
+  }
+}
+
 .friend-card {
   border-radius: 5%;
   height: 8rem;

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { search } from "../actions";
 import Error from "../components/extra/Error";
 import axios from "axios";
+import { HIDE_SEARCH } from "../actions/types";
 
 function SearchResult({ location }) {
   const dispatch = useDispatch();
@@ -21,13 +22,14 @@ function SearchResult({ location }) {
   useEffect(() => {
     if (typeof cancelToken.current != typeof undefined) {
       cancelToken.current.cancel("Canceling the previous req");
+      dispatch({ type: HIDE_SEARCH });
     }
     cancelToken.current = axios.CancelToken.source();
 
     dispatch(search(query, cancelToken.current));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location, dispatch]);
 
   if (loading) {
     return (
