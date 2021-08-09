@@ -19,13 +19,17 @@ function SearchResult({ location }) {
   const cancelToken = useRef();
 
   useEffect(() => {
-    if (typeof cancelToken.current != typeof undefined) {
-      cancelToken.current.cancel("Canceling the previous req");
-    }
-    cancelToken.current = axios.CancelToken.source();
+    let timer = setTimeout(() => {
+      if (typeof cancelToken.current != typeof undefined) {
+        cancelToken.current.cancel("Canceling the previous req");
+      }
+      cancelToken.current = axios.CancelToken.source();
 
-    dispatch(search(query, cancelToken.current));
-
+      dispatch(search(query, cancelToken.current));
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, dispatch]);
 

@@ -31,13 +31,23 @@ function App() {
   const [windowWidth] = useWindowSize();
 
   useEffect(() => {
+    dispatch(fetchDefaultPlaylists());
+
+    const user1 = JSON.parse(localStorage.getItem("user"));
+    if (user1) {
+      dispatch(setUser(user1));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); //empty dependeny array so that the hook run only when the app loads for the first time
+
+  useEffect(() => {
     if (authenticated) {
       dispatch(createSocketConnection(user._id));
       dispatch(fetchFriendList());
     } else {
       dispatch(destroySocketConnection());
     }
-  }, [authenticated, user._id, dispatch]);
+  }, [authenticated, user, dispatch]);
 
   useEffect(() => {
     if (windowWidth < 500) {
@@ -46,16 +56,6 @@ function App() {
       dispatch({ type: SHOW_SIDEBAR });
     }
   }, [windowWidth, dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchDefaultPlaylists());
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      dispatch(setUser(user));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); //empty dependeny array so that the hook run only when the app loads for the first time
 
   const { AppLoading: loading, PlayerLoading } = useSelector(
     (state) => state.loading
