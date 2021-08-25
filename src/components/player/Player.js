@@ -43,6 +43,8 @@ function Player() {
     (state) => state.currentTrack
   );
 
+  const { authenticated } = useSelector((state) => state.user);
+
   const { TrackLoading } = useSelector((state) => state.loading);
 
   const {
