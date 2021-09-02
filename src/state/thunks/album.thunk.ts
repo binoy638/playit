@@ -4,7 +4,7 @@ import { IAlbumInfo } from "../types";
 
 export const fetchAlbumById = createAsyncThunk(
   "album/fetchAlbumById",
-  async (albumId, thunkAPI) => {
+  async (albumId: string, thunkAPI) => {
     try {
       const { data } = await getAlbumRequest(albumId);
       return data as IAlbumInfo;

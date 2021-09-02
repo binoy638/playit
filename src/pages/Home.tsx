@@ -1,21 +1,20 @@
 import Track from "../components/main/Track";
-import { useSelector } from "react-redux";
-// import { v4 as uuidv4 } from "uuid";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 function Home() {
-  const { newRelease: newtracks, hotTracks: toptracks } = useSelector(
-    (state) => state.defaultPlaylists
+  const { newRelease, hotTracks } = useTypedSelector(
+    (state) => state.defaultPlaylist
   );
   return (
     <>
       <section className="new-releases">
         <h1>New Releases</h1>
         <div className="song-list card-list">
-          {newtracks.map((track, index) => (
+          {newRelease.map((track, index) => (
             <Track
               key={track.id}
               index={index}
-              playlist={newtracks}
+              playlist={newRelease}
               {...track}
             />
           ))}
@@ -24,11 +23,11 @@ function Home() {
       <section className="most-popular">
         <h1>Most Popular</h1>
         <div className="song-list card-list">
-          {toptracks.map((track, index) => (
+          {hotTracks.map((track, index) => (
             <Track
               key={track.id}
               index={index}
-              playlist={toptracks}
+              playlist={hotTracks}
               {...track}
             />
           ))}

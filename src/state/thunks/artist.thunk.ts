@@ -8,7 +8,7 @@ import { IArtist } from "../types";
 
 export const fetchArtistById = createAsyncThunk(
   "artist/fetchArtistById",
-  async (artistId, thunkAPI) => {
+  async (artistId: string, thunkAPI) => {
     try {
       const [{ data: artist }, { data: albums }, { data: tracks }] =
         await Promise.all([

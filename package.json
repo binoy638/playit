@@ -12,7 +12,7 @@
     "jwt-decode": "^3.1.2",
     "nanoid": "^3.1.20",
     "node-sass": "^5.0.0",
-    "query-string": "^4.3.4",
+    "query-string": "^7.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",

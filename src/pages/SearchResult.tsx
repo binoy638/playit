@@ -1,31 +1,44 @@
-import React, { useEffect, useRef } from "react";
-import queryString from "query-string";
+import { useEffect, useRef } from "react";
+import { parse, ParsedQuery } from "query-string";
 import Track from "../components/main/Track";
 import { TrackLoading } from "../components/extra/loading";
-import { useDispatch, useSelector } from "react-redux";
-import { search } from "../redux/actions";
+import { Location } from "history";
 import Error from "../components/extra/Error";
-import axios from "axios";
+import axios, { CancelTokenSource } from "axios";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useTypedDispatch } from "../hooks/useTypedDispatch";
+import { fetchSearchResults } from "../state/thunks/search.thunk";
 
-function SearchResult({ location }) {
-  const dispatch = useDispatch();
+type SearchResultProps = {
+  location: Location;
+};
 
-  const { query } = queryString.parse(location.search);
+function SearchResult({ location }: SearchResultProps) {
+  const dispatch = useTypedDispatch();
 
-  const { searchResult, resultFound } = useSelector((state) => state.search);
+  const { query } = parse(location.search);
 
-  const { SearchLoading: loading } = useSelector((state) => state.loading);
+  const { searchResult, resultFound, loading } = useTypedSelector(
+    (state) => state.search
+  );
 
-  const cancelToken = useRef();
+  const cancelToken = useRef<CancelTokenSource>();
 
   useEffect(() => {
     let timer = setTimeout(() => {
-      if (typeof cancelToken.current != typeof undefined) {
+      if (cancelToken.current !== undefined) {
         cancelToken.current.cancel("Canceling the previous req");
       }
       cancelToken.current = axios.CancelToken.source();
 
-      dispatch(search(query, cancelToken.current));
+      if (typeof query !== "string") return;
+
+      dispatch(
+        fetchSearchResults({
+          query,
+          cancelToken: cancelToken.current,
+        })
+      );
     }, 300);
     return () => {
       clearTimeout(timer);

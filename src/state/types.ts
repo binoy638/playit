@@ -96,15 +96,15 @@ interface IAuthUser extends IUser {
 }
 
 export interface IUserProfile {
-  authenticated: false;
-  user: null | IAuthUser;
+  authenticated: boolean;
   showAuthType: null | "login" | "signup";
   loading: boolean;
-  error: null | string;
+  error: unknown;
+  user: null | IAuthUser;
   friends: IUser[];
   friendsReq: IUser[];
   friendsPen: IUser[];
   addFriendError: null | string;
   findUserResult: null | IUser;
-  socket: null | Socket;
+  socket: unknown; //TODO: add socket type
 }

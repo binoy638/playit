@@ -1,21 +1,23 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { useParams } from "react-router";
-import { fetchArtistInfo } from "../redux/actions";
 import { AlbumCard, PlaylistContainer } from "../components/extra/cards";
 import { TrackLoading } from "../components/extra/loading";
+import { useTypedDispatch } from "../hooks/useTypedDispatch";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { fetchArtistById } from "../state/thunks/artist.thunk";
 
 function Artist() {
-  const dispatch = useDispatch();
-  const { ArtistLoading } = useSelector((state) => state.loading);
-  const { artist, albums, tracks } = useSelector((state) => state.artist);
-  const { id } = useParams();
+  const dispatch = useTypedDispatch();
+  const { artist, albums, tracks, loading } = useTypedSelector(
+    (state) => state.artist
+  );
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    dispatch(fetchArtistInfo(id));
+    dispatch(fetchArtistById(id));
   }, [dispatch, id]);
 
-  if (ArtistLoading) {
+  if (loading) {
     return (
       <div>
         <TrackLoading />
