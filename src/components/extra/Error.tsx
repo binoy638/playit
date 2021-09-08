@@ -1,6 +1,4 @@
-import React from "react";
-
-function Error({ message }) {
+function Error({ message }: { message: string }) {
   return (
     <div className="error">
       <h1>{message}</h1>

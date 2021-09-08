@@ -1,9 +1,8 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { FriendCard } from "../extra/cards";
 
 const FriendRequest = () => {
-  const { friendsReq } = useSelector((state) => state.user);
+  const { friendsReq } = useTypedSelector((state) => state.user);
 
   return (
     <div className="friend-list-cards">

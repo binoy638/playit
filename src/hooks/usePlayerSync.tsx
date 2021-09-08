@@ -1,29 +1,29 @@
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useTypedSelector } from "./useTypedSelector";
 
 const usePlayerSync = () => {
-  const { user, socket } = useSelector((state) => state.user);
-  const { current, isPlaying, syncedTo, seekTime } = useSelector(
+  const { user, socket } = useTypedSelector((state) => state.user);
+  const { current, isPlaying, syncedTo, seekTime } = useTypedSelector(
     (state) => state.player
   );
 
   useEffect(() => {
     if (syncedTo && socket && current) {
-      socket.emit("Sync:player-track", current, user._id);
+      if (user) socket.emit("Sync:player-track", current, user._id);
     }
-  }, [syncedTo, socket, current, user._id]);
+  }, [syncedTo, socket, current, user]);
 
   useEffect(() => {
     if (syncedTo && socket && seekTime) {
-      socket.emit("Sync:player-slider", seekTime, user._id);
+      if (user) socket.emit("Sync:player-slider", seekTime, user._id);
     }
-  }, [syncedTo, socket, seekTime, user._id]);
+  }, [syncedTo, socket, seekTime, user]);
 
   useEffect(() => {
     if (syncedTo && socket) {
-      socket.emit("Sync:player-state", isPlaying, user._id);
+      if (user) socket.emit("Sync:player-state", isPlaying, user._id);
     }
-  }, [syncedTo, socket, isPlaying, user._id]);
+  }, [syncedTo, socket, isPlaying, user]);
 };
 
 export default usePlayerSync;

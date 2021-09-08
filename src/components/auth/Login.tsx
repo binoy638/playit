@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { login } from "../../redux/actions";
+import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
 import { BsDashCircleFill } from "react-icons/bs";
 import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
-import { CLEAR_ERROR } from "../../redux/actions/types";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { login } from "../../state/thunks/user.thunk";
 
 function Login() {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const { error, loading } = useSelector((state) => state.user);
+  const { error, loading } = useTypedSelector((state) => state.user);
 
   const [email, setEmail] = useState("");
 
@@ -18,13 +18,13 @@ function Login() {
 
   const [showPass, setShowPass] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      dispatch({ type: CLEAR_ERROR });
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({ type: CLEAR_ERROR });
+  //   };
+  // }, [dispatch]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
@@ -45,7 +45,7 @@ function Login() {
               <p> {error}</p>
 
               <p>
-                <Link>
+                <Link to="\todo">
                   <small>Forgot Password?</small>
                 </Link>
               </p>
@@ -80,7 +80,7 @@ function Login() {
             />
           )}
         </div>
-        <Link>
+        <Link to="\todo">
           <small>Trouble logging in?</small>
         </Link>
 

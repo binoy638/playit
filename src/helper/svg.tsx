@@ -64,7 +64,7 @@ export const Artists = () => {
   );
 };
 
-export const Previous = ({ clickFunction }) => {
+export const Previous = ({ clickFunction }: IClick) => {
   return (
     <svg
       onClick={clickFunction}
@@ -121,7 +121,7 @@ export const Heart = () => {
     </svg>
   );
 };
-export const Next = ({ clickFunction }) => {
+export const Next = ({ clickFunction }: IClick) => {
   return (
     <svg
       onClick={clickFunction}
@@ -140,7 +140,12 @@ export const Next = ({ clickFunction }) => {
     </svg>
   );
 };
-export const Loop = ({ clickFunction, isLoopActive }) => {
+
+interface LoopProps extends IClick {
+  isLoopActive: boolean;
+}
+
+export const Loop = ({ clickFunction, isLoopActive }: LoopProps) => {
   return (
     <svg
       className="loop"
@@ -195,7 +200,7 @@ export const OutlineHeart = () => {
     </svg>
   );
 };
-export const Play = ({ clickFunction }) => {
+export const Play = ({ clickFunction }: IClick) => {
   return (
     <svg
       className="play"
@@ -216,14 +221,16 @@ export const Play = ({ clickFunction }) => {
   );
 };
 
-export const Pause = ({ clickFunction }) => {
+export const Pause = ({ clickFunction }: IClick) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="45.832"
       height="45.832"
       viewBox="0 0 130.704 131.17"
-      onClick={() => clickFunction()}
+      onClick={() => {
+        if (clickFunction) clickFunction();
+      }}
     >
       <path
         id="Icon_awesome-pause-circle"
@@ -258,7 +265,7 @@ export const SearchIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      Width="24.049"
+      width="24.049"
       height="24.049"
       viewBox="0 0 24.049 24.049"
     >
@@ -327,7 +334,7 @@ export const Settings = () => {
     </svg>
   );
 };
-export const Volume = ({ clickFunction }) => {
+export const Volume = ({ clickFunction }: IClick) => {
   return (
     <svg
       onClick={clickFunction}
@@ -347,7 +354,7 @@ export const Volume = ({ clickFunction }) => {
   );
 };
 
-export const Mute = ({ clickFunction }) => {
+export const Mute = ({ clickFunction }: IClick) => {
   return (
     <svg
       width="17.678"
@@ -370,7 +377,11 @@ export const Mute = ({ clickFunction }) => {
   );
 };
 
-export const Menu = ({ clickFunction }) => {
+interface IClick {
+  clickFunction?: () => void;
+}
+
+export const Menu = ({ clickFunction }: IClick) => {
   return (
     <svg
       onClick={clickFunction}
@@ -393,7 +404,7 @@ export const Menu = ({ clickFunction }) => {
           stroke="#898989"
           stroke-linecap="round"
           stroke-linejoin="round"
-          strokewidth="1"
+          strokeWidth="1"
         />
         <path
           id="Path_6"
@@ -403,7 +414,7 @@ export const Menu = ({ clickFunction }) => {
           stroke="#898989"
           stroke-linecap="round"
           stroke-linejoin="round"
-          strokewidth="1"
+          strokeWidth="1"
         />
         <path
           id="Path_7"
@@ -414,7 +425,7 @@ export const Menu = ({ clickFunction }) => {
           stroke="#898989"
           stroke-linecap="round"
           stroke-linejoin="round"
-          strokewidth="1"
+          strokeWidth="1"
         />
       </g>
     </svg>

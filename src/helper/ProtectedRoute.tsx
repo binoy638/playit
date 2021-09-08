@@ -1,10 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import { Route } from "react-router-dom";
 import Unauthorized from "../components/extra/Unauthorized";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
-function ProtectedRoute({ component: Component, path, ...rest }) {
-  const { authenticated } = useSelector((state) => state.user);
+function ProtectedRoute({ component: Component, path, ...rest }: any) {
+  const { authenticated } = useTypedSelector((state) => state.user);
   return (
     <Route
       path={path}

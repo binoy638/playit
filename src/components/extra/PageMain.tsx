@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-const PageMain = ({ heading, options }) => {
-  const [selectedOption, setSelectedOption] = useState();
+interface Options {
+  title: string;
+  component: JSX.Element;
+}
+
+interface PageMainProps {
+  heading: string;
+  options: Options[];
+}
+
+const PageMain = ({ heading, options }: PageMainProps) => {
+  const [selectedOption, setSelectedOption] = useState<string>();
 
   useEffect(() => {
     if (options) {
@@ -26,7 +36,7 @@ const PageMain = ({ heading, options }) => {
 
       <div className="page-option-content">
         {selectedOption &&
-          options.find((option) => option.title === selectedOption).component}
+          options.find((option) => option.title === selectedOption)?.component}
       </div>
     </div>
   );

@@ -1,10 +1,15 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-
-//actions
-import { setCurrentTrack, setPlaylist } from "../../redux/actions";
 import { Link } from "react-router-dom";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { setCurrentTrack } from "../../state/thunks/currrentTrack.thunk";
+import { setPlaylist } from "../../state/slices/player.slice";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { ITrack } from "../../state/types";
+
+interface ITrackProps extends ITrack {
+  index: number;
+  playlist: ITrack[];
+}
 
 function Track({
   index,
@@ -13,21 +18,34 @@ function Track({
   artists,
   title,
   image,
+  type,
   search_query,
   playlist,
-}) {
-  const dispatch = useDispatch();
+}: ITrackProps) {
+  const dispatch = useTypedDispatch();
 
-  const { id: currentTrackID } = useSelector((state) => state.currentTrack);
+  const { id: currentTrackID } = useTypedSelector(
+    (state) => state.currentTrack
+  );
 
-  const { PlayerLoading } = useSelector((state) => state.loading);
+  const { loading } = useTypedSelector((state) => state.player);
 
   const setTrack = () => {
     if (currentTrackID !== id) {
-      if (PlayerLoading) {
-        dispatch(setCurrentTrack({ id, artist, title, image, search_query }));
+      if (loading) {
+        dispatch(
+          setCurrentTrack({
+            id,
+            artist,
+            title,
+            image,
+            search_query,
+            type,
+            artists,
+          })
+        );
       }
-      dispatch(setPlaylist({ playlist, index }));
+      dispatch(setPlaylist({ tracks: playlist, index }));
     }
   };
 

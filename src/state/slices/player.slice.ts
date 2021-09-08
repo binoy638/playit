@@ -9,7 +9,7 @@ const initialState: IPlayer = {
   loop: false,
   currentTime: 0,
   isPlaying: false,
-  durtation: 0,
+  duration: 0,
   syncedWith: null,
   syncedTo: false,
   seekTime: null,
@@ -49,7 +49,7 @@ const playerSlice = createSlice({
       state.currentTime = action.payload;
     },
     setDuration: (state, action: PayloadAction<number>) => {
-      state.durtation = action.payload;
+      state.duration = action.payload;
     },
     setIsPlaying: (state, action: PayloadAction<boolean>) => {
       state.isPlaying = action.payload;
@@ -62,6 +62,9 @@ const playerSlice = createSlice({
     },
     setSeekTime: (state, action: PayloadAction<number>) => {
       state.seekTime = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
   },
 });
@@ -77,6 +80,7 @@ export const {
   setSeekTime,
   setSyncedTo,
   setSyncedWith,
+  setLoading,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

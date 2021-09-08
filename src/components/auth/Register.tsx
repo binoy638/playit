@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { registerRequest } from "../../api/publicRequests";
-import { setShowAuth } from "../../redux/actions";
-import { useDispatch } from "react-redux";
 import Loader from "react-loader-spinner";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { setError } from "../../state/slices/user.slice";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { signup } from "../../state/thunks/user.thunk";
 
 function Register() {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
+
+  const { error, loading } = useTypedSelector((state) => state.user);
 
   const [form, setForm] = useState({
     username: "",
@@ -15,53 +18,29 @@ function Register() {
     password2: "",
   });
 
-  const [loading, setLoading] = useState(false);
-
   const [showPass, setShowPass] = useState(false);
 
   const [showPass2, setShowPass2] = useState(false);
 
-  const [formError, setFormError] = useState(null);
-
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
+
     if (form.password !== form.password2) {
-      setFormError("Password doesn't match.");
+      setError("Password doesn't match.");
       return;
     }
-    try {
-      const response = await registerRequest({
+
+    dispatch(
+      signup({
         email: form.email,
         password: form.password,
         username: form.username,
-      });
-      console.log(response);
-      if (response.status === 201) {
-        setLoading(false);
-        return dispatch(setShowAuth("login"));
-      }
-
-      if (response?.data) {
-        setLoading(false);
-        return setFormError(response.data);
-      }
-    } catch (error) {
-      if (!error.response) {
-        setLoading(false);
-        return setFormError("Something went wrong please try again later");
-      }
-      try {
-        setFormError(error.response.data);
-      } catch (error) {
-        setFormError("Something went wrong please try again later");
-      }
-      setLoading(false);
-    }
+      })
+    );
   };
 
   return (
@@ -76,7 +55,7 @@ function Register() {
             type="text"
             name="username"
             onChange={handleChange}
-            minLength="6"
+            minLength={6}
             required
           />
         </div>
@@ -125,7 +104,7 @@ function Register() {
           )}
         </div>
 
-        {formError && <div className="formError">{formError}</div>}
+        {/* {error && <div className="formError">{error}</div>} */}
         <small>
           By clicking Sign Up, you are indicating that you have read and
           acknowledge the Terms of Service and Privacy Notice.

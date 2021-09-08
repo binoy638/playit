@@ -42,4 +42,6 @@ const searchSlice = createSlice({
   },
 });
 
+export const { setQuery, setSearchBarFocus } = searchSlice.actions;
+
 export default searchSlice.reducer;

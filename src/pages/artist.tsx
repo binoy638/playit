@@ -35,7 +35,7 @@ function Artist() {
             <div className="header">
               <h3>Popular</h3>
             </div>
-            <PlaylistContainer playlist={tracks} showImage={true} />
+            <PlaylistContainer playlist={tracks} />
           </div>
 
           <div className="artist-albums-section">

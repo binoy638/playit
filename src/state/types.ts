@@ -1,5 +1,4 @@
 import Playlist from "../helper/playlist";
-import { Socket } from "socket.io-client";
 
 export interface ITrack {
   id: string;
@@ -7,7 +6,7 @@ export interface ITrack {
   title: string;
   type: string;
   image: string;
-  artists: string[];
+  artists: any[]; //TODO
   search_query: string;
   duration?: string;
   album?: string;
@@ -65,7 +64,7 @@ export interface IPlayer {
   loop: boolean;
   currentTime: number;
   isPlaying: boolean;
-  durtation: number;
+  duration: number;
   syncedWith: null | string;
   syncedTo: boolean;
   seekTime: null | number;
@@ -84,15 +83,22 @@ export interface ISidebar {
   show: boolean;
 }
 
-interface IUser {
+export interface IUser {
   _id: string;
   username: string;
-  image: string;
+  image: { id: string; url: string };
 }
 
-interface IAuthUser extends IUser {
+export interface IAuthUser extends IUser {
   token: string;
   email: string;
+}
+
+export interface IFriendUser {
+  _id: string;
+  status: number;
+  online?: boolean;
+  user: IUser;
 }
 
 export interface IUserProfile {
@@ -101,10 +107,10 @@ export interface IUserProfile {
   loading: boolean;
   error: unknown;
   user: null | IAuthUser;
-  friends: IUser[];
-  friendsReq: IUser[];
-  friendsPen: IUser[];
+  friends: IFriendUser[];
+  friendsReq: IFriendUser[];
+  friendsPen: IFriendUser[];
   addFriendError: null | string;
   findUserResult: null | IUser;
-  socket: unknown; //TODO: add socket type
+  socket: any;
 }

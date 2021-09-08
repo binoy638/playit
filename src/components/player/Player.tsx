@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, ChangeEvent } from "react";
 import YouTube from "react-youtube";
 import {
   Previous,
@@ -12,38 +12,39 @@ import {
   Mute,
 } from "../../helper/svg";
 import { AnimatePresence } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { PlayerLoading } from "../extra/loading";
-import { HIDE_TRACK_LOADING } from "../../redux/actions/types";
-import {
-  nextTrack,
-  previousTrack,
-  setCurrentTime,
-  setCurrentTrack,
-  setLoop,
-  setVideoID,
-  setisPlaying,
-  setDuration,
-  setSeekTime,
-} from "../../redux/actions";
 import { useFirstRender } from "../../hooks/useFirstRender";
 import usePlayerSync from "../../hooks/usePlayerSync";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import {
+  setCurrentTime,
+  setDuration,
+  setIsPlaying,
+  setLoop,
+  setNextTrack,
+  setPreviousTrack,
+  setSeekTime,
+  setLoading,
+} from "../../state/slices/player.slice";
+import {
+  changeVideoId,
+  setCurrentTrack,
+} from "../../state/thunks/currrentTrack.thunk";
 
-const opts = {
-  height: "0",
-  width: "0",
-  playerVars: {
-    autoplay: 1,
-  },
-};
+// const opts = {
+//   height: "0",
+//   width: "0",
+//   playerVars: {
+//     autoplay: 1,
+//   },
+// };
 
 function Player() {
-  const { title, artist, image, videoid } = useSelector(
+  const { title, artist, image, videoid } = useTypedSelector(
     (state) => state.currentTrack
   );
-
-  const { TrackLoading } = useSelector((state) => state.loading);
 
   const {
     current,
@@ -53,27 +54,28 @@ function Player() {
     duration,
     seekTime,
     syncedWith,
-  } = useSelector((state) => state.player);
+    loading,
+  } = useTypedSelector((state) => state.player);
 
   usePlayerSync();
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const [volume, setVolume] = useState();
+  const [volume, setVolume] = useState(100);
 
   const [showVolControl, setShowVolControl] = useState(false);
 
-  const [sliderPercentage, setSliderPercentage] = useState();
+  const [sliderPercentage, setSliderPercentage] = useState(0);
 
-  const onReadyPlayerRef = useRef(null);
+  const onReadyPlayerRef = useRef<any>(null);
 
   const firstRender = useFirstRender();
 
-  const playerRef = useRef(null);
+  const playerRef = useRef<any>();
 
   const [isMuted, setIsMuted] = useState(false);
 
-  const onErrorRef = useRef(null);
+  const onErrorRef = useRef<any>(null);
 
   useEffect(() => {
     if (!firstRender) {
@@ -86,7 +88,9 @@ function Player() {
     dispatch(setCurrentTime(0));
     dispatch(setDuration(0));
     setSliderPercentage(0);
-    dispatch(setCurrentTrack(current));
+    if (current) {
+      dispatch(setCurrentTrack(current));
+    }
   };
 
   useEffect(() => {
@@ -97,7 +101,7 @@ function Player() {
 
   //hook to make the player silder move
   useEffect(() => {
-    let id;
+    let id: ReturnType<typeof setInterval>;
     if (isPlaying === true) {
       playerRef.current.internalPlayer.playVideo();
       id = setInterval(async () => {
@@ -133,54 +137,54 @@ function Player() {
   }, [volume]);
 
   const isplayinghandler = () => {
-    dispatch(setisPlaying(!isPlaying));
+    dispatch(setIsPlaying(!isPlaying));
   };
 
   //this function runs the the youtube iframe is ready
-  const _onReady = (event) => {
+  const _onReady = (event: any) => {
     setVolume(event.target.getVolume());
     setIsMuted(event.target.isMuted());
     const duration = event.target.getDuration();
     dispatch(setDuration(duration));
     onReadyPlayerRef.current = event.target;
-    dispatch(setisPlaying(true));
+    dispatch(setIsPlaying(true));
   };
 
   //function to see if the video is playing or not and set our isPlaying state accordingly
-  const playerStateHandler = (e) => {
+  const playerStateHandler = (e: any) => {
     // -1 (unstarted)   0 (ended)    1 (playing)    2 (paused)   3 (buffering)    5 (video cued)
     if (e.data === 1 || e.data === -1) {
-      dispatch({ type: HIDE_TRACK_LOADING });
+      dispatch(setLoading(false));
     }
     if (e.data === 0 || e.data === 2) {
-      dispatch(setisPlaying(false));
+      dispatch(setIsPlaying(false));
     } else if (e.data === 1 || e.data === 3) {
-      dispatch(setisPlaying(true));
+      dispatch(setIsPlaying(true));
     }
   };
 
   //function to make the slider work
-  const seekHandler = (e) => {
+  const seekHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let time = e.target.value;
     playerRef.current.internalPlayer.seekTo(time);
-    dispatch(setCurrentTime(time));
-    dispatch(setSeekTime(time));
+    dispatch(setCurrentTime(Number(time)));
+    dispatch(setSeekTime(Number(time)));
   };
 
   //function to format time in seconds to this 0:00
-  const getTime = (time) => {
+  const getTime = (time: number) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
     );
   };
 
   const onEnd = () => {
-    dispatch(nextTrack());
+    dispatch(setNextTrack());
   };
 
   const onPlay = () => {
     setTimeout(() => {
-      const duration = onReadyPlayerRef.current.getDuration();
+      const duration = onReadyPlayerRef?.current?.getDuration();
       dispatch(setDuration(duration));
     }, 500);
     if (onErrorRef.current) {
@@ -188,18 +192,20 @@ function Player() {
     }
   };
 
-  const volumeControlHandler = (e) => {
+  const volumeControlHandler = (e: any) => {
     setVolume(e.target.value);
     playerRef.current.internalPlayer.setVolume(volume);
   };
 
-  const onError = (e) => {
+  const onError = (e: any) => {
     if (e.data === 150) {
       if (onErrorRef.current) {
-        dispatch(nextTrack());
+        dispatch(setNextTrack());
       } else {
-        onErrorRef.current = current.id;
-        dispatch(setVideoID(current.search_query));
+        if (current) {
+          onErrorRef.current = current.id;
+          dispatch(changeVideoId(current.search_query));
+        }
       }
     }
   };
@@ -215,7 +221,7 @@ function Player() {
       }}
       className="player"
     >
-      {TrackLoading ? (
+      {loading ? (
         <PlayerLoading widthPercent={100} transitionDuration={2} />
       ) : (
         ""
@@ -224,7 +230,13 @@ function Player() {
       {videoid ? (
         <YouTube
           videoId={videoid}
-          opts={opts}
+          opts={{
+            height: "0",
+            width: "0",
+            playerVars: {
+              autoplay: 1,
+            },
+          }}
           onReady={_onReady}
           onStateChange={playerStateHandler}
           onEnd={onEnd}
@@ -246,7 +258,7 @@ function Player() {
 
       <div className="music-controller">
         <div className="play-fo-back-controller">
-          <Previous clickFunction={() => dispatch(previousTrack())} />
+          <Previous clickFunction={() => dispatch(setPreviousTrack())} />
           {isPlaying ? (
             <Pause clickFunction={isplayinghandler} />
           ) : (
@@ -255,7 +267,7 @@ function Player() {
 
           <Next
             clickFunction={() => {
-              dispatch(nextTrack());
+              dispatch(setNextTrack());
             }}
           />
         </div>

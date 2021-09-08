@@ -1,29 +1,29 @@
 import { useEffect } from "react";
-import React from "react";
 import Main from "./components/main/Main";
 import Player from "./components/player/Player";
 import Sidebar from "./components/sidebar/Sidebar";
 import Header from "./components/main/Header";
 import { Loading } from "./components/extra/loading";
-import {
-  createSocketConnection,
-  destroySocketConnection,
-  fetchDefaultPlaylists,
-  fetchFriendList,
-  setUser,
-} from "./redux/actions";
-import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/app.scss";
-import { HIDE_SIDEBAR, SHOW_SIDEBAR } from "./redux/actions/types";
 import { useWindowSize } from "./hooks/useWindowSize";
 import Modal from "./components/extra/Modal";
 import useSocket from "./hooks/useSocket";
+import { useTypedSelector } from "./hooks/useTypedSelector";
+import { useTypedDispatch } from "./hooks/useTypedDispatch";
+import { setShowSidebar } from "./state/slices/sidebar.slice";
+import { fetchDefaultPlaylist } from "./state/thunks/defaultplaylist.thunk";
+import {
+  createSocketConnection,
+  destroySocketConnection,
+  setUser,
+} from "./state/slices/user.slice";
+import { fetchFriendList } from "./state/thunks/user.thunk";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const { showAuthType, authenticated, user } = useSelector(
+  const { showAuthType, authenticated, user } = useTypedSelector(
     (state) => state.user
   );
   useSocket();
@@ -31,17 +31,18 @@ function App() {
   const [windowWidth] = useWindowSize();
 
   useEffect(() => {
-    dispatch(fetchDefaultPlaylists());
+    dispatch(fetchDefaultPlaylist());
 
-    const user1 = JSON.parse(localStorage.getItem("user"));
-    if (user1) {
-      dispatch(setUser(user1));
+    const userObj = localStorage.getItem("user");
+    if (userObj) {
+      const usr = JSON.parse(userObj);
+      dispatch(setUser(usr));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); //empty dependeny array so that the hook run only when the app loads for the first time
 
   useEffect(() => {
-    if (authenticated) {
+    if (authenticated && user) {
       dispatch(createSocketConnection(user._id));
       dispatch(fetchFriendList());
     } else {
@@ -51,17 +52,17 @@ function App() {
 
   useEffect(() => {
     if (windowWidth < 500) {
-      dispatch({ type: HIDE_SIDEBAR });
+      dispatch(setShowSidebar(false));
     } else {
-      dispatch({ type: SHOW_SIDEBAR });
+      dispatch(setShowSidebar(true));
     }
   }, [windowWidth, dispatch]);
 
-  const { AppLoading: loading, PlayerLoading } = useSelector(
-    (state) => state.loading
-  );
+  const { loading } = useTypedSelector((state) => state.defaultPlaylist);
 
-  const { showSidebar } = useSelector((state) => state.sidebar);
+  const { show } = useTypedSelector((state) => state.sidebar);
+
+  const { loading: PlayerLoading } = useTypedSelector((state) => state.player);
 
   if (loading) {
     return (
@@ -75,7 +76,7 @@ function App() {
       <div className="App">
         <Router>
           <div className="upper-section">
-            {showSidebar && <Sidebar />}
+            {show && <Sidebar />}
             <Header />
             <Main />
             {showAuthType ? <Modal type={showAuthType} /> : ""}

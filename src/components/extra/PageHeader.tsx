@@ -1,6 +1,4 @@
-import React from "react";
-
-const PageHeader = ({ heading }) => {
+const PageHeader = ({ heading }: { heading: string }) => {
   return (
     <div className="page-header">
       <h1>{heading}</h1>

@@ -1,36 +1,38 @@
-import React from "react";
 import { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { searchFriend, addFriendError } from "../../redux/actions";
+import axios, { CancelTokenSource } from "axios";
 import { AddFriendCard, FriendCard } from "../extra/cards";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { searchFriend } from "../../state/thunks/user.thunk";
 
 const FriendList = () => {
   const [query, setUserQuery] = useState("");
-  const { findUserResult } = useSelector((state) => state.user);
+  const { findUserResult } = useTypedSelector((state) => state.user);
 
-  const { friends, addFriendError: error } = useSelector((state) => state.user);
+  const { friends, addFriendError: error } = useTypedSelector(
+    (state) => state.user
+  );
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const cancelToken = useRef();
+  const cancelToken = useRef<CancelTokenSource>();
 
   useEffect(() => {
     if (query) {
-      if (typeof cancelToken.current != typeof undefined) {
+      if (cancelToken.current !== undefined) {
         cancelToken.current.cancel("Canceling the previous req");
       }
       cancelToken.current = axios.CancelToken.source();
-      dispatch(searchFriend(query, cancelToken.current));
+      dispatch(searchFriend({ query, cancelToken: cancelToken.current }));
       // console.log(findUserResult);
     }
   }, [query, dispatch]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(addFriendError(null));
-    }, 10000);
-  }, [error, dispatch]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(addFriendError(null));
+  //   }, 10000);
+  // }, [error, dispatch]);
 
   return (
     <div className="friends">
@@ -49,7 +51,12 @@ const FriendList = () => {
       <div className="friend-list-cards">
         {friends.length > 0 &&
           friends.map((friend, index) => (
-            <FriendCard {...friend.user} isOnline={friend.online} key={index} />
+            <FriendCard
+              {...friend.user}
+              isOnline={friend.online}
+              key={index}
+              type={"friends"}
+            />
           ))}
       </div>
     </div>

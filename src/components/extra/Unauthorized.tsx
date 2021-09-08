@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setShowAuth } from "../../redux/actions";
+import { useEffect } from "react";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { setShowAuthType } from "../../state/slices/user.slice";
 
 const Unauthorized = () => {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   useEffect(() => {
-    dispatch(setShowAuth("login"));
+    dispatch(setShowAuthType("login"));
   }, [dispatch]);
   return (
     <div>

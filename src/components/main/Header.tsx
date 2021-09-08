@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { setQuery, setSearchBarFocus } from "../../redux/actions";
-import { TOGGLE_SIDEBAR } from "../../redux/actions/types";
 import { FaUserCircle } from "react-icons/fa";
 import { SearchIcon, Notifications, Settings, Menu } from "../../helper/svg";
 import UserDropDown from "../extra/UserDropDown";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { setQuery, setSearchBarFocus } from "../../state/slices/search.slice";
 
 function Search() {
   const history = useHistory();
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
   const [dropDown, setDropDown] = useState(false);
 
-  const { query, isSearchFocused } = useSelector((state) => state.search);
+  const { query, isSearchFocused } = useTypedSelector((state) => state.search);
 
-  const { user } = useSelector((state) => state.user);
+  const { user } = useTypedSelector((state) => state.user);
 
   useEffect(() => {
     if (isSearchFocused) {
@@ -72,7 +72,9 @@ function Search() {
               onMouseLeave={() => setDropDown(false)}
             >
               <FaUserCircle className="defaultIcon" />
-              {dropDown && <UserDropDown setDropDown={setDropDown} />}
+              {dropDown && (
+                <UserDropDown status="loggedOut" setDropDown={setDropDown} />
+              )}
             </div>
           )}
         </div>
@@ -80,7 +82,7 @@ function Search() {
       <div
         className="menu-btn-mobile-tab click-effect"
         id="menu-btn-mobile-tab"
-        onClick={() => dispatch({ type: TOGGLE_SIDEBAR })}
+        // onClick={() => dispatch(sets)}
       >
         <Menu />
       </div>

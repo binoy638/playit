@@ -21,9 +21,9 @@ export const setCurrentTrack = createAsyncThunk(
 
 export const changeVideoId = createAsyncThunk(
   "currentTrack/changeVideoId",
-  async (track: ITrack, thunkAPI) => {
+  async (track: string, thunkAPI) => {
     try {
-      const { data } = await searchVideoIdRequest_(track.search_query);
+      const { data } = await searchVideoIdRequest_(track);
 
       return data.id as string;
     } catch (error) {

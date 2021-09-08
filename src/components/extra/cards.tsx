@@ -1,16 +1,22 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { AiOutlineSync } from "react-icons/ai";
-
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { setCurrentTrack } from "../../state/thunks/currrentTrack.thunk";
+import { setPlaylist } from "../../state/slices/player.slice";
 import {
   acceptFriendRequest,
-  addFriend,
   declineFriendRequest,
   removePendingFriendRequest,
-  setCurrentTrack,
-  setPlaylist,
-} from "../../redux/actions";
+  sendFriendRequest,
+} from "../../state/thunks/user.thunk";
+import { IUser, ITrack } from "../../state/types";
+
+interface ITrackCardSmallProps extends ITrack {
+  index: number;
+  playlist: ITrack[];
+}
 
 export const TrackCardSmall = ({
   id,
@@ -19,18 +25,20 @@ export const TrackCardSmall = ({
   index,
   artist,
   artists,
+  type,
   duration,
   search_query,
   playlist,
-  showImage,
-}) => {
-  const dispatch = useDispatch();
+}: ITrackCardSmallProps) => {
+  const dispatch = useTypedDispatch();
 
-  const { id: currentTrackID } = useSelector((state) => state.currentTrack);
+  const { id: currentTrackID } = useTypedSelector(
+    (state) => state.currentTrack
+  );
 
-  const { PlayerLoading } = useSelector((state) => state.loading);
+  const { loading } = useTypedSelector((state) => state.player);
 
-  const getTime = (time) => {
+  const getTime = (time: number) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
     );
@@ -38,10 +46,20 @@ export const TrackCardSmall = ({
 
   const setTrack = () => {
     if (currentTrackID !== id) {
-      if (PlayerLoading) {
-        dispatch(setCurrentTrack({ id, artist, title, image, search_query }));
+      if (loading) {
+        dispatch(
+          setCurrentTrack({
+            id,
+            artist,
+            title,
+            image,
+            search_query,
+            type,
+            artists,
+          })
+        );
       }
-      dispatch(setPlaylist({ playlist, index }));
+      dispatch(setPlaylist({ tracks: playlist, index }));
     }
   };
 
@@ -50,12 +68,18 @@ export const TrackCardSmall = ({
       <img src={image} alt={id} />
 
       <p className="track-title">{title}</p>
-      <p>{getTime(duration)}</p>
+      <p>{getTime(Number(duration))}</p>
     </div>
   );
 };
 
-export const AlbumCard = ({ id, name, image }) => {
+interface AlbumCardProps {
+  id: string;
+  name: string;
+  image: string;
+}
+
+export const AlbumCard = ({ id, name, image }: AlbumCardProps) => {
   return (
     <div className="album-card">
       <Link to={`/album/${id}`}>
@@ -66,49 +90,59 @@ export const AlbumCard = ({ id, name, image }) => {
   );
 };
 
-export const PlaylistContainer = ({ playlist, showImage }) => {
+export const PlaylistContainer = ({ playlist }: { playlist: ITrack[] }) => {
   return (
     <div className="playlist-container">
       {playlist.length &&
-        playlist.map((track, index) => (
+        playlist.map((track: ITrack, index: number) => (
           <TrackCardSmall
             key={track.id}
             index={index}
             {...track}
             playlist={playlist}
-            showImage={showImage}
           />
         ))}
     </div>
   );
 };
 
-export const AddFriendCard = ({ username, image, _id }) => {
+export const AddFriendCard = ({ username, image, _id }: IUser) => {
   const dispatch = useDispatch();
   return (
     <div className="add-friend-card">
       <img src={image ? image.url : ""} alt={username} />
       <p>{username}</p>
-      <button onClick={() => dispatch(addFriend({ userID: _id }))}>Add</button>
+      <button onClick={() => dispatch(sendFriendRequest(_id))}>Add</button>
     </div>
   );
 };
 
-export const FriendCard = ({ username, image, _id, type, isOnline }) => {
+interface FriendCardProps extends IUser {
+  type: "friends" | "requests" | "pendings";
+  isOnline?: boolean;
+}
+
+export const FriendCard = ({
+  username,
+  image,
+  _id,
+  type,
+  isOnline,
+}: FriendCardProps) => {
   const dispatch = useDispatch();
-  const renderCards = (type) => {
+  const renderCards = (type: string) => {
     if (type === "requests") {
       return (
         <div className="actions">
           <button
             className="accept-btn"
-            onClick={() => dispatch(acceptFriendRequest({ userID: _id }))}
+            onClick={() => dispatch(acceptFriendRequest(_id))}
           >
             Accept
           </button>
           <button
             className="decline-btn"
-            onClick={() => dispatch(declineFriendRequest({ userID: _id }))}
+            onClick={() => dispatch(declineFriendRequest(_id))}
           >
             Decline
           </button>
@@ -119,9 +153,7 @@ export const FriendCard = ({ username, image, _id, type, isOnline }) => {
         <div className="actions">
           <button
             className="remove-btn"
-            onClick={() =>
-              dispatch(removePendingFriendRequest({ userID: _id }))
-            }
+            onClick={() => dispatch(removePendingFriendRequest(_id))}
           >
             Remove
           </button>
@@ -143,7 +175,18 @@ export const FriendCard = ({ username, image, _id, type, isOnline }) => {
   );
 };
 
-export const FriendCardSmall = ({ _id, username, image, isOnline, socket }) => {
+interface FriendCardSmallProps extends IUser {
+  isOnline?: boolean;
+  socket: any;
+}
+
+export const FriendCardSmall = ({
+  _id,
+  username,
+  image,
+  isOnline,
+  socket,
+}: FriendCardSmallProps) => {
   const handleClick = () => {
     if (!socket) return;
     socket.emit("Sync:request", _id, username);

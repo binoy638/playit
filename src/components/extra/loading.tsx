@@ -62,7 +62,15 @@ export const TrackLoading = () => {
   );
 };
 
-export const PlayerLoading = ({ widthPercent, transitionDuration }) => {
+interface PlayerLoadingProps {
+  widthPercent: number;
+  transitionDuration: number;
+}
+
+export const PlayerLoading = ({
+  widthPercent,
+  transitionDuration,
+}: PlayerLoadingProps) => {
   return (
     <motion.div
       initial={{ width: 0 }}

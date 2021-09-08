@@ -1,5 +1,3 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
   Collections,
@@ -11,19 +9,22 @@ import {
   MenuExit,
 } from "../../helper/svg";
 
-import { setQuery } from "../../redux/actions";
-
 import logo from "../../assets/logo_1.png";
 import { FriendCardSmall } from "../extra/cards";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { setQuery } from "../../state/slices/search.slice";
 
 function Sidebar() {
   const location = useLocation();
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const { authenticated, friends, socket } = useSelector((state) => state.user);
+  const { authenticated, friends, socket } = useTypedSelector(
+    (state) => state.user
+  );
 
-  const addClass = (defaultClass, path) => {
+  const addClass = (defaultClass: string, path: string) => {
     if (location.pathname === path) return `${defaultClass} active`;
     else return defaultClass;
   };

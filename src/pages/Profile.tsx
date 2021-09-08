@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateUserImage } from "../redux/actions";
 import { uploadProfileImage } from "../api/privateRequests";
 
 const Profile = () => {

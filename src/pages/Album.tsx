@@ -31,7 +31,7 @@ function Album() {
           <h1>{name}</h1>
         </div>
         <div className="album-tracks">
-          <PlaylistContainer playlist={tracks} showImage={false} />
+          <PlaylistContainer playlist={tracks} />
         </div>
       </div>
     );
