@@ -13,7 +13,7 @@ API.interceptors.request.use((req) => {
 
 export const fetchPlaylistsRequest = () => API.get(`/playlist`);
 
-export const uploadProfileImage = (base64: string) =>
+export const uploadProfileImage = (base64: string | ArrayBuffer) =>
   API.post("/user/image", { base64 });
 
 export const findUser = (query: string, cancelToken: CancelTokenSource) =>

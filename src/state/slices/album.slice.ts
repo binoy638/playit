@@ -29,17 +29,16 @@ const albumSlice = createSlice({
         if (action.payload) {
           const { id, name, total_tracks, release_date, image, type, tracks } =
             action.payload;
-          state = {
-            id,
-            name,
-            total_tracks,
-            release_date,
-            image,
-            type,
-            tracks,
-            loading: false,
-            error: false,
-          };
+
+          state.id = id;
+          state.name = name;
+          state.total_tracks = total_tracks;
+          state.release_date = release_date;
+          state.image = image;
+          state.type = type;
+          state.tracks = tracks;
+          state.loading = false;
+          state.error = false;
         }
       })
       .addCase(fetchAlbumById.rejected, (state) => {

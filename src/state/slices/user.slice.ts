@@ -77,6 +77,17 @@ const userSlice = createSlice({
         state.friends = newList;
       }
     },
+    updateUserImage: (
+      state,
+      action: PayloadAction<{ id: string; url: string }>
+    ) => {
+      if (action.payload) {
+        const user = state.user;
+        if (user) user.image = action.payload;
+        state.user = user;
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -141,6 +152,7 @@ export const {
   destroySocketConnection,
   setError,
   setFriendStatus,
+  updateUserImage,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -22,12 +22,10 @@ const defaultPlaylistSlice = createSlice({
       })
       .addCase(fetchDefaultPlaylist.fulfilled, (state, action) => {
         if (action.payload) {
-          state = {
-            newRelease: action.payload.newRelease,
-            hotTracks: action.payload.hotTracks,
-            loading: false,
-            error: false,
-          };
+          state.newRelease = action.payload.newRelease;
+          state.hotTracks = action.payload.hotTracks;
+          state.loading = false;
+          state.error = false;
         }
       })
       .addCase(fetchDefaultPlaylist.rejected, (state) => {
