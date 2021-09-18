@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, ChangeEvent } from "react";
+import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import YouTube from "react-youtube";
 import {
   Previous,
@@ -71,13 +71,16 @@ function Player() {
 
   const firstRender = useFirstRender();
 
-  const playerRef = useRef<any>();
+  const playerRef = useRef<any>(null);
 
   const [isMuted, setIsMuted] = useState(false);
 
   const onErrorRef = useRef<any>(null);
 
+  const testRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+
   useEffect(() => {
+    console.log(title);
     if (!firstRender) {
       setPlayerTrack();
     }
@@ -102,15 +105,18 @@ function Player() {
   //hook to make the player silder move
   useEffect(() => {
     let id: ReturnType<typeof setInterval>;
-    if (isPlaying === true) {
-      playerRef.current.internalPlayer.playVideo();
-      id = setInterval(async () => {
-        const t = await playerRef.current.internalPlayer.getCurrentTime();
-        dispatch(setCurrentTime(t));
-      }, 500);
-    } else {
-      playerRef.current.internalPlayer.pauseVideo();
+    if (playerRef.current) {
+      if (isPlaying === true) {
+        playerRef.current.internalPlayer.playVideo();
+        id = setInterval(async () => {
+          const t = await playerRef.current.internalPlayer.getCurrentTime();
+          dispatch(setCurrentTime(t));
+        }, 500);
+      } else {
+        playerRef.current.internalPlayer.pauseVideo();
+      }
     }
+
     //cleanup function to clear previous setInverval before starting a new one
     return () => {
       if (id) {
@@ -127,12 +133,14 @@ function Player() {
   }, [currentTime, duration, dispatch]);
 
   useEffect(() => {
-    if (volume <= 1) {
-      setIsMuted(true);
-      playerRef.current.internalPlayer.mute();
-    } else {
-      setIsMuted(false);
-      playerRef.current.internalPlayer.unMute();
+    if (playerRef.current) {
+      if (volume <= 1) {
+        setIsMuted(true);
+        playerRef.current.internalPlayer.mute();
+      } else {
+        setIsMuted(false);
+        playerRef.current.internalPlayer.unMute();
+      }
     }
   }, [volume]);
 
@@ -248,7 +256,7 @@ function Player() {
         ""
       )}
 
-      <div className="current-song-info">
+      <div className="current-song-info" ref={testRef}>
         <img src={image} alt="" />
         <div>
           <p className="song-name">{title}</p>

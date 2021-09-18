@@ -19,6 +19,7 @@ import {
   setUser,
 } from "./state/slices/user.slice";
 import { fetchFriendList } from "./state/thunks/user.thunk";
+import { setLoading } from "./state/slices/player.slice";
 
 function App() {
   const dispatch = useTypedDispatch();

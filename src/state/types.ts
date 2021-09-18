@@ -1,5 +1,3 @@
-import Playlist from "../helper/playlist";
-
 export interface ITrack {
   id: string;
   artist: string;
@@ -59,8 +57,10 @@ export interface IDefaultPlaylist {
 }
 
 export interface IPlayer {
-  playlist: Playlist;
+  playlist: ITrack[];
   current: null | ITrack;
+  currentIndex: number;
+  totalTracks: number;
   loop: boolean;
   currentTime: number;
   isPlaying: boolean;

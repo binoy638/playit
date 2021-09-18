@@ -31,18 +31,17 @@ const currentTrackSlice = createSlice({
         if (action.payload) {
           const { id, title, artist, artists, type, image, search_query } =
             action.payload.track;
-          state = {
-            id,
-            title,
-            artist,
-            artists,
-            type,
-            image,
-            search_query,
-            videoid: action.payload.videoid,
-            loading: false,
-            error: false,
-          };
+
+          state.id = id;
+          state.title = title;
+          state.artist = artist;
+          state.artists = artists;
+          state.type = type;
+          state.image = image;
+          state.search_query = search_query;
+          state.videoid = action.payload.videoid;
+          state.loading = false;
+          state.error = false;
         }
       })
       .addCase(setCurrentTrack.rejected, (state) => {

@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Playlist from "../../helper/playlist";
 import { IPlayer, ITrack } from "../types";
 
 // Define the initial state using that type
 const initialState: IPlayer = {
-  playlist: new Playlist(),
+  playlist: [],
   current: null,
+  currentIndex: 0,
+  totalTracks: 0,
   loop: false,
   currentTime: 0,
   isPlaying: false,
@@ -26,23 +27,33 @@ const playerSlice = createSlice({
       action: PayloadAction<{ tracks: ITrack[]; index: number }>
     ) => {
       const { tracks, index } = action.payload;
-      const playlist = new Playlist(tracks, index);
-      if (state.loop) {
-        playlist.setLoop(true);
-      }
-      state.playlist = playlist;
-      state.current = playlist.getCurrent();
+
+      state.playlist = tracks;
+      state.current = tracks[index];
+      state.currentIndex = index;
+      state.totalTracks = tracks.length;
+      state.loading = false;
     },
+
     setNextTrack: (state) => {
-      state.playlist.nextTrack();
-      state.current = state.playlist.getCurrent();
+      if (state.currentIndex < state.totalTracks - 1) {
+        state.currentIndex += 1;
+        state.current = state.playlist[state.currentIndex];
+      } else {
+        state.currentIndex = 0;
+        state.current = state.playlist[state.currentIndex];
+      }
     },
     setPreviousTrack: (state) => {
-      state.playlist.previousTrack();
-      state.current = state.playlist.getCurrent();
+      if (state.currentIndex > 0) {
+        state.currentIndex -= 1;
+        state.current = state.playlist[state.currentIndex];
+      } else {
+        state.currentIndex = state.totalTracks - 1;
+        state.current = state.playlist[state.currentIndex];
+      }
     },
     setLoop: (state, action: PayloadAction<boolean>) => {
-      state.playlist.setLoop(action.payload);
       state.loop = action.payload;
     },
     setCurrentTime: (state, action: PayloadAction<number>) => {
