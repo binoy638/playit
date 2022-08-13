@@ -16,7 +16,12 @@
     display: flex;
     gap: 2rem;
     margin-bottom: 3rem;
-    // overflow: hidden;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 
   // .song-list::-webkit-scrollbar {

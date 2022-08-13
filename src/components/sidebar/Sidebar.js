@@ -56,12 +56,12 @@ function Sidebar() {
           <Heart />
           <span>Favourites</span>
         </div>
-        <Link to="/library/playlists">
+        {/* <Link to="/library/playlists">
           <div className={addClass("side-menu", "/library/playlists")}>
             <Playlist />
             <span>Playlists</span>
           </div>
-        </Link>
+        </Link> */}
 
         <div className="side-menu">
           <Albums />

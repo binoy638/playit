@@ -51,7 +51,7 @@ function Search() {
       <div className="logo-container">
         <div className="logo">Playit</div>
       </div>
-      <div className="header-account-settings">
+      {/* <div className="header-account-settings">
         <Notifications />
         <Settings />
         <div className="profile-pic-container">
@@ -76,14 +76,14 @@ function Search() {
             </div>
           )}
         </div>
-      </div>
-      <div
+      </div> */}
+      {/* <div
         className="menu-btn-mobile-tab click-effect"
         id="menu-btn-mobile-tab"
         onClick={() => dispatch({ type: TOGGLE_SIDEBAR })}
       >
         <Menu />
-      </div>
+      </div> */}
     </header>
   );
 }
