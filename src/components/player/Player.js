@@ -328,11 +328,13 @@ function Player() {
             }}
             isLoopActive={loop}
           />
-          <div className="other-options">...</div>
+          <div className="other-options" style={{ opacity: "60%" }}>
+            ...
+          </div>
         </div>
       </div>
 
-      <ArrowUp />
+      {/* <ArrowUp /> */}
     </motion.section>
   );
 }
